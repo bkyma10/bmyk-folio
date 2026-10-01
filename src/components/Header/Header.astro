@@ -5,12 +5,14 @@ import MobileNav from './MobileNav.astro';
 ---
 
 <header class="site-header" data-header>
-  <div class="site-header__inner">
-    <Logo />
-    <nav class="site-header__nav" aria-label="Primary">
-      <NavLinks variant="desktop" />
-    </nav>
-    <MobileNav />
+  <div class="site-header__bar">
+    <div class="site-header__inner">
+      <Logo />
+      <nav class="site-header__nav" aria-label="Primary">
+        <NavLinks variant="desktop" />
+      </nav>
+      <MobileNav />
+    </div>
   </div>
 </header>
 
@@ -19,6 +21,9 @@ import MobileNav from './MobileNav.astro';
     position: fixed;
     inset: 0 0 auto;
     z-index: 40;
+  }
+
+  .site-header__bar {
     mix-blend-mode: difference;
     color: var(--color-white);
   }

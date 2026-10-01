@@ -5,23 +5,16 @@ import { hero } from '../../data/site';
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
-  <div class="hero__grid">
-    <div class="hero__meta hero__reveal" style="--reveal-delay: 0.1s">
+  <div class="hero__intro">
+    <div class="hero__meta hero__reveal" style="--reveal-delay: 0.08s">
       <LocationBadge />
     </div>
 
-    <div class="hero__copy hero__reveal" style="--reveal-delay: 0.22s">
+    <div class="hero__copy hero__reveal" style="--reveal-delay: 0.18s">
       <h1 id="hero-heading" class="hero__title">
         <span class="hero__greeting">{hero.greeting}</span>
         <span class="hero__role">{hero.role}</span>
       </h1>
-    </div>
-
-    <div class="hero__media hero__reveal" style="--reveal-delay: 0.34s">
-      <HeroPortrait />
-    </div>
-
-    <div class="hero__supporting hero__reveal" style="--reveal-delay: 0.46s">
       <p class="hero__summary">{hero.summary}</p>
       <a class="hero__cta" href={hero.cta.href}>
         <span>{hero.cta.label}</span>
@@ -38,26 +31,32 @@ import { hero } from '../../data/site';
       </a>
     </div>
   </div>
+
+  <div class="hero__media hero__reveal" style="--reveal-delay: 0.32s">
+    <HeroPortrait />
+  </div>
 </section>
 
 <style>
   .hero {
     position: relative;
-    padding: calc(var(--header-height) + 2rem) var(--space-page-x) 3rem;
-    max-width: var(--max-content);
-    margin-inline: auto;
+    padding-top: calc(var(--header-height) + clamp(1.5rem, 4vw, 2.75rem));
   }
 
-  .hero__grid {
+  .hero__intro {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
     display: grid;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .hero__title {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-    font-size: clamp(2.15rem, 6.5vw, 3.75rem);
+    margin-bottom: 1.25rem;
+    font-size: clamp(2.25rem, 6.8vw, 3.85rem);
     font-weight: 700;
     color: var(--color-black);
   }
@@ -69,7 +68,7 @@ import { hero } from '../../data/site';
 
   .hero__summary {
     margin: 0;
-    max-width: 38rem;
+    max-width: 40rem;
     color: var(--color-grey-80);
     font-size: clamp(1rem, 1.35vw, 1.2rem);
     font-weight: 400;
@@ -107,6 +106,11 @@ import { hero } from '../../data/site';
     height: 100%;
   }
 
+  .hero__media {
+    margin-top: clamp(1.75rem, 4vw, 2.75rem);
+    width: 100%;
+  }
+
   .hero__reveal {
     opacity: 0;
     transform: translateY(1.25rem);
@@ -120,39 +124,15 @@ import { hero } from '../../data/site';
     }
   }
 
-  @media (min-width: 768px) {
-    .hero {
-      padding-top: calc(var(--header-height) + 2.5rem);
-      padding-bottom: 4rem;
+  @media (min-width: 900px) {
+    .hero__intro {
+      grid-template-columns: auto 1fr;
+      align-items: start;
+      column-gap: 2rem;
     }
 
-    .hero__grid {
-      grid-template-columns: 1fr;
-      gap: 1.75rem;
-    }
-
-    .hero__supporting {
-      display: grid;
-      grid-template-columns: minmax(0, 0.95fr) auto;
-      align-items: end;
-      gap: 2rem;
-    }
-
-    .hero__cta {
-      margin-top: 0;
-      justify-self: end;
-      white-space: nowrap;
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .hero__grid {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .hero__media {
-      max-height: 36vw;
+    .hero__meta {
+      padding-top: 0.35rem;
     }
   }
 

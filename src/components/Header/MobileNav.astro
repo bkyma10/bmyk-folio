@@ -72,14 +72,17 @@ import NavLinks from './NavLinks.astro';
   }
 
   .mobile-nav__panel {
-    position: absolute;
-    top: calc(100% + 0.75rem);
-    right: 0;
-    width: min(18rem, calc(100vw - 2rem));
+    position: fixed;
+    top: var(--header-height);
+    left: var(--space-page-x);
+    right: var(--space-page-x);
+    z-index: 45;
     padding: 1rem 1.25rem 1.25rem;
     border: 1px solid color-mix(in srgb, var(--color-black) 12%, transparent);
-    background: color-mix(in srgb, var(--color-white) 92%, transparent);
-    backdrop-filter: blur(12px);
+    background: var(--color-white);
+    color: var(--color-black);
+    mix-blend-mode: normal;
+    isolation: isolate;
     box-shadow: 0 18px 40px rgba(20, 21, 23, 0.12);
     animation: panel-in var(--duration-med) var(--ease-out);
   }
