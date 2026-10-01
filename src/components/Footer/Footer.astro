@@ -1,0 +1,140 @@
+---
+import { site } from '../../data/site';
+---
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="site-footer__intro">
+      <h2 class="site-footer__heading">Say Hello!</h2>
+      <button
+        type="button"
+        class="site-footer__email"
+        data-copy-email={site.email}
+        aria-label={`Copy email address ${site.email}`}
+      >
+        <span data-copy-label>{site.email}</span>
+        <span class="site-footer__copy" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"
+            ></rect>
+            <path
+              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+              stroke="currentColor"
+              stroke-width="2"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+
+    <nav class="site-footer__social" aria-label="Social">
+      <a href={site.social.dribbble} target="_blank" rel="noopener noreferrer">Dribbble</a>
+      <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </nav>
+
+    <p class="site-footer__meta">
+      <span>{site.name}</span>
+      <span aria-hidden="true">·</span>
+      <span>{site.location}</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
+    background: #0d0f0e;
+    color: var(--color-white);
+  }
+
+  .site-footer__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+    display: grid;
+    gap: 2rem;
+  }
+
+  .site-footer__heading {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 700;
+  }
+
+  .site-footer__email {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: clamp(1.05rem, 2vw, 1.35rem);
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .site-footer__email:hover {
+    opacity: 0.7;
+  }
+
+  .site-footer__copy {
+    display: inline-flex;
+    opacity: 0.75;
+  }
+
+  .site-footer__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+  }
+
+  .site-footer__social a {
+    font-family: var(--font-display);
+    font-weight: 600;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 35%, transparent);
+    padding-bottom: 0.15rem;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .site-footer__social a:hover {
+    opacity: 0.7;
+  }
+
+  .site-footer__meta {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: color-mix(in srgb, var(--color-white) 55%, transparent);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  function initFooterCopy() {
+    document.querySelectorAll<HTMLButtonElement>('.site-footer [data-copy-email]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const email = button.dataset.copyEmail;
+        const label = button.querySelector('[data-copy-label]');
+        if (!email || !label) return;
+        const original = label.textContent ?? email;
+        try {
+          await navigator.clipboard.writeText(email);
+          label.textContent = 'Copied to clipboard';
+        } catch {
+          window.location.href = `mailto:${email}`;
+        }
+        window.setTimeout(() => {
+          label.textContent = original;
+        }, 1800);
+      });
+    });
+  }
+
+  initFooterCopy();
+  document.addEventListener('astro:page-load', initFooterCopy);
+</script>

@@ -1,0 +1,96 @@
+---
+import Picture from '../ui/Picture.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { latestWork } from '../../data/site';
+---
+
+<section class="work" aria-labelledby="work-heading">
+  <div class="work__inner">
+    <SectionHeading id="work-heading" title={latestWork.heading} />
+    <ul class="work__grid" role="list">
+      {
+        latestWork.items.map((item) => (
+          <li>
+            <a class="work__card" href={item.href}>
+              <div class="work__media">
+                <Picture
+                  webpSrcSet={item.webpSrcSet}
+                  fallbackSrcSet={item.fallbackSrcSet}
+                  fallbackType={item.fallbackType}
+                  src={item.fallbackSrc}
+                  alt={item.alt}
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  width={item.width}
+                  height={item.height}
+                  class="work__img"
+                />
+              </div>
+              <h3 class="work__title">{item.title}</h3>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .work {
+    padding: clamp(3rem, 7vw, 5.5rem) 0;
+  }
+
+  .work__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .work__grid {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 2.75rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work__card {
+    display: grid;
+    gap: 0.9rem;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .work__card:hover {
+    opacity: 0.85;
+  }
+
+  .work__media {
+    overflow: hidden;
+    background: var(--color-bg);
+    aspect-ratio: 16 / 10;
+  }
+
+  .work__media :global(.work__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .work__card:hover :global(.work__img) {
+      transform: scale(1.03);
+    }
+  }
+
+  .work__title {
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+    font-weight: 600;
+  }
+
+  @media (min-width: 768px) {
+    .work__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 3vw, 2.75rem) 1.5rem;
+    }
+  }
+</style>

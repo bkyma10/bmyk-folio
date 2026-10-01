@@ -1,0 +1,85 @@
+---
+import Picture from '../ui/Picture.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { clients } from '../../data/site';
+---
+
+<section class="clients" aria-labelledby="clients-heading">
+  <div class="clients__inner">
+    <SectionHeading id="clients-heading" title={clients.heading} />
+    <ul class="clients__grid" role="list">
+      {
+        clients.items.map((client) => (
+          <li class="clients__item">
+            <figure class="clients__figure">
+              <Picture
+                webpSrcSet={client.webpSrcSet}
+                fallbackSrcSet={client.fallbackSrcSet}
+                fallbackType={client.fallbackType}
+                src={client.fallbackSrc}
+                alt={client.alt}
+                sizes="(max-width: 767px) 100vw, (max-width: 1100px) 50vw, 25vw"
+                width={client.width}
+                height={client.height}
+                class="clients__img"
+              />
+              <figcaption class="clients__name">{client.name}</figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding: clamp(3rem, 7vw, 5.5rem) 0;
+  }
+
+  .clients__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .clients__grid {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .clients__figure {
+    margin: 0;
+  }
+
+  .clients__figure :global(.clients__img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    background: var(--color-bg);
+  }
+
+  .clients__name {
+    margin-top: 0.75rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  @media (min-width: 640px) {
+    .clients__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .clients__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+</style>

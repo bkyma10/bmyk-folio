@@ -8,7 +8,8 @@ const { portrait } = hero;
 <figure class="hero-portrait">
   <Picture
     webpSrcSet={portrait.webpSrcSet}
-    jpegSrcSet={portrait.jpegSrcSet}
+    fallbackSrcSet={portrait.fallbackSrcSet}
+    fallbackType={portrait.fallbackType}
     src={portrait.fallbackSrc}
     alt={portrait.alt}
     sizes="100vw"

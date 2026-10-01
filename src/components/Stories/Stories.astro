@@ -1,0 +1,115 @@
+---
+import Picture from '../ui/Picture.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import { stories } from '../../data/site';
+---
+
+<section class="stories" aria-labelledby="stories-heading">
+  <div class="stories__inner">
+    <SectionHeading id="stories-heading" title={stories.heading} />
+    <ul class="stories__grid" role="list">
+      {
+        stories.items.map((story) => (
+          <li>
+            <a class="stories__card" href={story.href}>
+              <div class="stories__media">
+                <Picture
+                  webpSrcSet={story.webpSrcSet}
+                  fallbackSrcSet={story.fallbackSrcSet}
+                  fallbackType={story.fallbackType}
+                  src={story.fallbackSrc}
+                  alt={story.alt}
+                  sizes="(max-width: 767px) 100vw, 25vw"
+                  width={story.width}
+                  height={story.height}
+                  class="stories__img"
+                />
+              </div>
+              <p class="stories__category">{story.category}</p>
+              <h3 class="stories__title">{story.title}</h3>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .stories {
+    padding: clamp(3rem, 7vw, 5.5rem) 0;
+    background: var(--color-white);
+  }
+
+  .stories__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .stories__grid {
+    display: grid;
+    gap: 1.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stories__card {
+    display: grid;
+    gap: 0.65rem;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .stories__card:hover {
+    opacity: 0.85;
+  }
+
+  .stories__media {
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--color-bg);
+  }
+
+  .stories__media :global(.stories__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.88) contrast(0.96);
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .stories__card:hover :global(.stories__img) {
+      transform: scale(1.03);
+    }
+  }
+
+  .stories__category {
+    margin: 0;
+    color: var(--color-grey-60);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .stories__title {
+    font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  @media (min-width: 640px) {
+    .stories__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.75rem 1.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .stories__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

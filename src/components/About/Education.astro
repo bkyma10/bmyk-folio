@@ -1,0 +1,63 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { education } from '../../data/site';
+---
+
+<section class="education" aria-labelledby="education-heading">
+  <div class="education__inner">
+    <SectionHeading id="education-heading" title={education.heading} />
+    <ul class="education__list" role="list">
+      {
+        education.items.map((item) => (
+          <li class="education__item">
+            <h3 class="education__title">{item.title}</h3>
+            <p class="education__org">{item.org}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .education {
+    padding: clamp(3rem, 7vw, 5rem) 0 0;
+  }
+
+  .education__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .education__list {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .education__item {
+    border-top: 1px solid var(--color-grey-20);
+    padding-top: 1rem;
+  }
+
+  .education__title {
+    margin-bottom: 0.35rem;
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    font-weight: 600;
+  }
+
+  .education__org {
+    margin: 0;
+    color: var(--color-grey-60);
+  }
+
+  @media (min-width: 768px) {
+    .education__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem 2rem;
+    }
+  }
+</style>

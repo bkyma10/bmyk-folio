@@ -1,0 +1,27 @@
+---
+import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
+
+const { slug } = Astro.params;
+const titles: Record<string, string> = {
+  coredao: 'Core Dao - Brand Redesign',
+  sail: 'Sentience AI Labs - Game UI Design',
+  sentience: 'Sentience - Web / App UI Design',
+  playasiaxp: 'PlayasiaXP - Web Design',
+};
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'coredao' } },
+    { params: { slug: 'sail' } },
+    { params: { slug: 'sentience' } },
+    { params: { slug: 'playasiaxp' } },
+  ];
+}
+
+const title = (slug && titles[slug]) || 'Case Study';
+---
+
+<PlaceholderPage
+  title={title}
+  description="Full case-study pages are planned for a later phase. The homepage currently features the latest selected work."
+/>

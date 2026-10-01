@@ -1,0 +1,92 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { testimonials } from '../../data/site';
+---
+
+<section class="testimonials" aria-labelledby="testimonials-heading">
+  <div class="testimonials__inner">
+    <SectionHeading id="testimonials-heading" title={testimonials.heading} />
+    <ul class="testimonials__list" role="list">
+      {
+        testimonials.items.map((item) => (
+          <li class="testimonials__item">
+            <blockquote class="testimonials__quote">
+              <p>“{item.quote}”</p>
+              <footer>
+                <cite class="testimonials__name">{item.name}</cite>
+                <span class="testimonials__role">{item.role}</span>
+              </footer>
+            </blockquote>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    padding: clamp(3rem, 7vw, 5.5rem) 0;
+    background: color-mix(in srgb, var(--color-bg) 80%, var(--color-brand-secondary) 20%);
+  }
+
+  .testimonials__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .testimonials__list {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .testimonials__item {
+    border-top: 1px solid color-mix(in srgb, var(--color-black) 12%, transparent);
+    padding-top: 1.25rem;
+  }
+
+  .testimonials__quote {
+    margin: 0;
+  }
+
+  .testimonials__quote p {
+    margin: 0 0 1.1rem;
+    max-width: 52rem;
+    color: var(--color-grey-80);
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.65;
+  }
+
+  .testimonials__quote footer {
+    display: grid;
+    gap: 0.2rem;
+  }
+
+  .testimonials__name {
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .testimonials__role {
+    color: var(--color-grey-60);
+    font-size: 0.925rem;
+  }
+
+  @media (min-width: 900px) {
+    .testimonials__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+      row-gap: 1.75rem;
+    }
+
+    .testimonials__item:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

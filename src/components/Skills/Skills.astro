@@ -1,0 +1,56 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import TextLink from '../ui/TextLink.astro';
+import { skills } from '../../data/site';
+---
+
+<section class="skills" aria-labelledby="skills-heading">
+  <div class="skills__inner">
+    <SectionHeading id="skills-heading" title={skills.heading} tone="dark" />
+    <ul class="skills__list" role="list">
+      {
+        skills.items.map((skill) => (
+          <li class="skills__item">
+            <TextLink href={skill.href} label={skill.label} variant="invert" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .skills {
+    padding: clamp(3.5rem, 8vw, 6rem) 0;
+    background:
+      radial-gradient(ellipse 70% 80% at 85% 20%, rgba(192, 225, 227, 0.18), transparent 50%),
+      linear-gradient(160deg, #141517 0%, #1d2420 55%, #152019 100%);
+    color: var(--color-white);
+  }
+
+  .skills__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .skills__list {
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .skills__item {
+    padding-block: 0.35rem;
+  }
+
+  @media (min-width: 768px) {
+    .skills__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+      row-gap: 1.5rem;
+    }
+  }
+</style>

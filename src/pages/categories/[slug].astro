@@ -1,0 +1,27 @@
+---
+import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
+
+const { slug } = Astro.params;
+const titles: Record<string, string> = {
+  'ux-ui-design': 'UX/UI Design',
+  webflow: 'Webflow',
+  'graphic-design': 'Graphic Design',
+  'motion-graphics': 'Motion Graphics',
+};
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'ux-ui-design' } },
+    { params: { slug: 'webflow' } },
+    { params: { slug: 'graphic-design' } },
+    { params: { slug: 'motion-graphics' } },
+  ];
+}
+
+const title = (slug && titles[slug]) || 'Category';
+---
+
+<PlaceholderPage
+  title={title}
+  description="Category archives will list related projects in a later phase."
+/>

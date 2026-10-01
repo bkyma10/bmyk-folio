@@ -1,0 +1,55 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TextLink from '../components/ui/TextLink.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'This page will be expanded in a later phase of the rebuild.' } =
+  Astro.props;
+---
+
+<BaseLayout title={`${title} — Brendan Ma`} description={description}>
+  <section class="placeholder">
+    <div class="placeholder__inner">
+      <p class="placeholder__eyebrow">Coming next</p>
+      <h1 class="placeholder__title">{title}</h1>
+      <p class="placeholder__copy">{description}</p>
+      <TextLink href="/" label="Back to homepage" />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .placeholder {
+    padding: calc(var(--header-height) + 3rem) var(--space-page-x) 5rem;
+  }
+
+  .placeholder__inner {
+    max-width: 40rem;
+  }
+
+  .placeholder__eyebrow {
+    margin: 0 0 0.75rem;
+    color: var(--color-grey-60);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .placeholder__title {
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+  }
+
+  .placeholder__copy {
+    margin: 0 0 1.75rem;
+    color: var(--color-grey-80);
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+</style>

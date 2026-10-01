@@ -1,0 +1,42 @@
+---
+import SectionHeading from '../ui/SectionHeading.astro';
+import { tools } from '../../data/site';
+---
+
+<section class="tools" aria-labelledby="tools-heading">
+  <div class="tools__inner">
+    <SectionHeading id="tools-heading" title={tools.heading} />
+    <ul class="tools__list" role="list">
+      {tools.items.map((tool) => <li class="tools__item">{tool}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tools {
+    padding: clamp(2.5rem, 6vw, 4rem) 0;
+  }
+
+  .tools__inner {
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding-inline: var(--space-page-x);
+  }
+
+  .tools__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .tools__item {
+    padding: 0.55rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--color-black) 14%, transparent);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+</style>

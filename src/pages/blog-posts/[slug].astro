@@ -1,0 +1,27 @@
+---
+import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
+
+const { slug } = Astro.params;
+const titles: Record<string, string> = {
+  'the-quiet-teacher': 'Tennis - the quiet teacher',
+  'first-time-pawrenting': 'Iridescent - first-time pawrenting',
+  'a-framework-for-how-to-live': 'About time - a framework for how to live',
+  skogskyrkogarden: 'Skogskyrkogården - designed for the living',
+};
+
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'the-quiet-teacher' } },
+    { params: { slug: 'first-time-pawrenting' } },
+    { params: { slug: 'a-framework-for-how-to-live' } },
+    { params: { slug: 'skogskyrkogarden' } },
+  ];
+}
+
+const title = (slug && titles[slug]) || 'Story';
+---
+
+<PlaceholderPage
+  title={title}
+  description="Full story posts are planned for a later phase. The homepage currently surfaces the latest writing."
+/>

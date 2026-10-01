@@ -40,8 +40,11 @@ npm run preview -- --port 4321 --host 127.0.0.1
 
 Output lands in `dist/` and can be deployed to any static host (Netlify, Cloudflare Pages, GitHub Pages, etc.).
 
-## Phase 1 scope
+## Homepage scope
 
 - Fixed header with brand wordmark, All Work link, email copy-to-clipboard
 - Mobile menu (accessible `<details>` disclosure)
 - Hero: location, name/role headline, summary, portfolio CTA, optimized portrait
+- Clients, skills, latest work, testimonials, education, tools, experience, stories
+- Footer with contact copy + social links
+- Lightweight placeholder routes for case studies, categories, and stories

@@ -1,0 +1,74 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'dark' | 'light' | 'invert';
+  external?: boolean;
+}
+
+const { href, label, variant = 'dark', external = false } = Astro.props;
+---
+
+<a
+  class:list={['text-link', `text-link--${variant}`]}
+  href={href}
+  target={external ? '_blank' : undefined}
+  rel={external ? 'noopener noreferrer' : undefined}
+>
+  <span>{label}</span>
+  <span class="text-link__arrow" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <path
+        fill-rule="evenodd"
+        clip-rule="evenodd"
+        d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+        fill="currentColor"></path>
+    </svg>
+  </span>
+</a>
+
+<style>
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: fit-content;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid currentColor;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition:
+      gap var(--duration-med) var(--ease-out),
+      opacity var(--duration-fast) ease;
+  }
+
+  .text-link:hover {
+    gap: 1rem;
+    opacity: 0.7;
+  }
+
+  .text-link--dark {
+    color: var(--color-black);
+  }
+
+  .text-link--light {
+    color: var(--color-white);
+  }
+
+  .text-link--invert {
+    color: var(--color-white);
+    border-color: color-mix(in srgb, var(--color-white) 55%, transparent);
+  }
+
+  .text-link__arrow {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .text-link__arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+</style>
