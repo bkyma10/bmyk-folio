@@ -1,0 +1,105 @@
+---
+import { site } from '../../data/site';
+---
+
+<a href="/" class="logo" aria-label={`${site.name} — home`}>
+  <img
+    src="/favicon.png"
+    alt=""
+    width="28"
+    height="28"
+    class="logo__mark"
+    decoding="async"
+  />
+  <span class="logo__wordmark" aria-hidden="true">
+    <span class="logo__chunk">
+      <span class="logo__letter logo__letter--lead">B</span>
+      <span class="logo__rest">
+        <span class="logo__slide">rendan</span>
+      </span>
+    </span>
+    <span class="logo__chunk">
+      <span class="logo__letter logo__letter--lead">M</span>
+      <span class="logo__rest">
+        <span class="logo__slide">a</span>
+      </span>
+    </span>
+  </span>
+  <span class="sr-only">{site.name}</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: inherit;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1rem, 1.1vw, 1.125rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  .logo:hover {
+    opacity: 0.65;
+  }
+
+  .logo__mark {
+    width: 1.5rem;
+    height: 1.5rem;
+    flex-shrink: 0;
+  }
+
+  .logo__wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.15em;
+  }
+
+  .logo__chunk {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .logo__rest {
+    display: inline-grid;
+    overflow: hidden;
+  }
+
+  .logo__slide {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: logo-reveal var(--duration-slow) var(--ease-out) 0.35s forwards;
+  }
+
+  .logo__chunk:nth-child(2) .logo__slide {
+    animation-delay: 0.5s;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @keyframes logo-reveal {
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo__slide {
+      animation: none;
+      transform: none;
+    }
+  }
+</style>

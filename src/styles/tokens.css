@@ -1,0 +1,27 @@
+:root {
+  --color-black: #141517;
+  --color-white: #ffffff;
+  --color-brand: #354038;
+  --color-brand-secondary: #c0e1e3;
+  --color-brand-tertiary: #93887c;
+  --color-bg: #f8f8f8;
+  --color-bg-warm: #f4f6f4;
+  --color-grey-80: #4d4e50;
+  --color-grey-60: #828283;
+  --color-grey-40: #9fa0a3;
+  --color-grey-20: #cfd1d7;
+  --color-grey-15: #ecedf1;
+
+  --font-display: 'Syne', ui-sans-serif, sans-serif;
+  --font-body: 'Manrope', ui-sans-serif, sans-serif;
+
+  --space-page-x: clamp(1.25rem, 4vw, 6rem);
+  --space-nav-y: 1.125rem;
+  --header-height: 4.5rem;
+  --max-content: 90rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 200ms;
+  --duration-med: 500ms;
+  --duration-slow: 900ms;
+}

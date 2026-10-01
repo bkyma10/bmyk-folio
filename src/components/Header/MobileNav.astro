@@ -1,0 +1,117 @@
+---
+import NavLinks from './NavLinks.astro';
+---
+
+<details class="mobile-nav">
+  <summary class="mobile-nav__toggle" aria-label="Open menu">
+    <span class="mobile-nav__bars" aria-hidden="true">
+      <span></span>
+      <span></span>
+    </span>
+  </summary>
+  <div class="mobile-nav__panel">
+    <nav aria-label="Mobile">
+      <NavLinks variant="mobile" />
+    </nav>
+  </div>
+</details>
+
+<style>
+  .mobile-nav {
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+
+  .mobile-nav__toggle {
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .mobile-nav__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    width: 1.35rem;
+  }
+
+  .mobile-nav__bars span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    transition:
+      transform var(--duration-med) var(--ease-out),
+      opacity var(--duration-fast) ease;
+  }
+
+  .mobile-nav[open] .mobile-nav__bars span:first-child {
+    transform: translateY(0.25rem) rotate(45deg);
+  }
+
+  .mobile-nav[open] .mobile-nav__bars span:last-child {
+    transform: translateY(-0.25rem) rotate(-45deg);
+  }
+
+  .mobile-nav__panel {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: min(18rem, calc(100vw - 2rem));
+    padding: 1rem 1.25rem 1.25rem;
+    border: 1px solid color-mix(in srgb, var(--color-black) 12%, transparent);
+    background: color-mix(in srgb, var(--color-white) 92%, transparent);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 18px 40px rgba(20, 21, 23, 0.12);
+    animation: panel-in var(--duration-med) var(--ease-out);
+  }
+
+  @keyframes panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  function syncMobileNavLabel() {
+    document.querySelectorAll('.mobile-nav').forEach((details) => {
+      const summary = details.querySelector('summary');
+      if (!summary) return;
+      const update = () => {
+        summary.setAttribute(
+          'aria-label',
+          details.hasAttribute('open') ? 'Close menu' : 'Open menu',
+        );
+      };
+      update();
+      details.addEventListener('toggle', update);
+    });
+  }
+
+  syncMobileNavLabel();
+  document.addEventListener('astro:page-load', syncMobileNavLabel);
+</script>

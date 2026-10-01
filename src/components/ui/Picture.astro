@@ -1,0 +1,47 @@
+---
+interface Props {
+  webpSrcSet: string;
+  jpegSrcSet?: string;
+  src: string;
+  alt: string;
+  sizes: string;
+  width: number;
+  height: number;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  webpSrcSet,
+  jpegSrcSet,
+  src,
+  alt,
+  sizes,
+  width,
+  height,
+  class: className = '',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+} = Astro.props;
+---
+
+<picture>
+  <source type="image/webp" srcset={webpSrcSet} sizes={sizes} />
+  {
+    jpegSrcSet && (
+      <source type="image/jpeg" srcset={jpegSrcSet} sizes={sizes} />
+    )
+  }
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    sizes={sizes}
+    loading={loading}
+    decoding="async"
+    fetchpriority={fetchpriority}
+    class={className}
+  />
+</picture>

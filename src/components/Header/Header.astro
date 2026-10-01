@@ -1,0 +1,46 @@
+---
+import Logo from './Logo.astro';
+import NavLinks from './NavLinks.astro';
+import MobileNav from './MobileNav.astro';
+---
+
+<header class="site-header" data-header>
+  <div class="site-header__inner">
+    <Logo />
+    <nav class="site-header__nav" aria-label="Primary">
+      <NavLinks variant="desktop" />
+    </nav>
+    <MobileNav />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 40;
+    mix-blend-mode: difference;
+    color: var(--color-white);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    max-width: var(--max-content);
+    margin-inline: auto;
+    padding: var(--space-nav-y) var(--space-page-x);
+  }
+
+  .site-header__nav {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .site-header__nav {
+      display: block;
+    }
+  }
+</style>

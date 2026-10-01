@@ -1,0 +1,53 @@
+---
+import Picture from '../ui/Picture.astro';
+import { hero } from '../../data/site';
+
+const { portrait } = hero;
+---
+
+<figure class="hero-portrait">
+  <Picture
+    webpSrcSet={portrait.webpSrcSet}
+    jpegSrcSet={portrait.jpegSrcSet}
+    src={portrait.fallbackSrc}
+    alt={portrait.alt}
+    sizes={portrait.sizes}
+    width={portrait.width}
+    height={portrait.height}
+    class="hero-portrait__img"
+    loading="eager"
+    fetchpriority="high"
+  />
+</figure>
+
+<style>
+  .hero-portrait {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: color-mix(in srgb, var(--color-brand) 8%, var(--color-bg));
+  }
+
+  .hero-portrait :global(.hero-portrait__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    transform: scale(1.04);
+    animation: portrait-settle 1.4s var(--ease-out) 0.2s forwards;
+  }
+
+  @keyframes portrait-settle {
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-portrait :global(.hero-portrait__img) {
+      animation: none;
+      transform: none;
+    }
+  }
+</style>
