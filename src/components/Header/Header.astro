@@ -21,11 +21,14 @@ import MobileNav from './MobileNav.astro';
     position: fixed;
     inset: 0 0 auto;
     z-index: 40;
+    color: var(--color-black);
+    background: color-mix(in srgb, var(--color-white) 78%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-black) 6%, transparent);
   }
 
   .site-header__bar {
-    mix-blend-mode: difference;
-    color: var(--color-white);
+    color: inherit;
   }
 
   .site-header__inner {
