@@ -3,81 +3,123 @@ import Picture from '../ui/Picture.astro';
 import { latestWork } from '../../data/site';
 ---
 
+<!--
+  Mirrors live Webflow hierarchy:
+  .section.dark-bg > .container.without-top-padding > .grid > .grid-item
+    > h3.h2 + .spacer._56 + .home-project-grid > .tile-grid-item
+-->
 <section class="work" aria-labelledby="work-heading">
-  <div class="work__container section-pad">
-    <div class="work__item">
-      <h2 id="work-heading" class="work__heading">Latest Work</h2>
-      <div class="work__spacer" aria-hidden="true"></div>
-      <ul class="work__grid" role="list">
-        {
-          latestWork.items.map((item) => (
-            <li class="work__tile">
-              <a class="work__link" href={item.href}>
-                <div class="work__media">
-                  <Picture
-                    webpSrcSet={item.webpSrcSet}
-                    fallbackSrcSet={item.fallbackSrcSet}
-                    fallbackType={item.fallbackType}
-                    src={item.fallbackSrc}
-                    alt={item.alt}
-                    sizes="(max-width: 767px) 100vw, 50vw"
-                    width={item.width}
-                    height={item.height}
-                    class="work__img"
-                  />
-                  <span class="work__arrow" aria-hidden="true">
-                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none">
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
-                        fill="currentColor"
-                      />
-                    </svg>
-                  </span>
-                  <div class="work__tint">
-                    <h3 class="work__title">{item.title}</h3>
+  <div class="work__container">
+    <div class="work__row">
+      <div class="work__item">
+        <h2 id="work-heading" class="work__heading">{latestWork.heading}</h2>
+        <div class="work__spacer" aria-hidden="true"></div>
+        <ul class="work__grid" role="list">
+          {
+            latestWork.items.map((item) => (
+              <li class="work__tile">
+                <a class="work__link" href={item.href}>
+                  <div class="work__media">
+                    <Picture
+                      webpSrcSet={item.webpSrcSet}
+                      fallbackSrcSet={item.fallbackSrcSet}
+                      fallbackType={item.fallbackType}
+                      src={item.fallbackSrc}
+                      alt={item.alt}
+                      sizes="(max-width: 767px) 100vw, (max-width: 991px) 727px, 939px"
+                      width={item.width}
+                      height={item.height}
+                      class="work__img"
+                    />
+                    <span class="work__arrow" aria-hidden="true">
+                      <svg
+                        width="100%"
+                        height="100%"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </span>
+                    <div class="work__tint">
+                      <h3 class="work__title">{item.title}</h3>
+                    </div>
                   </div>
-                </div>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  /* .section.dark-bg */
   .work {
-    background: var(--color-black);
+    width: 100%;
+    position: relative;
+    background-color: var(--color-black);
     color: var(--color-white);
-    padding-bottom: clamp(3rem, 8vw, 6rem);
   }
 
+  /* .container.without-top-padding.w-container — base padding 11em 6em, top overridden to 6em */
   .work__container {
-    padding-top: clamp(3rem, 6em, 6rem);
+    z-index: 1;
+    position: relative;
+    max-width: none;
+    height: 100%;
+    padding: 6em 6em 11em;
   }
 
-  .work__item {
+  /* .grid */
+  .work__row {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
     position: relative;
   }
 
-  .work__heading {
-    margin: 0;
-    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
-    font-weight: 500;
-    letter-spacing: 0.02em;
+  /* .grid-item */
+  .work__item {
+    width: 100%;
+    padding: 1.5em;
+    position: relative;
+    overflow: visible;
   }
 
+  /* .h2 */
+  .work__heading {
+    z-index: 1;
+    position: relative;
+    margin: 0;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    font-size: 2.5em;
+    font-weight: 500;
+  }
+
+  /* .spacer._56 */
   .work__spacer {
     height: 56px;
   }
 
+  /* .home-project-grid */
   .work__grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: row;
     grid-column-gap: 0;
     grid-row-gap: 0;
     margin: 0;
@@ -85,30 +127,38 @@ import { latestWork } from '../../data/site';
     list-style: none;
   }
 
+  /* .tile-grid-item */
   .work__tile {
     width: 100%;
   }
 
+  /* .tile-img-wrapper.w-inline-block */
   .work__link {
-    display: block;
+    display: inline-block;
+    max-width: 100%;
     width: 100%;
     height: 100%;
+    min-height: 0;
     color: var(--color-white);
   }
 
+  /* .aspect-ratio-height.project — always 40% on live */
   .work__media {
     position: relative;
     width: 100%;
-    padding-top: 56%;
+    height: 100%;
+    padding-top: 40%;
     overflow: hidden;
     background: #0d0f0e;
   }
 
-  @media (min-width: 768px) {
-    .work__media {
-      /* Matches live .aspect-ratio-height.project */
-      padding-top: 40%;
-    }
+  /* .aspect-ratio-img */
+  .work__media :global(picture) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .work__media :global(.work__img) {
@@ -118,32 +168,36 @@ import { latestWork } from '../../data/site';
     height: 100%;
     object-fit: cover;
     transform-origin: 50% 0;
+    will-change: transform;
     transition: transform 0.6s var(--ease-out);
   }
 
+  /* .project-cover-tint — live uses #14151780 (= rgba(20,21,23,0.5)) */
   .work__tint {
+    z-index: 1;
     position: absolute;
     inset: 0;
-    z-index: 1;
     display: flex;
     align-items: flex-end;
     width: 100%;
     height: 100%;
     padding: 1.3em 4em 1.3em 1.3em;
-    background-color: rgba(20, 21, 23, 0.5);
     overflow: hidden;
+    background-color: rgba(20, 21, 23, 0.5);
   }
 
+  /* .h3 */
   .work__title {
     margin: 0;
-    font-size: clamp(1.15rem, 1.8vw, 1.75rem);
+    font-size: 24px;
     font-weight: 500;
     line-height: 1.2;
   }
 
+  /* .project-arrow — inset: auto 1.3em 1.3em auto */
   .work__arrow {
-    position: absolute;
     z-index: 2;
+    position: absolute;
     right: 1.3em;
     bottom: 1.3em;
     display: flex;
@@ -151,6 +205,8 @@ import { latestWork } from '../../data/site';
     justify-content: center;
     width: 2em;
     height: 2em;
+    color: var(--color-white);
+    pointer-events: none;
   }
 
   .work__arrow svg {
@@ -161,23 +217,52 @@ import { latestWork } from '../../data/site';
   @media (prefers-reduced-motion: no-preference) {
     .work__link:hover :global(.work__img),
     .work__link:focus-visible :global(.work__img) {
-      transform: scale(1.17);
+      transform: scale3d(1.16907, 1.16907, 1);
     }
   }
 
-  @media (min-width: 768px) {
-    .work__grid {
-      grid-template-columns: 1fr 1fr;
+  /* tablet — max-width: 991px */
+  @media screen and (max-width: 991px) {
+    .work__container {
+      padding: 72px 4em;
     }
-  }
 
-  @media (max-width: 767px) {
-    .work__spacer {
-      height: 32px;
+    .work__item {
+      padding: 12px;
+    }
+
+    .work__heading {
+      font-size: 32px;
+    }
+
+    .work__arrow {
+      right: 2em;
+      bottom: 2em;
     }
 
     .work__tint {
-      padding: 20px;
+      padding: 2em;
+    }
+
+    .work__link {
+      min-height: 200px;
+    }
+  }
+
+  /* landscape / mobile — max-width: 767px */
+  @media screen and (max-width: 767px) {
+    .work__container {
+      padding: 48px 4em;
+    }
+
+    .work__grid {
+      grid-template-columns: 1fr;
+      margin-left: 0;
+    }
+
+    .work__heading {
+      margin-bottom: 0;
+      font-size: 32px;
     }
 
     .work__arrow {
@@ -185,6 +270,34 @@ import { latestWork } from '../../data/site';
       height: 24px;
       right: 20px;
       bottom: 20px;
+    }
+
+    .work__tint {
+      padding: 20px;
+    }
+  }
+
+  /* phone — max-width: 479px */
+  @media screen and (max-width: 479px) {
+    .work__container {
+      padding-top: 48px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .work__heading {
+      font-size: 24px;
+    }
+
+    .work__link {
+      height: 300px;
+      min-height: 0;
+    }
+
+    .work__media {
+      /* Fill the fixed-height wrapper on small phones (live .tile-img-wrapper height: 300px) */
+      height: 100%;
+      padding-top: 0;
     }
   }
 </style>

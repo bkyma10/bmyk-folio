@@ -119,6 +119,22 @@ export const skills = {
   ],
 } as const;
 
+function workMedia(
+  base: string,
+  fallbackExt: 'jpg' | 'png',
+  width: number,
+  height: number,
+) {
+  return {
+    webpSrcSet: `${base}-640.webp 640w, ${base}-960.webp 960w, ${base}-1280.webp 1280w, ${base}-1920.webp 1920w`,
+    fallbackSrcSet: `${base}-960.${fallbackExt} 960w, ${base}-1280.${fallbackExt} 1280w`,
+    fallbackType: `image/${fallbackExt === 'jpg' ? 'jpeg' : 'png'}` as const,
+    fallbackSrc: `${base}-1280.${fallbackExt}`,
+    width,
+    height,
+  };
+}
+
 export const latestWork = {
   heading: 'Latest Work',
   items: [
@@ -126,25 +142,25 @@ export const latestWork = {
       title: 'Core Dao - Brand Redesign',
       href: '/cases/coredao',
       alt: 'Core Dao brand redesign key visual',
-      ...media('/images/work/coredao', 'png', 1280, 720),
+      ...workMedia('/images/work/coredao', 'png', 1920, 1080),
     },
     {
       title: 'Sentience AI Labs - Game UI Design',
       href: '/cases/sail',
       alt: 'Sentience AI Labs game UI design key visual',
-      ...media('/images/work/sail', 'png', 1280, 720),
+      ...workMedia('/images/work/sail', 'png', 1920, 1080),
     },
     {
       title: 'Sentience - Web / App UI Design',
       href: '/cases/sentience',
       alt: 'Sentience web and app UI design key visual',
-      ...media('/images/work/sentience', 'jpg', 1280, 853),
+      ...workMedia('/images/work/sentience', 'jpg', 1920, 1280),
     },
     {
       title: 'PlayasiaXP - Web Design',
       href: '/cases/playasiaxp',
       alt: 'PlayasiaXP web design key visual',
-      ...media('/images/work/playasiaxp', 'jpg', 1280, 720),
+      ...workMedia('/images/work/playasiaxp', 'jpg', 1920, 1080),
     },
   ],
 } as const;
