@@ -70,12 +70,17 @@ import { site } from '../../data/site';
 
   .logo__slide {
     display: inline-block;
-    transform: translateY(110%);
-    animation: logo-reveal var(--duration-slow) var(--ease-out) 0.35s forwards;
   }
 
-  .logo__chunk:nth-child(2) .logo__slide {
-    animation-delay: 0.5s;
+  @media (prefers-reduced-motion: no-preference) {
+    .logo__slide {
+      transform: translateY(110%);
+      animation: logo-reveal var(--duration-slow) var(--ease-out) 0.35s forwards;
+    }
+
+    .logo__chunk:nth-child(2) .logo__slide {
+      animation-delay: 0.5s;
+    }
   }
 
   .sr-only {
@@ -93,13 +98,6 @@ import { site } from '../../data/site';
   @keyframes logo-reveal {
     to {
       transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .logo__slide {
-      animation: none;
-      transform: none;
     }
   }
 </style>
