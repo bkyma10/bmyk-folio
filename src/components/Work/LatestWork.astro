@@ -4,44 +4,47 @@ import { latestWork } from '../../data/site';
 ---
 
 <section class="work" aria-labelledby="work-heading">
-  <div class="work__inner section-pad">
-    <h2 id="work-heading" class="work__heading">Latest Work</h2>
-    <ul class="work__grid" role="list">
-      {
-        latestWork.items.map((item) => (
-          <li>
-            <a class="work__tile" href={item.href}>
-              <div class="work__media">
-                <Picture
-                  webpSrcSet={item.webpSrcSet}
-                  fallbackSrcSet={item.fallbackSrcSet}
-                  fallbackType={item.fallbackType}
-                  src={item.fallbackSrc}
-                  alt={item.alt}
-                  sizes="(max-width: 767px) 100vw, 50vw"
-                  width={item.width}
-                  height={item.height}
-                  class="work__img"
-                />
-                <div class="work__tint">
-                  <h3 class="work__title">{item.title}</h3>
+  <div class="work__container section-pad">
+    <div class="work__item">
+      <h2 id="work-heading" class="work__heading">Latest Work</h2>
+      <div class="work__spacer" aria-hidden="true"></div>
+      <ul class="work__grid" role="list">
+        {
+          latestWork.items.map((item) => (
+            <li class="work__tile">
+              <a class="work__link" href={item.href}>
+                <div class="work__media">
+                  <Picture
+                    webpSrcSet={item.webpSrcSet}
+                    fallbackSrcSet={item.fallbackSrcSet}
+                    fallbackType={item.fallbackType}
+                    src={item.fallbackSrc}
+                    alt={item.alt}
+                    sizes="(max-width: 767px) 100vw, 50vw"
+                    width={item.width}
+                    height={item.height}
+                    class="work__img"
+                  />
+                  <span class="work__arrow" aria-hidden="true">
+                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </span>
+                  <div class="work__tint">
+                    <h3 class="work__title">{item.title}</h3>
+                  </div>
                 </div>
-                <span class="work__arrow" aria-hidden="true">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </span>
-              </div>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -49,36 +52,63 @@ import { latestWork } from '../../data/site';
   .work {
     background: var(--color-black);
     color: var(--color-white);
-    padding: 0 0 clamp(3rem, 8vw, 6rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  .work__container {
+    padding-top: clamp(3rem, 6em, 6rem);
+  }
+
+  .work__item {
+    width: 100%;
+    position: relative;
   }
 
   .work__heading {
-    margin-bottom: clamp(1.5rem, 3.5vw, 3.5rem);
-    padding: clamp(0.75rem, 1.5vw, 1.5rem);
-    padding-bottom: 0;
+    margin: 0;
     font-size: clamp(1.75rem, 2.5vw, 2.5rem);
     font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .work__spacer {
+    height: 56px;
   }
 
   .work__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0;
+    grid-column-gap: 0;
+    grid-row-gap: 0;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   .work__tile {
+    width: 100%;
+  }
+
+  .work__link {
     display: block;
+    width: 100%;
+    height: 100%;
     color: var(--color-white);
   }
 
   .work__media {
     position: relative;
-    aspect-ratio: 16 / 10;
+    width: 100%;
+    padding-top: 56%;
     overflow: hidden;
     background: #0d0f0e;
+  }
+
+  @media (min-width: 768px) {
+    .work__media {
+      /* Matches live .aspect-ratio-height.project */
+      padding-top: 40%;
+    }
   }
 
   .work__media :global(.work__img) {
@@ -87,7 +117,8 @@ import { latestWork } from '../../data/site';
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform var(--duration-slow) var(--ease-out);
+    transform-origin: 50% 0;
+    transition: transform 0.6s var(--ease-out);
   }
 
   .work__tint {
@@ -96,35 +127,64 @@ import { latestWork } from '../../data/site';
     z-index: 1;
     display: flex;
     align-items: flex-end;
-    padding: clamp(1rem, 1.3vw, 1.3rem) 3rem clamp(1rem, 1.3vw, 1.3rem) clamp(1rem, 1.3vw, 1.3rem);
-    background: rgba(20, 21, 23, 0.5);
+    width: 100%;
+    height: 100%;
+    padding: 1.3em 4em 1.3em 1.3em;
+    background-color: rgba(20, 21, 23, 0.5);
+    overflow: hidden;
   }
 
   .work__title {
-    font-size: clamp(1.15rem, 2vw, 1.75rem);
+    margin: 0;
+    font-size: clamp(1.15rem, 1.8vw, 1.75rem);
     font-weight: 500;
     line-height: 1.2;
   }
 
   .work__arrow {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
     z-index: 2;
-    width: 1.25rem;
-    height: 1.25rem;
-    opacity: 0.9;
+    right: 1.3em;
+    bottom: 1.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+  }
+
+  .work__arrow svg {
+    width: 100%;
+    height: 100%;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .work__tile:hover :global(.work__img) {
-      transform: scale(1.04);
+    .work__link:hover :global(.work__img),
+    .work__link:focus-visible :global(.work__img) {
+      transform: scale(1.17);
     }
   }
 
   @media (min-width: 768px) {
     .work__grid {
       grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .work__spacer {
+      height: 32px;
+    }
+
+    .work__tint {
+      padding: 20px;
+    }
+
+    .work__arrow {
+      width: 24px;
+      height: 24px;
+      right: 20px;
+      bottom: 20px;
     }
   }
 </style>
