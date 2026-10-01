@@ -5,14 +5,12 @@ import MobileNav from './MobileNav.astro';
 ---
 
 <header class="site-header" data-header>
-  <div class="site-header__bar">
-    <div class="site-header__inner">
-      <Logo />
-      <nav class="site-header__nav" aria-label="Primary">
-        <NavLinks variant="desktop" />
-      </nav>
-      <MobileNav />
-    </div>
+  <div class="site-header__inner section-pad">
+    <Logo />
+    <nav class="site-header__nav" aria-label="Primary">
+      <NavLinks variant="desktop" />
+    </nav>
+    <MobileNav />
   </div>
 </header>
 
@@ -20,15 +18,11 @@ import MobileNav from './MobileNav.astro';
   .site-header {
     position: fixed;
     inset: 0 0 auto;
-    z-index: 40;
-    color: var(--color-black);
-    background: color-mix(in srgb, var(--color-white) 78%, transparent);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid color-mix(in srgb, var(--color-black) 6%, transparent);
-  }
-
-  .site-header__bar {
-    color: inherit;
+    z-index: 999;
+    width: 100%;
+    mix-blend-mode: difference;
+    color: var(--color-white);
+    background: transparent;
   }
 
   .site-header__inner {
@@ -37,9 +31,7 @@ import MobileNav from './MobileNav.astro';
     justify-content: space-between;
     gap: 1rem;
     width: 100%;
-    max-width: var(--max-content);
-    margin-inline: auto;
-    padding: var(--space-nav-y) var(--space-page-x);
+    padding-block: var(--space-nav-y);
   }
 
   .site-header__nav {

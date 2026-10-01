@@ -2,63 +2,71 @@
 import { site } from '../../data/site';
 ---
 
-<footer class="site-footer">
-  <div class="site-footer__inner">
-    <div class="site-footer__intro">
-      <h2 class="site-footer__heading">Say Hello!</h2>
-      <button
-        type="button"
-        class="site-footer__email"
-        data-copy-email={site.email}
-        aria-label={`Copy email address ${site.email}`}
-      >
-        <span data-copy-label>{site.email}</span>
-        <span class="site-footer__copy" aria-hidden="true">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"
-            ></rect>
-            <path
-              d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-              stroke="currentColor"
-              stroke-width="2"></path>
+<footer class="site-footer" id="Contacts">
+  <div class="site-footer__inner section-pad">
+    <div class="site-footer__grid">
+      <div class="site-footer__contact">
+        <h2 class="site-footer__heading">Say Hello!</h2>
+        <button
+          type="button"
+          class="site-footer__email"
+          data-copy-email={site.email}
+          aria-label={`Copy email address ${site.email}`}
+        >
+          <span data-copy-label>{site.email}</span>
+          <span class="site-footer__copy" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"></rect>
+              <path
+                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
+                stroke="currentColor"
+                stroke-width="2"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+
+      <nav class="site-footer__social" aria-label="Social">
+        <a href={site.social.dribbble} target="_blank" rel="noopener noreferrer" aria-label="Dribbble">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 3C7.032 3 3 7.032 3 12C3 16.968 7.032 21 12 21C16.95 21 21 16.968 21 12C21 7.032 16.95 3 12 3ZM17.94 7.14C19.02 8.454 19.65 10.11 19.686 11.928C19.434 11.874 16.896 11.37 14.34 11.676C14.286 11.55 14.232 11.406 14.178 11.28C14.016 10.902 13.854 10.524 13.674 10.164C16.482 9.03 17.778 7.356 17.94 7.14ZM12 4.332C13.944 4.332 15.744 5.07 17.094 6.258C16.95 6.456 15.798 8.004 13.062 9.03C11.802 6.708 10.398 4.818 10.2 4.53C10.776 4.404 11.37 4.332 12 4.332ZM8.724 5.052C8.922 5.322 10.29 7.23 11.568 9.498C7.968 10.452 4.8 10.434 4.458 10.434C4.98 8.04 6.582 6.06 8.724 5.052ZM4.314 12.018C4.314 11.946 4.314 11.856 4.314 11.784C4.638 11.802 8.382 11.838 12.216 10.686C12.432 11.118 12.648 11.55 12.846 12C12.756 12.036 12.648 12.054 12.54 12.09C8.58 13.368 6.474 16.86 6.294 17.148C5.052 15.78 4.314 13.98 4.314 12.018ZM12 19.686C10.218 19.686 8.58 19.074 7.284 18.066C7.428 17.778 8.976 14.772 13.314 13.26C13.332 13.242 13.35 13.242 13.368 13.242C14.448 16.05 14.898 18.39 15.006 19.074C14.088 19.47 13.062 19.686 12 19.686ZM16.284 18.372C16.212 17.904 15.798 15.654 14.79 12.9C17.202 12.522 19.308 13.152 19.578 13.224C19.236 15.366 18.012 17.22 16.284 18.372Z"></path>
           </svg>
-        </span>
-      </button>
+        </a>
+        <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12.5 5.53614C14.753 5.53614 15.0602 5.53614 15.9819 5.53614C16.8012 5.53614 17.2108 5.74096 17.5181 5.84337C17.9277 6.04819 18.2349 6.1506 18.5422 6.45783C18.8494 6.76506 19.0542 7.07229 19.1566 7.48193C19.259 7.78916 19.3614 8.1988 19.4639 9.01807C19.4639 9.93976 19.4639 10.1446 19.4639 12.5C19.4639 14.8554 19.4639 15.0602 19.4639 15.9819C19.4639 16.8012 19.259 17.2108 19.1566 17.5181C18.9518 17.9277 18.8494 18.2349 18.5422 18.5422C18.2349 18.8494 17.9277 19.0542 17.5181 19.1566C17.2108 19.259 16.8012 19.3614 15.9819 19.4639C15.0602 19.4639 14.8554 19.4639 12.5 19.4639C10.1446 19.4639 9.93976 19.4639 9.01807 19.4639C8.1988 19.4639 7.78916 19.259 7.48193 19.1566C7.07229 18.9518 6.76506 18.8494 6.45783 18.5422C6.1506 18.2349 5.94578 17.9277 5.84337 17.5181C5.74096 17.2108 5.63855 16.8012 5.53614 15.9819C5.53614 15.0602 5.53614 14.8554 5.53614 12.5C5.53614 10.1446 5.53614 9.93976 5.53614 9.01807C5.53614 8.1988 5.74096 7.78916 5.84337 7.48193C6.04819 7.07229 6.1506 6.76506 6.45783 6.45783C6.76506 6.1506 7.07229 5.94578 7.48193 5.84337C7.78916 5.74096 8.1988 5.63855 9.01807 5.53614C9.93976 5.53614 10.247 5.53614 12.5 5.53614ZM12.5 4C10.1446 4 9.93976 4 9.01807 4C8.09639 4 7.48193 4.20482 6.96988 4.40964C6.45783 4.61446 5.94578 4.92169 5.43374 5.43374C4.92169 5.94578 4.71687 6.35542 4.40964 6.96988C4.20482 7.48193 4.10241 8.09639 4 9.01807C4 9.93976 4 10.247 4 12.5C4 14.8554 4 15.0602 4 15.9819C4 16.9036 4.20482 17.5181 4.40964 18.0301C4.61446 18.5422 4.92169 19.0542 5.43374 19.5663C5.94578 20.0783 6.35542 20.2831 6.96988 20.5904C7.48193 20.7952 8.09639 20.8976 9.01807 21C9.93976 21 10.247 21 12.5 21C14.753 21 15.0602 21 15.9819 21C16.9036 21 17.5181 20.7952 18.0301 20.5904C18.5422 20.3855 19.0542 20.0783 19.5663 19.5663C20.0783 19.0542 20.2831 18.6446 20.5904 18.0301C20.7952 17.5181 20.8976 16.9036 21 15.9819C21 15.0602 21 14.753 21 12.5C21 10.247 21 9.93976 21 9.01807C21 8.09639 20.7952 7.48193 20.5904 6.96988C20.3855 6.45783 20.0783 5.94578 19.5663 5.43374C19.0542 4.92169 18.6446 4.71687 18.0301 4.40964C17.5181 4.20482 16.9036 4.10241 15.9819 4C15.0602 4 14.8554 4 12.5 4Z"></path>
+            <path d="M12.5 8.09639C10.0422 8.09639 8.09639 10.0422 8.09639 12.5C8.09639 14.9578 10.0422 16.9036 12.5 16.9036C14.9578 16.9036 16.9036 14.9578 16.9036 12.5C16.9036 10.0422 14.9578 8.09639 12.5 8.09639ZM12.5 15.3675C10.9639 15.3675 9.63253 14.1386 9.63253 12.5C9.63253 10.9639 10.8614 9.63253 12.5 9.63253C14.0361 9.63253 15.3675 10.8614 15.3675 12.5C15.3675 14.0361 14.0361 15.3675 12.5 15.3675Z"></path>
+            <path d="M17.006 9.01807C17.5716 9.01807 18.0301 8.55957 18.0301 7.99398C18.0301 7.42838 17.5716 6.96988 17.006 6.96988C16.4404 6.96988 15.9819 7.42838 15.9819 7.99398C15.9819 8.55957 16.4404 9.01807 17.006 9.01807Z"></path>
+          </svg>
+        </a>
+        <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21.2 2H2.8C2.3575 2 2 2.3575 2 2.8V21.2C2 21.6425 2.3575 22 2.8 22H21.2C21.6425 22 22 21.6425 22 21.2V2.8C22 2.3575 21.6425 2 21.2 2ZM7.9325 19.0425H4.965V9.4975H7.9325V19.0425ZM6.45 8.1925C6.10982 8.1925 5.77727 8.09162 5.49442 7.90263C5.21157 7.71363 4.99111 7.445 4.86093 7.13072C4.73074 6.81643 4.69668 6.47059 4.76305 6.13694C4.82942 5.8033 4.99323 5.49682 5.23378 5.25628C5.47432 5.01573 5.7808 4.85192 6.11444 4.78555C6.44809 4.71918 6.79393 4.75324 7.10822 4.88343C7.4225 5.01361 7.69113 5.23407 7.88013 5.51692C8.06912 5.79977 8.17 6.13232 8.17 6.4725C8.1675 7.4225 7.3975 8.1925 6.45 8.1925ZM19.0425 19.0425H16.0775V14.4C16.0775 13.2925 16.0575 11.87 14.535 11.87C12.9925 11.87 12.755 13.075 12.755 14.32V19.0425H9.7925V9.4975H12.6375V10.8025H12.6775C13.0725 10.0525 14.04 9.26 15.485 9.26C18.49 9.26 19.0425 11.2375 19.0425 13.8075V19.0425Z"></path>
+          </svg>
+        </a>
+      </nav>
     </div>
-
-    <nav class="site-footer__social" aria-label="Social">
-      <a href={site.social.dribbble} target="_blank" rel="noopener noreferrer">Dribbble</a>
-      <a href={site.social.instagram} target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    </nav>
-
-    <p class="site-footer__meta">
-      <span>{site.name}</span>
-      <span aria-hidden="true">·</span>
-      <span>{site.location}</span>
-    </p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
-    background: #0d0f0e;
+    background: #000;
     color: var(--color-white);
+    padding: clamp(3.5rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
   }
 
-  .site-footer__inner {
-    max-width: var(--max-content);
-    margin-inline: auto;
-    padding-inline: var(--space-page-x);
-    display: grid;
+  .site-footer__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     gap: 2rem;
   }
 
   .site-footer__heading {
-    margin-bottom: 1rem;
-    font-size: clamp(2rem, 5vw, 3.25rem);
-    font-weight: 700;
+    margin-bottom: 2rem;
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-weight: 500;
   }
 
   .site-footer__email {
@@ -71,46 +79,27 @@ import { site } from '../../data/site';
     background: transparent;
     color: inherit;
     font: inherit;
-    font-size: clamp(1.05rem, 2vw, 1.35rem);
-    font-weight: 500;
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
     cursor: pointer;
-    transition: opacity var(--duration-fast) ease;
   }
 
   .site-footer__email:hover {
     opacity: 0.7;
   }
 
-  .site-footer__copy {
-    display: inline-flex;
-    opacity: 0.75;
-  }
-
   .site-footer__social {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1rem 1.5rem;
+    align-items: center;
+    gap: 1.25rem;
   }
 
   .site-footer__social a {
-    font-family: var(--font-display);
-    font-weight: 600;
-    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 35%, transparent);
-    padding-bottom: 0.15rem;
+    display: inline-flex;
     transition: opacity var(--duration-fast) ease;
   }
 
   .site-footer__social a:hover {
     opacity: 0.7;
-  }
-
-  .site-footer__meta {
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    color: color-mix(in srgb, var(--color-white) 55%, transparent);
-    font-size: 0.9rem;
   }
 </style>
 

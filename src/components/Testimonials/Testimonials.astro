@@ -1,92 +1,174 @@
 ---
-import SectionHeading from '../ui/SectionHeading.astro';
 import { testimonials } from '../../data/site';
 ---
 
 <section class="testimonials" aria-labelledby="testimonials-heading">
-  <div class="testimonials__inner">
-    <SectionHeading id="testimonials-heading" title={testimonials.heading} />
-    <ul class="testimonials__list" role="list">
-      {
-        testimonials.items.map((item) => (
-          <li class="testimonials__item">
-            <blockquote class="testimonials__quote">
-              <p>“{item.quote}”</p>
-              <footer>
-                <cite class="testimonials__name">{item.name}</cite>
-                <span class="testimonials__role">{item.role}</span>
-              </footer>
-            </blockquote>
-          </li>
-        ))
-      }
-    </ul>
+  <div class="testimonials__inner section-pad">
+    <div class="testimonials__heading-wrap">
+      <h2 id="testimonials-heading" class="testimonials__heading">Testimonials</h2>
+    </div>
+
+    <div class="testimonials__slider" data-testimonials>
+      <div class="testimonials__track" data-track>
+        {
+          testimonials.items.map((item) => (
+            <article class="testimonials__slide">
+              <p class="testimonials__name">{item.name}</p>
+              <p class="testimonials__role">{item.role}</p>
+              <p class="testimonials__quote">{item.quote}</p>
+            </article>
+          ))
+        }
+      </div>
+      <div class="testimonials__controls">
+        <button type="button" class="testimonials__arrow" data-prev aria-label="Previous testimonial">
+          <svg width="28" height="28" viewBox="0 0 57 57" fill="none" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M29.0607 1.93945L3.00006 28.0001L29.0607 54.0608L31.182 51.9395L8.7427 29.5001H55.1214V26.5001H8.7427L31.182 4.06077L29.0607 1.93945Z"
+              fill="currentColor"></path>
+          </svg>
+        </button>
+        <button type="button" class="testimonials__arrow" data-next aria-label="Next testimonial">
+          <svg width="28" height="28" viewBox="0 0 57 57" fill="none" aria-hidden="true">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M29.0607 1.93945L55.1213 28.0001L29.0607 54.0608L26.9393 51.9395L49.3787 29.5001H3V26.5001H49.3787L26.9393 4.06077L29.0607 1.93945Z"
+              fill="currentColor"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 
+<script>
+  function initTestimonials() {
+    const root = document.querySelector('[data-testimonials]');
+    if (!root) return;
+    const track = root.querySelector<HTMLElement>('[data-track]');
+    const slides = track ? Array.from(track.children) as HTMLElement[] : [];
+    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-next]');
+    if (!track || slides.length === 0 || !prev || !next) return;
+
+    let index = 0;
+    const update = () => {
+      const offset = slides.slice(0, index).reduce((sum, slide) => sum + slide.offsetWidth, 0);
+      track.style.transform = `translateX(-${offset}px)`;
+      prev.hidden = index === 0;
+      next.hidden = index >= slides.length - 1;
+    };
+
+    prev.addEventListener('click', () => {
+      index = Math.max(0, index - 1);
+      update();
+    });
+    next.addEventListener('click', () => {
+      index = Math.min(slides.length - 1, index + 1);
+      update();
+    });
+    window.addEventListener('resize', update);
+    update();
+  }
+
+  initTestimonials();
+  document.addEventListener('astro:page-load', initTestimonials);
+</script>
+
 <style>
   .testimonials {
-    padding: clamp(3rem, 7vw, 5.5rem) 0;
-    background: color-mix(in srgb, var(--color-bg) 80%, var(--color-brand-secondary) 20%);
+    background: var(--color-grey-8);
+    padding: clamp(3rem, 8vw, 6rem) 0;
   }
 
-  .testimonials__inner {
-    max-width: var(--max-content);
-    margin-inline: auto;
-    padding-inline: var(--space-page-x);
+  .testimonials__heading {
+    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-weight: 500;
   }
 
-  .testimonials__list {
-    display: grid;
-    gap: 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  .testimonials__slider {
+    position: relative;
+    overflow: hidden;
   }
 
-  .testimonials__item {
-    border-top: 1px solid color-mix(in srgb, var(--color-black) 12%, transparent);
-    padding-top: 1.25rem;
+  .testimonials__track {
+    display: flex;
+    transition: transform var(--duration-slow) var(--ease-out);
   }
 
-  .testimonials__quote {
-    margin: 0;
+  .testimonials__slide {
+    flex: 0 0 min(100%, 22rem);
+    margin-right: 1rem;
+    min-height: 18rem;
+    padding: 2rem 1.5rem;
+    border: 1px solid var(--color-grey-20);
+    border-radius: 1em;
+    background: transparent;
+    transition:
+      background-color var(--duration-med) ease,
+      border-color var(--duration-med) ease,
+      color var(--duration-med) ease;
   }
 
-  .testimonials__quote p {
-    margin: 0 0 1.1rem;
-    max-width: 52rem;
-    color: var(--color-grey-80);
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-    line-height: 1.65;
-  }
-
-  .testimonials__quote footer {
-    display: grid;
-    gap: 0.2rem;
+  .testimonials__slide:hover {
+    background: var(--color-black);
+    border-color: var(--color-black);
+    color: var(--color-white);
   }
 
   .testimonials__name {
     font-family: var(--font-display);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
   }
 
   .testimonials__role {
     color: var(--color-grey-60);
     font-size: 0.925rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
   }
 
-  @media (min-width: 900px) {
-    .testimonials__list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: 2.5rem;
-      row-gap: 1.75rem;
-    }
+  .testimonials__slide:hover .testimonials__role {
+    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  }
 
-    .testimonials__item:last-child:nth-child(odd) {
-      grid-column: 1 / -1;
+  .testimonials__quote {
+    color: color-mix(in srgb, currentColor 70%, transparent);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .testimonials__controls {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .testimonials__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .testimonials__arrow[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .testimonials__slide {
+      flex-basis: min(100%, 28rem);
     }
   }
 </style>

@@ -1,0 +1,143 @@
+---
+import TextLink from '../ui/TextLink.astro';
+import { education, tools, experience, site } from '../../data/site';
+---
+
+<section class="resume" aria-label="Education, tools, and experience">
+  <div class="resume__inner section-pad">
+    <div class="resume__grid">
+      <div class="resume__col">
+        <div class="resume__block">
+          <h2 class="resume__heading">Education</h2>
+          <ul class="resume__list" role="list">
+            {
+              education.items.map((item) => (
+                <li class="resume__item">
+                  <p class="resume__title">{item.title}</p>
+                  <p class="resume__meta">{item.org}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="resume__block resume__block--tools">
+          <h2 class="resume__heading">Tools</h2>
+          <ul class="resume__tags" role="list">
+            {tools.items.map((tool) => <li class="resume__tag">{tool}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="resume__col">
+        <h2 class="resume__heading">Experience</h2>
+        <ul class="resume__list" role="list">
+          {
+            experience.items.map((item) => (
+              <li class="resume__item resume__item--row">
+                <div>
+                  <p class="resume__title">{item.role}</p>
+                  <p class="resume__meta">{item.company}</p>
+                </div>
+                <p class="resume__dates">{item.dates}</p>
+              </li>
+            ))
+          }
+        </ul>
+        <div class="resume__cta">
+          <TextLink href={site.resumeUrl} label={experience.resumeLabel} external />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .resume {
+    background: var(--color-grey-8);
+    padding: 0 0 clamp(3rem, 8vw, 6rem);
+  }
+
+  .resume__grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .resume__col {
+    width: 100%;
+    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+  }
+
+  .resume__heading {
+    margin-bottom: clamp(1.75rem, 3.5vw, 3.5rem);
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-weight: 500;
+  }
+
+  .resume__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .resume__item {
+    border-top: 1px solid var(--color-grey-20);
+    padding: 1.5rem 0;
+  }
+
+  .resume__item--row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+  }
+
+  .resume__title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .resume__meta,
+  .resume__dates {
+    color: var(--color-grey-60);
+    font-size: 0.95rem;
+  }
+
+  .resume__block--tools {
+    margin-top: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .resume__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .resume__tag {
+    border: 1px solid var(--color-grey-20);
+    border-radius: 50em;
+    padding: 1rem 2rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+  }
+
+  .resume__cta {
+    margin-top: 2rem;
+  }
+
+  @media (min-width: 992px) {
+    .resume__col:first-child {
+      width: 45%;
+    }
+
+    .resume__col:last-child {
+      width: 55%;
+    }
+  }
+</style>

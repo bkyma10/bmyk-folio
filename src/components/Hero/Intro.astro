@@ -1,0 +1,149 @@
+---
+import Picture from '../ui/Picture.astro';
+import TextLink from '../ui/TextLink.astro';
+import { hero, aboutIntro } from '../../data/site';
+---
+
+<section class="intro section-pad" aria-label="About introduction">
+  <div class="intro__grid">
+    <div class="intro__gallery" aria-hidden="true">
+      <div class="intro__stack">
+        <div class="intro__frame intro__frame--a">
+          <Picture
+            webpSrcSet={aboutIntro.playasia.webpSrcSet}
+            fallbackSrcSet={aboutIntro.playasia.fallbackSrcSet}
+            fallbackType={aboutIntro.playasia.fallbackType}
+            src={aboutIntro.playasia.fallbackSrc}
+            alt=""
+            sizes="(max-width: 991px) 0px, 17em"
+            width={960}
+            height={1280}
+            class="intro__img"
+          />
+        </div>
+        <div class="intro__frame intro__frame--b">
+          <Picture
+            webpSrcSet={aboutIntro.sophiaverse.webpSrcSet}
+            fallbackSrcSet={aboutIntro.sophiaverse.fallbackSrcSet}
+            fallbackType={aboutIntro.sophiaverse.fallbackType}
+            src={aboutIntro.sophiaverse.fallbackSrc}
+            alt=""
+            sizes="(max-width: 991px) 0px, 17em"
+            width={960}
+            height={1280}
+            class="intro__img"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="intro__copy">
+      <div class="intro__cover">
+        <Picture
+          webpSrcSet={aboutIntro.corecover.webpSrcSet}
+          fallbackSrcSet={aboutIntro.corecover.fallbackSrcSet}
+          fallbackType={aboutIntro.corecover.fallbackType}
+          src={aboutIntro.corecover.fallbackSrc}
+          alt={aboutIntro.corecover.alt}
+          sizes="(max-width: 767px) 100vw, 55vw"
+          width={960}
+          height={720}
+          class="intro__cover-img"
+        />
+      </div>
+      <p class="intro__summary">{hero.summary}</p>
+      <div class="intro__cta">
+        <TextLink href={hero.cta.href} label={hero.cta.label} />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    padding-top: clamp(1.5rem, 2vw, 2rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+
+  .intro__grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .intro__gallery {
+    display: none;
+  }
+
+  .intro__copy {
+    width: 100%;
+    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+  }
+
+  .intro__cover {
+    position: relative;
+    width: 100%;
+    height: clamp(16rem, 26em, 26rem);
+    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .intro__cover :global(.intro__cover-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .intro__summary {
+    max-width: 40rem;
+    color: var(--color-grey-80);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.3vw, 1.3rem);
+    font-weight: 300;
+    line-height: 1.55;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (min-width: 992px) {
+    .intro__gallery {
+      display: block;
+      width: 45%;
+      padding: 1.5rem;
+    }
+
+    .intro__copy {
+      width: 55%;
+    }
+
+    .intro__stack {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 100%;
+      gap: 1.5rem;
+      padding-right: 4rem;
+    }
+
+    .intro__frame {
+      position: relative;
+      width: 17em;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: var(--color-bg);
+    }
+
+    .intro__frame--b {
+      margin-left: auto;
+    }
+
+    .intro__frame :global(.intro__img) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>

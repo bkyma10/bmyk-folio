@@ -1,8 +1,8 @@
 export const site = {
   name: 'Brendan Ma',
-  title: 'Brendan Ma — Lead UXUI Designer / Webflow Developer',
+  title: 'Brendan Ma : Lead UXUI Designer / Webflow Developer',
   description:
-    'Lead UXUI Designer & Webflow Developer with over 10 years of experience spanning web3, startups & advertising agencies.',
+    "Hey I'm Brendan, a Lead UXUI Designer / Webflow Developer with over 10 years of experience spanning tech & web3 startups, advertising agencies, and design studios, I craft user-centered digital experiences that balance aesthetics with functionality, leveraging strong problem-solving skills and deep digital expertise to deliver impactful results.",
   email: 'brendan@collabdgt.com',
   location: 'Hong Kong | Remote',
   url: 'https://www.bmyk.design',
@@ -55,25 +55,53 @@ export const hero = {
   },
 } as const;
 
+export const aboutIntro = {
+  playasia: {
+    alt: 'Example of mobile web design for PlayAsia',
+    webpSrcSet: '/images/about/playasia-scene-640.webp 640w, /images/about/playasia-scene-960.webp 960w',
+    fallbackSrcSet: '/images/about/playasia-scene-960.png 960w',
+    fallbackType: 'image/png' as const,
+    fallbackSrc: '/images/about/playasia-scene-960.png',
+  },
+  sophiaverse: {
+    alt: 'Example of UI design for Sophiaverse',
+    webpSrcSet: '/images/about/sophiaverse-640.webp 640w, /images/about/sophiaverse-960.webp 960w',
+    fallbackSrcSet: '/images/about/sophiaverse-960.jpg 960w',
+    fallbackType: 'image/jpeg' as const,
+    fallbackSrc: '/images/about/sophiaverse-960.jpg',
+  },
+  corecover: {
+    alt: 'Example of web design for Core Dao',
+    webpSrcSet: '/images/about/corecover-640.webp 640w, /images/about/corecover-960.webp 960w',
+    fallbackSrcSet: '/images/about/corecover-960.jpg 960w',
+    fallbackType: 'image/jpeg' as const,
+    fallbackSrc: '/images/about/corecover-960.jpg',
+  },
+} as const;
+
 export const clients = {
   heading: "I've worked with companies like",
   items: [
     {
+      id: 'singularitynet',
       name: 'SingularityNet',
       alt: 'Visual of SingularityNet',
       ...media('/images/clients/singularitynet', 'jpg', 1280, 835),
     },
     {
+      id: 'hanson',
       name: 'Hanson Robotics',
       alt: 'Visual of Hanson Robotics',
       ...media('/images/clients/hanson', 'jpg', 1280, 853),
     },
     {
+      id: 'coredao',
       name: 'Core Dao',
       alt: 'Visual of Core Dao',
       ...media('/images/clients/coredao', 'jpg', 1280, 714),
     },
     {
+      id: 'playasia',
       name: 'Playasia',
       alt: 'Visual of PlayAsia',
       ...media('/images/clients/playasia', 'jpg', 1280, 836),

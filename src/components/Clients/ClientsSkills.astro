@@ -1,0 +1,228 @@
+---
+import Picture from '../ui/Picture.astro';
+import TextLink from '../ui/TextLink.astro';
+import { clients, skills } from '../../data/site';
+---
+
+<section class="clients-skills" aria-labelledby="clients-heading">
+  <div class="clients-skills__inner section-pad">
+    <div class="clients-skills__grid">
+      <div class="clients-skills__copy">
+        <h2 id="clients-heading" class="clients-skills__heading">
+          I've worked with companies like{' '}
+          {
+            clients.items.map((client, index) => (
+              <>
+                <button
+                  type="button"
+                  class:list={['clients-skills__name', `clients-skills__name--${client.id}`]}
+                  data-client={client.id}
+                  aria-describedby={`client-visual-${client.id}`}
+                >
+                  {client.name}
+                </button>
+                {index < clients.items.length - 2 && ', '}
+                {index === clients.items.length - 2 && ' & '}
+              </>
+            ))
+          }
+        </h2>
+      </div>
+
+      <div class="clients-skills__aside">
+        <div class="clients-skills__visuals" aria-hidden="true">
+          {
+            clients.items.map((client, index) => (
+              <div
+                class:list={['clients-skills__visual', index === 0 && 'is-active']}
+                id={`client-visual-${client.id}`}
+                data-visual={client.id}
+              >
+                <Picture
+                  webpSrcSet={client.webpSrcSet}
+                  fallbackSrcSet={client.fallbackSrcSet}
+                  fallbackType={client.fallbackType}
+                  src={client.fallbackSrc}
+                  alt=""
+                  sizes="34vw"
+                  width={client.width}
+                  height={client.height}
+                  class="clients-skills__img"
+                />
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="clients-skills__skills">
+          <p class="clients-skills__caption">My Skills</p>
+          <ul class="clients-skills__list" role="list">
+            {
+              skills.items.map((skill) => (
+                <li>
+                  <TextLink href={skill.href} label={skill.label} variant="invert" />
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initClientHovers() {
+    const root = document.querySelector('.clients-skills');
+    if (!root) return;
+    const buttons = root.querySelectorAll<HTMLButtonElement>('[data-client]');
+    const visuals = root.querySelectorAll<HTMLElement>('[data-visual]');
+
+    const activate = (id: string) => {
+      visuals.forEach((visual) => {
+        visual.classList.toggle('is-active', visual.dataset.visual === id);
+      });
+    };
+
+    buttons.forEach((button) => {
+      const id = button.dataset.client;
+      if (!id) return;
+      button.addEventListener('mouseenter', () => activate(id));
+      button.addEventListener('focus', () => activate(id));
+    });
+  }
+
+  initClientHovers();
+  document.addEventListener('astro:page-load', initClientHovers);
+</script>
+
+<style>
+  .clients-skills {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .clients-skills__grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .clients-skills__copy,
+  .clients-skills__aside {
+    width: 100%;
+    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+  }
+
+  .clients-skills__heading {
+    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.25;
+  }
+
+  .clients-skills__name {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    cursor: default;
+    box-shadow: inset 0 -3px 0 0 var(--color-white);
+    line-height: 1;
+    transition: box-shadow var(--duration-med) ease;
+  }
+
+  .clients-skills__name:hover,
+  .clients-skills__name:focus-visible {
+    box-shadow: inset 0 0 0 0 var(--color-white);
+  }
+
+  .clients-skills__name--hanson {
+    box-shadow: inset 0 -3px 0 0 var(--color-accent-orange);
+  }
+
+  .clients-skills__visuals {
+    display: none;
+  }
+
+  .clients-skills__caption {
+    margin-bottom: 1rem;
+    color: color-mix(in srgb, var(--color-white) 55%, transparent);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .clients-skills__list {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .clients-skills__list :global(.text-link) {
+    width: 100%;
+    min-width: 0;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: clamp(1.25rem, 2vw, 2rem);
+    border-bottom-color: color-mix(in srgb, var(--color-white) 25%, transparent);
+  }
+
+  .clients-skills__list :global(.text-link:hover) {
+    background: transparent;
+    padding-inline: 0.35rem;
+  }
+
+  @media (min-width: 992px) {
+    .clients-skills__copy {
+      width: 45%;
+    }
+
+    .clients-skills__aside {
+      width: 55%;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-end;
+    }
+
+    .clients-skills__visuals {
+      display: block;
+      position: relative;
+      width: 30%;
+      min-height: 22vw;
+    }
+
+    .clients-skills__visual {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 34vw;
+      max-width: 28rem;
+      aspect-ratio: 16 / 10.5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-med) ease;
+      overflow: hidden;
+    }
+
+    .clients-skills__visual.is-active {
+      opacity: 1;
+    }
+
+    .clients-skills__visual :global(.clients-skills__img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .clients-skills__skills {
+      flex: 1;
+    }
+  }
+</style>
