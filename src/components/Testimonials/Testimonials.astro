@@ -2,43 +2,88 @@
 import { testimonials } from '../../data/site';
 ---
 
+<!--
+  Mirrors live Webflow hierarchy:
+  .section.grey-bg > .container.testimonials > .grid > .grid-item
+    > .slider-heading + .slider.w-slider
+      > .slider-mask > .slider-slide > .slider-slide-wrapper
+      > .slider-arrow(+.right)
+-->
 <section class="testimonials" aria-labelledby="testimonials-heading">
-  <div class="testimonials__inner section-pad">
-    <div class="testimonials__heading-wrap">
-      <h2 id="testimonials-heading" class="testimonials__heading">Testimonials</h2>
-    </div>
+  <div class="testimonials__container">
+    <div class="testimonials__row">
+      <div class="testimonials__item">
+        <div class="testimonials__heading-wrap">
+          <h2 id="testimonials-heading" class="testimonials__heading">
+            {testimonials.heading}
+          </h2>
+        </div>
 
-    <div class="testimonials__slider" data-testimonials>
-      <div class="testimonials__track" data-track>
-        {
-          testimonials.items.map((item) => (
-            <article class="testimonials__slide">
-              <p class="testimonials__name">{item.name}</p>
-              <p class="testimonials__role">{item.role}</p>
-              <p class="testimonials__quote">{item.quote}</p>
-            </article>
-          ))
-        }
-      </div>
-      <div class="testimonials__controls">
-        <button type="button" class="testimonials__arrow" data-prev aria-label="Previous testimonial">
-          <svg width="28" height="28" viewBox="0 0 57 57" fill="none" aria-hidden="true">
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M29.0607 1.93945L3.00006 28.0001L29.0607 54.0608L31.182 51.9395L8.7427 29.5001H55.1214V26.5001H8.7427L31.182 4.06077L29.0607 1.93945Z"
-              fill="currentColor"></path>
-          </svg>
-        </button>
-        <button type="button" class="testimonials__arrow" data-next aria-label="Next testimonial">
-          <svg width="28" height="28" viewBox="0 0 57 57" fill="none" aria-hidden="true">
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M29.0607 1.93945L55.1213 28.0001L29.0607 54.0608L26.9393 51.9395L49.3787 29.5001H3V26.5001H49.3787L26.9393 4.06077L29.0607 1.93945Z"
-              fill="currentColor"></path>
-          </svg>
-        </button>
+        <div
+          class="testimonials__slider"
+          data-testimonials
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Testimonials"
+        >
+          <div class="testimonials__viewport" data-viewport>
+            <ul class="testimonials__track" data-track role="list">
+              {
+                testimonials.items.map((item, index) => (
+                  <li
+                    class="testimonials__slide"
+                    role="group"
+                    aria-roledescription="slide"
+                    aria-label={`${index + 1} of ${testimonials.items.length}`}
+                    data-slide
+                  >
+                    <article class="testimonials__card">
+                      <p class="testimonials__name">{item.name}</p>
+                      <p class="testimonials__role">{item.role}</p>
+                      <div class="testimonials__spacer" aria-hidden="true"></div>
+                      <div class="testimonials__quote-wrap">
+                        <p class="testimonials__quote">{item.quote}</p>
+                      </div>
+                    </article>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <button
+            type="button"
+            class="testimonials__arrow testimonials__arrow--prev"
+            data-prev
+            aria-label="Previous slide"
+          >
+            <span class="testimonials__arrow-icon" aria-hidden="true">
+              <svg width="100%" height="100%" viewBox="0 0 57 57" fill="none">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M29.0607 1.93945L3.00006 28.0001L29.0607 54.0608L31.182 51.9395L8.7427 29.5001H55.1214V26.5001H8.7427L31.182 4.06077L29.0607 1.93945Z"
+                  fill="currentColor"></path>
+              </svg>
+            </span>
+          </button>
+          <button
+            type="button"
+            class="testimonials__arrow testimonials__arrow--next"
+            data-next
+            aria-label="Next slide"
+          >
+            <span class="testimonials__arrow-icon" aria-hidden="true">
+              <svg width="57" height="57" viewBox="0 0 57 57" fill="none">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M29.0607 1.93945L55.1213 28.0001L29.0607 54.0608L26.9393 51.9395L49.3787 29.5001H3V26.5001H49.3787L26.9393 4.06077L29.0607 1.93945Z"
+                  fill="currentColor"></path>
+              </svg>
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -47,29 +92,88 @@ import { testimonials } from '../../data/site';
 <script>
   function initTestimonials() {
     const root = document.querySelector('[data-testimonials]');
-    if (!root) return;
-    const track = root.querySelector<HTMLElement>('[data-track]');
-    const slides = track ? Array.from(track.children) as HTMLElement[] : [];
-    const prev = root.querySelector<HTMLButtonElement>('[data-prev]');
-    const next = root.querySelector<HTMLButtonElement>('[data-next]');
-    if (!track || slides.length === 0 || !prev || !next) return;
+    if (!(root instanceof HTMLElement)) return;
+
+    const track = root.querySelector('[data-track]');
+    const slides = root.querySelectorAll('[data-slide]');
+    const prev = root.querySelector('[data-prev]');
+    const next = root.querySelector('[data-next]');
+    if (
+      !(track instanceof HTMLElement) ||
+      slides.length === 0 ||
+      !(prev instanceof HTMLButtonElement) ||
+      !(next instanceof HTMLButtonElement)
+    ) {
+      return;
+    }
 
     let index = 0;
-    const update = () => {
-      const offset = slides.slice(0, index).reduce((sum, slide) => sum + slide.offsetWidth, 0);
-      track.style.transform = `translateX(-${offset}px)`;
-      prev.hidden = index === 0;
-      next.hidden = index >= slides.length - 1;
+    let startX = 0;
+    let deltaX = 0;
+    let dragging = false;
+
+    const maxIndex = () => Math.max(0, slides.length - 1);
+
+    const stepWidth = () => {
+      const first = slides[0];
+      if (!(first instanceof HTMLElement)) return 0;
+      const style = getComputedStyle(first);
+      const margin =
+        parseFloat(style.marginLeft) + parseFloat(style.marginRight);
+      return first.offsetWidth + margin;
     };
 
-    prev.addEventListener('click', () => {
-      index = Math.max(0, index - 1);
+    const update = () => {
+      const offset = stepWidth() * index;
+      track.style.transform = `translate3d(-${offset}px, 0, 0)`;
+      prev.hidden = index <= 0;
+      next.hidden = index >= maxIndex();
+      slides.forEach((slide, i) => {
+        slide.toggleAttribute('aria-hidden', i !== index);
+      });
+    };
+
+    const goTo = (nextIndex: number) => {
+      index = Math.min(maxIndex(), Math.max(0, nextIndex));
       update();
+    };
+
+    prev.addEventListener('click', () => goTo(index - 1));
+    next.addEventListener('click', () => goTo(index + 1));
+
+    track.addEventListener(
+      'pointerdown',
+      (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        dragging = true;
+        startX = event.clientX;
+        deltaX = 0;
+        track.setPointerCapture(event.pointerId);
+        track.style.transition = 'none';
+      },
+      { passive: true },
+    );
+
+    track.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      deltaX = event.clientX - startX;
+      track.style.transform = `translate3d(${-stepWidth() * index + deltaX}px, 0, 0)`;
     });
-    next.addEventListener('click', () => {
-      index = Math.min(slides.length - 1, index + 1);
-      update();
-    });
+
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      track.style.transition = '';
+      const threshold = stepWidth() * 0.2;
+      if (deltaX > threshold) goTo(index - 1);
+      else if (deltaX < -threshold) goTo(index + 1);
+      else update();
+      deltaX = 0;
+    };
+
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
     window.addEventListener('resize', update);
     update();
   }
@@ -79,96 +183,316 @@ import { testimonials } from '../../data/site';
 </script>
 
 <style>
+  /* .section.grey-bg — live body font-size: 1vw drives em spacing */
   .testimonials {
-    background: var(--color-grey-8);
-    padding: clamp(3rem, 8vw, 6rem) 0;
+    width: 100%;
+    position: relative;
+    background-color: var(--color-grey-8);
+    color: var(--color-black);
+    font-size: 1vw;
   }
 
+  /* .container.testimonials — padding 11em 6em, padding-bottom: 0 */
+  .testimonials__container {
+    z-index: 1;
+    position: relative;
+    max-width: none;
+    padding: 11em 6em 0;
+  }
+
+  /* .grid */
+  .testimonials__row {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    position: relative;
+  }
+
+  /* .grid-item */
+  .testimonials__item {
+    width: 100%;
+    padding: 1.5em;
+    position: relative;
+    overflow: visible;
+  }
+
+  /* .slider-heading */
+  .testimonials__heading-wrap {
+    text-align: left;
+    max-width: 27em;
+    margin-bottom: 3em;
+  }
+
+  /* .h2 */
   .testimonials__heading {
-    margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    margin: 0;
+    z-index: 1;
+    position: relative;
+    letter-spacing: 0.02em;
+    font-size: 2.5em;
     font-weight: 500;
   }
 
+  /* .slider.w-slider */
   .testimonials__slider {
     position: relative;
+    background-color: transparent;
+    height: auto;
+    text-align: left;
+    clear: both;
+  }
+
+  /* Outer clip so peeks stop at the content edge */
+  .testimonials__viewport {
+    width: 100%;
     overflow: hidden;
   }
 
+  /* .slider-mask — live width 30% + overflow visible (peeking cards) */
   .testimonials__track {
     display: flex;
-    transition: transform var(--duration-slow) var(--ease-out);
+    width: 30%;
+    margin: 0 0 0 -1em;
+    padding: 0;
+    list-style: none;
+    /* Grow track to hold all slides while each slide = 100% of this 30% basis */
+    transition: transform 500ms ease;
+    will-change: transform;
+    touch-action: pan-y;
+    cursor: grab;
   }
 
+  .testimonials__track:active {
+    cursor: grabbing;
+  }
+
+  /* .slider-slide — each card column equals the 30% mask width */
   .testimonials__slide {
-    flex: 0 0 min(100%, 22rem);
-    margin-right: 1rem;
-    min-height: 18rem;
-    padding: 2rem 1.5rem;
+    box-sizing: border-box;
+    flex: 0 0 100%;
+    width: 100%;
+    margin: 0 1em;
+  }
+
+  /* .slider-slide-wrapper */
+  .testimonials__card {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    padding: 32px 24px;
     border: 1px solid var(--color-grey-20);
     border-radius: 1em;
-    background: transparent;
+    background-color: transparent;
     transition:
-      background-color var(--duration-med) ease,
-      border-color var(--duration-med) ease,
-      color var(--duration-med) ease;
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      color 0.3s ease;
   }
 
-  .testimonials__slide:hover {
-    background: var(--color-black);
+  .testimonials__card:hover {
     border-color: var(--color-black);
+    background-color: var(--color-black);
     color: var(--color-white);
   }
 
+  /* .slide-heading */
   .testimonials__name {
+    margin: 0 0 10px;
     font-family: var(--font-display);
-    font-size: 1.15rem;
-    font-weight: 600;
-    margin-bottom: 0.35rem;
-  }
-
-  .testimonials__role {
-    color: var(--color-grey-60);
-    font-size: 0.925rem;
+    font-size: 1.375em;
     font-weight: 500;
-    margin-bottom: 0.75rem;
+    line-height: 1.2;
   }
 
-  .testimonials__slide:hover .testimonials__role {
-    color: color-mix(in srgb, var(--color-white) 70%, transparent);
+  /* .paragraph.small.medium */
+  .testimonials__role {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1.125em;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* .spacer._12 */
+  .testimonials__spacer {
+    height: 12px;
+  }
+
+  /* .opacity-60 > .paragraph.small */
+  .testimonials__quote-wrap {
+    opacity: 0.6;
   }
 
   .testimonials__quote {
-    color: color-mix(in srgb, currentColor 70%, transparent);
-    font-size: 0.95rem;
-    line-height: 1.55;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1.125em;
+    font-weight: 400;
+    line-height: 1.5;
   }
 
-  .testimonials__controls {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
+  /* .slider-arrow — Webflow sets font-size: 40px so 1.5em → 60px */
   .testimonials__arrow {
-    display: inline-flex;
+    position: absolute;
+    z-index: 4;
+    top: -2.6em;
+    right: 0;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0;
     border: 0;
     background: transparent;
-    color: inherit;
+    color: var(--color-grey-60);
+    font-size: 40px;
     cursor: pointer;
+    transition: color 0.3s ease;
+  }
+
+  .testimonials__arrow:hover,
+  .testimonials__arrow:focus-visible {
+    color: var(--color-black);
+  }
+
+  .testimonials__arrow--prev {
+    right: 3.5em;
+    z-index: 3;
   }
 
   .testimonials__arrow[hidden] {
     display: none;
   }
 
-  @media (min-width: 768px) {
+  .testimonials__arrow-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .testimonials__arrow-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* tablet — max-width: 991px */
+  @media screen and (max-width: 991px) {
+    .testimonials__container {
+      padding: 72px 4em 0;
+    }
+
+    .testimonials__item {
+      padding: 12px;
+    }
+
+    .testimonials__heading {
+      font-size: 32px;
+    }
+
+    .testimonials__heading-wrap {
+      max-width: 50%;
+      margin-bottom: 32px;
+    }
+
+    .testimonials__track {
+      width: 320px;
+      margin-left: -1em;
+    }
+
+    .testimonials__name {
+      font-size: 16px;
+    }
+
+    .testimonials__role,
+    .testimonials__quote {
+      font-size: 14px;
+    }
+  }
+
+  /* landscape / mobile — max-width: 767px */
+  @media screen and (max-width: 767px) {
+    .testimonials__container {
+      padding: 48px 4em 0;
+    }
+
+    .testimonials__heading {
+      font-size: 32px;
+    }
+
+    .testimonials__arrow {
+      width: 40px;
+      height: 40px;
+      top: -2em;
+      right: 2em;
+    }
+
+    .testimonials__arrow--prev {
+      right: calc(2em + 48px);
+    }
+
+    .testimonials__name {
+      font-size: 22px;
+    }
+  }
+
+  /* phone — max-width: 479px */
+  @media screen and (max-width: 479px) {
+    .testimonials__container {
+      padding: 48px 12px 0;
+    }
+
+    .testimonials__heading {
+      font-size: 24px;
+    }
+
+    .testimonials__heading-wrap {
+      max-width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .testimonials__track {
+      width: 90%;
+      max-width: 280px;
+      margin-left: -8px;
+    }
+
     .testimonials__slide {
-      flex-basis: min(100%, 28rem);
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    .testimonials__card {
+      padding: 24px 16px;
+    }
+
+    .testimonials__slider {
+      margin-bottom: 56px;
+    }
+
+    .testimonials__arrow {
+      inset: auto auto -64px 0;
+      top: auto;
+      right: auto;
+    }
+
+    .testimonials__arrow--next {
+      inset: auto 0 -64px auto;
+      right: 0;
+    }
+
+    .testimonials__arrow--prev {
+      inset: auto auto -64px 0;
+      right: auto;
+    }
+
+    .testimonials__name {
+      font-size: 18px;
     }
   }
 </style>
