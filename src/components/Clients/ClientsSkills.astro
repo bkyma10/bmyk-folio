@@ -4,7 +4,7 @@ import TextLink from '../ui/TextLink.astro';
 import { clients, skills } from '../../data/site';
 ---
 
-<section class="clients-skills" aria-labelledby="clients-heading">
+<section class="clients-skills" aria-labelledby="clients-heading" id="Skills">
   <div class="clients-skills__inner section-pad">
     <div class="clients-skills__grid">
       <div class="clients-skills__copy">
@@ -22,7 +22,7 @@ import { clients, skills } from '../../data/site';
                   {client.name}
                 </button>
                 {index < clients.items.length - 2 && ', '}
-                {index === clients.items.length - 2 && ' & '}
+                {index === clients.items.length - 2 && <>&nbsp;&amp; </>}
               </>
             ))
           }
@@ -32,9 +32,9 @@ import { clients, skills } from '../../data/site';
       <div class="clients-skills__aside">
         <div class="clients-skills__visuals" aria-hidden="true">
           {
-            clients.items.map((client, index) => (
+            clients.items.map((client) => (
               <div
-                class:list={['clients-skills__visual', index === 0 && 'is-active']}
+                class="clients-skills__visual"
                 id={`client-visual-${client.id}`}
                 data-visual={client.id}
               >
@@ -74,21 +74,29 @@ import { clients, skills } from '../../data/site';
 <script>
   function initClientHovers() {
     const root = document.querySelector('.clients-skills');
-    if (!root) return;
-    const buttons = root.querySelectorAll<HTMLButtonElement>('[data-client]');
-    const visuals = root.querySelectorAll<HTMLElement>('[data-visual]');
+    if (!(root instanceof HTMLElement)) return;
 
-    const activate = (id: string) => {
+    const buttons = root.querySelectorAll('[data-client]');
+    const visuals = root.querySelectorAll('[data-visual]');
+    if (buttons.length === 0 || visuals.length === 0) return;
+
+    const activate = (id: string | null) => {
       visuals.forEach((visual) => {
-        visual.classList.toggle('is-active', visual.dataset.visual === id);
+        if (!(visual instanceof HTMLElement)) return;
+        visual.classList.toggle('is-active', Boolean(id) && visual.dataset.visual === id);
       });
     };
 
+    const clear = () => activate(null);
+
     buttons.forEach((button) => {
+      if (!(button instanceof HTMLButtonElement)) return;
       const id = button.dataset.client;
       if (!id) return;
       button.addEventListener('mouseenter', () => activate(id));
       button.addEventListener('focus', () => activate(id));
+      button.addEventListener('mouseleave', clear);
+      button.addEventListener('blur', clear);
     });
   }
 
@@ -122,17 +130,19 @@ import { clients, skills } from '../../data/site';
     line-height: 1.25;
   }
 
+  /* .accident-word — colored underlines match live classes */
   .clients-skills__name {
     appearance: none;
+    display: inline-block;
     border: 0;
     background: transparent;
     color: inherit;
     font: inherit;
     padding: 0;
     cursor: default;
-    box-shadow: inset 0 -3px 0 0 var(--color-white);
     line-height: 1;
-    transition: box-shadow var(--duration-med) ease;
+    box-shadow: inset 0 -3px 0 0 var(--color-white);
+    transition: box-shadow 0.3s ease;
   }
 
   .clients-skills__name:hover,
@@ -140,8 +150,45 @@ import { clients, skills } from '../../data/site';
     box-shadow: inset 0 0 0 0 var(--color-white);
   }
 
+  /* .accident-word.singularity-net */
+  .clients-skills__name--singularitynet {
+    color: #fff;
+    box-shadow: inset 0 -3px #0d6efd;
+  }
+
+  .clients-skills__name--singularitynet:hover,
+  .clients-skills__name--singularitynet:focus-visible {
+    box-shadow: inset 0 0 #0d6efd;
+  }
+
+  /* .accident-word.hanson-robotics */
   .clients-skills__name--hanson {
-    box-shadow: inset 0 -3px 0 0 var(--color-accent-orange);
+    box-shadow: inset 0 -3px #ff3d00;
+  }
+
+  .clients-skills__name--hanson:hover,
+  .clients-skills__name--hanson:focus-visible {
+    box-shadow: inset 0 0 #ff3d00;
+  }
+
+  /* .accident-word.coredao */
+  .clients-skills__name--coredao {
+    box-shadow: inset 0 -3px #eec55a;
+  }
+
+  .clients-skills__name--coredao:hover,
+  .clients-skills__name--coredao:focus-visible {
+    box-shadow: inset 0 0 #eec55a;
+  }
+
+  /* .accident-word.playasia */
+  .clients-skills__name--playasia {
+    box-shadow: inset 0 -3px #2e3d5d;
+  }
+
+  .clients-skills__name--playasia:hover,
+  .clients-skills__name--playasia:focus-visible {
+    box-shadow: inset 0 0 #fef2c9;
   }
 
   .clients-skills__visuals {
@@ -191,23 +238,26 @@ import { clients, skills } from '../../data/site';
       align-items: flex-end;
     }
 
+    /* .offset-image-wrapper */
     .clients-skills__visuals {
-      display: block;
+      display: flex;
+      justify-content: flex-end;
       position: relative;
       width: 30%;
-      min-height: 22vw;
+      min-height: 22.4vw;
     }
 
+    /* .offset-image — hidden until hover (opacity: 0) */
     .clients-skills__visual {
       position: absolute;
-      right: 0;
+      right: 1.5em;
       bottom: 0;
       width: 34vw;
+      height: 22.4vw;
       max-width: 28rem;
-      aspect-ratio: 16 / 10.5;
       opacity: 0;
       pointer-events: none;
-      transition: opacity var(--duration-med) ease;
+      transition: opacity 0.3s ease;
       overflow: hidden;
     }
 
@@ -215,9 +265,14 @@ import { clients, skills } from '../../data/site';
       opacity: 1;
     }
 
-    .clients-skills__visual :global(.clients-skills__img) {
+    .clients-skills__visual :global(.clients-skills__img),
+    .clients-skills__visual :global(picture) {
+      display: block;
       width: 100%;
       height: 100%;
+    }
+
+    .clients-skills__visual :global(.clients-skills__img) {
       object-fit: cover;
     }
 
