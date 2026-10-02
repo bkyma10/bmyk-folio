@@ -29,6 +29,7 @@ import { latestWork } from '../../data/site';
                       sizes="(max-width: 767px) 100vw, (max-width: 991px) 727px, 939px"
                       width={item.width}
                       height={item.height}
+                      loading="eager"
                       class="work__img"
                     />
                     <span class="work__arrow" aria-hidden="true">
@@ -62,12 +63,13 @@ import { latestWork } from '../../data/site';
 </section>
 
 <style>
-  /* .section.dark-bg */
+  /* .section.dark-bg — live body uses font-size: 1vw, so em spacing resolves from that */
   .work {
     width: 100%;
     position: relative;
     background-color: var(--color-black);
     color: var(--color-white);
+    font-size: 1vw;
   }
 
   /* .container.without-top-padding.w-container — base padding 11em 6em, top overridden to 6em */
@@ -169,6 +171,8 @@ import { latestWork } from '../../data/site';
     object-fit: cover;
     transform-origin: 50% 0;
     will-change: transform;
+    /* Live Webflow IX keeps tiles ~scaled while in view */
+    transform: translate3d(0, 0, 0) scale3d(1.165, 1.165, 1);
     transition: transform 0.6s var(--ease-out);
   }
 
@@ -186,10 +190,11 @@ import { latestWork } from '../../data/site';
     background-color: rgba(20, 21, 23, 0.5);
   }
 
-  /* .h3 */
+  /* Live uses <h4 class="h3"> → h4 { font-size: 2em } on desktop */
   .work__title {
     margin: 0;
-    font-size: 24px;
+    font-family: var(--font-display);
+    font-size: 2em;
     font-weight: 500;
     line-height: 1.2;
   }
@@ -217,7 +222,13 @@ import { latestWork } from '../../data/site';
   @media (prefers-reduced-motion: no-preference) {
     .work__link:hover :global(.work__img),
     .work__link:focus-visible :global(.work__img) {
-      transform: scale3d(1.16907, 1.16907, 1);
+      transform: translate3d(0, 0, 0) scale3d(1.22, 1.22, 1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work__media :global(.work__img) {
+      transform: none;
     }
   }
 
@@ -242,6 +253,10 @@ import { latestWork } from '../../data/site';
 
     .work__tint {
       padding: 2em;
+    }
+
+    .work__title {
+      font-size: 24px;
     }
 
     .work__link {
@@ -274,6 +289,10 @@ import { latestWork } from '../../data/site';
 
     .work__tint {
       padding: 20px;
+    }
+
+    .work__title {
+      font-size: 24px;
     }
   }
 
