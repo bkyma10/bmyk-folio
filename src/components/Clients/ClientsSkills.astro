@@ -201,30 +201,49 @@ import { clients, skills } from '../../data/site';
     display: none;
   }
 
+  /* Live: p.caption — Inter via p, font-size 1em, text-transform none */
   .clients-skills__caption {
-    margin-bottom: 1rem;
-    color: color-mix(in srgb, var(--color-white) 55%, transparent);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    margin: 0;
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 1.4;
+    text-transform: none;
   }
 
   .clients-skills__list {
     display: grid;
-    gap: 0.35rem;
-    margin: 0;
+    gap: 0;
+    margin: 1em 0 0;
     padding: 0;
     list-style: none;
   }
 
+  .clients-skills__list > li {
+    border-bottom: 1px solid color-mix(in srgb, var(--color-white) 25%, transparent);
+  }
+
+  /* Live: a.link-2.white (2em) + .link-text-wrapper.categories (Inter 600, .03em) +
+     .skills-link-text (text-transform: none) */
   .clients-skills__list :global(.text-link) {
     width: 100%;
     min-width: 0;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    border-bottom: none;
+    font-family: var(--font-body);
+    font-size: 2em;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
     text-transform: none;
-    letter-spacing: 0;
-    font-size: 1.25em;
-    border-bottom-color: color-mix(in srgb, var(--color-white) 25%, transparent);
+  }
+
+  .clients-skills__list :global(.text-link__arrow) {
+    width: 0.8em;
+    height: 0.8em;
   }
 
   @media screen and (max-width: 991px) {
@@ -232,8 +251,19 @@ import { clients, skills } from '../../data/site';
       font-size: 32px;
     }
 
+    /* Live tablet: .link-2.white, .skills-link-text { font-size: 20px } */
     .clients-skills__list :global(.text-link) {
       font-size: 20px;
+    }
+
+    .clients-skills__caption {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .clients-skills__caption {
+      font-size: 14px;
     }
   }
 
