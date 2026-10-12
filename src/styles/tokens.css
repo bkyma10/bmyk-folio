@@ -29,3 +29,26 @@
   --duration-med: 300ms;
   --duration-slow: 800ms;
 }
+
+/* Unlayered so these beat the base :root tokens (not trapped in @layer) */
+@media screen and (max-width: 991px) {
+  :root {
+    --space-page-x: 4em;
+    --space-section-y: 72px;
+    --space-nav-y: 16px;
+    --space-grid-item: 12px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :root {
+    --space-page-x: 4em;
+    --space-section-y: 48px;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  :root {
+    --space-page-x: 12px;
+  }
+}
