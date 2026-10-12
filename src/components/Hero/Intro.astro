@@ -162,7 +162,8 @@ import { hero, aboutIntro } from '../../data/site';
 
 <style>
   .intro {
-    padding: 2em var(--space-page-x) var(--space-section-y);
+    /* Live .container-2.xs-top-padding keeps 2em / 11em vertical in ems */
+    padding: 2em var(--space-page-x) 11em;
   }
 
   .intro__grid {
@@ -208,19 +209,8 @@ import { hero, aboutIntro } from '../../data/site';
   }
 
   @media screen and (max-width: 991px) {
-    .intro {
-      padding-top: 2em;
-      padding-bottom: 72px;
-    }
-
     .intro__cover {
       height: 320px;
-    }
-  }
-
-  @media screen and (max-width: 767px) {
-    .intro {
-      padding-bottom: 48px;
     }
   }
 

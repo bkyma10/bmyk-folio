@@ -230,10 +230,13 @@ import { latestWork } from '../../data/site';
     }
   }
 
-  /* tablet — max-width: 991px */
+  /* tablet — max-width: 991px
+     Live .container.without-top-padding keeps padding-top: 6em;
+     only bottom becomes 72px from .container */
   @media screen and (max-width: 991px) {
     .work__container {
-      padding: 72px var(--space-page-x) 72px;
+      padding-top: 6em;
+      padding-bottom: 72px;
     }
 
     .work__item {
@@ -262,10 +265,12 @@ import { latestWork } from '../../data/site';
     }
   }
 
-  /* landscape / mobile — max-width: 767px */
+  /* landscape / mobile — max-width: 767px
+     Live still keeps padding-top: 6em (higher specificity than .container) */
   @media screen and (max-width: 767px) {
     .work__container {
-      padding: 48px var(--space-page-x);
+      padding-top: 6em;
+      padding-bottom: 48px;
     }
 
     .work__grid {
@@ -294,10 +299,11 @@ import { latestWork } from '../../data/site';
     }
   }
 
-  /* phone — max-width: 479px */
+  /* phone — max-width: 479px — live finally sets padding-top: 48px */
   @media screen and (max-width: 479px) {
     .work__container {
-      padding: 48px var(--space-page-x);
+      padding-top: 48px;
+      padding-bottom: 48px;
     }
 
     .work__heading {

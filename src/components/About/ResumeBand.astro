@@ -79,9 +79,10 @@ import { education, tools, experience, site } from '../../data/site';
     font-weight: 500;
   }
 
+  /* Live .container.without-top-padding keeps padding-top: 6em until 479px */
   @media screen and (max-width: 991px) {
     .resume__inner {
-      padding-top: 72px;
+      padding-top: 6em;
       padding-bottom: 72px;
     }
 
@@ -92,6 +93,13 @@ import { education, tools, experience, site } from '../../data/site';
   }
 
   @media screen and (max-width: 767px) {
+    .resume__inner {
+      padding-top: 6em;
+      padding-bottom: 48px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
     .resume__inner {
       padding-top: 48px;
       padding-bottom: 48px;
