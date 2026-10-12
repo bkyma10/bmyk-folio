@@ -2,73 +2,105 @@
 import { site } from '../../data/site';
 ---
 
-<a href="/" class="logo" aria-label={`${site.name} — home`}>
-  <img src="/favicon.png" alt="" width="28" height="28" class="logo__mark" decoding="async" />
+<!--
+  Live structure:
+  .nav-brand > img.image-3 + .nav-logo-wrapper (B + Rendan) + .nav-logo-wrapper._2 (M + A)
+  Scroll IX: .nav-logo-text._2/_4 translateX → -110%; .nav-logo-wrapper._2 shifts left so M sits by B.
+-->
+<a href="/" class="logo" aria-label={`${site.name} — home`} data-logo>
+  <img src="/favicon.png" alt="" width="32" height="32" class="logo__mark" decoding="async" />
   <span class="logo__wordmark" aria-hidden="true">
-    <span class="logo__chunk">
+    <span class="logo__chunk" data-logo-chunk="first">
       <span class="logo__lead">B</span>
-      <span class="logo__rest"><span class="logo__slide">rendan</span></span>
+      <span class="logo__letters">
+        <span class="logo__rest" data-logo-rest="first">Rendan</span>
+      </span>
     </span>
-    <span class="logo__chunk">
+    <span class="logo__chunk logo__chunk--last" data-logo-chunk="last">
       <span class="logo__lead">M</span>
-      <span class="logo__rest"><span class="logo__slide">a</span></span>
+      <span class="logo__letters">
+        <span class="logo__rest" data-logo-rest="last">A</span>
+      </span>
     </span>
   </span>
   <span class="sr-only">{site.name}</span>
 </a>
 
 <style>
+  /* Live .nav-brand — font-size 1.2em, weight 600 */
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
     color: inherit;
     font-family: var(--font-display);
+    font-size: 1.2em;
     font-weight: 600;
-    font-size: 1.125rem;
     letter-spacing: 0.02em;
     text-transform: uppercase;
-    transition: opacity var(--duration-med) ease;
+    transition: opacity 0.3s ease;
   }
 
   .logo:hover {
     opacity: 0.6;
   }
 
+  /* Live .image-3 — ~32px tall favicon, padding-right 5px */
   .logo__mark {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: auto;
+    height: 32px;
+    padding-right: 5px;
   }
 
   .logo__wordmark {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
   }
 
+  /* Live .nav-logo-wrapper — overflow hidden, padding-right 4px */
   .logo__chunk {
-    display: inline-flex;
-    align-items: baseline;
+    display: flex;
+    align-items: center;
     overflow: hidden;
-    padding-right: 0.15em;
+    padding-right: 4px;
+    will-change: transform;
+  }
+
+  /* Live .nav-logo-text — 18px */
+  .logo__lead,
+  .logo__rest {
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.56;
+  }
+
+  .logo__letters {
+    display: block;
+    overflow: hidden;
   }
 
   .logo__rest {
-    display: inline-grid;
-    overflow: hidden;
-  }
-
-  .logo__slide {
     display: inline-block;
+    will-change: transform;
   }
 
+  @media screen and (max-width: 479px) {
+    .logo__lead,
+    .logo__rest {
+      font-size: 16px;
+    }
+  }
+
+  /* Entrance: letters slide in (live page-load feel), then scroll owns transform */
   @media (prefers-reduced-motion: no-preference) {
-    .logo__slide {
-      transform: translateX(-100%);
-      animation: logo-in var(--duration-slow) var(--ease-out) 0.2s forwards;
+    .logo:not(.logo--ready) .logo__rest {
+      transform: translate3d(-100%, 0, 0);
+      animation: logo-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
     }
 
-    .logo__chunk:nth-child(2) .logo__slide {
-      animation-delay: 0.35s;
+    .logo:not(.logo--ready) .logo__chunk--last .logo__rest {
+      animation-delay: 0.3s;
     }
   }
 
@@ -86,7 +118,66 @@ import { site } from '../../data/site';
 
   @keyframes logo-in {
     to {
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
     }
   }
 </style>
+
+<script>
+  function initLogoScroll() {
+    const logo = document.querySelector<HTMLElement>('[data-logo]');
+    if (!logo) return;
+
+    const restFirst = logo.querySelector<HTMLElement>('[data-logo-rest="first"]');
+    const restLast = logo.querySelector<HTMLElement>('[data-logo-rest="last"]');
+    const chunkLast = logo.querySelector<HTMLElement>('[data-logo-chunk="last"]');
+    if (!restFirst || !restLast || !chunkLast) return;
+
+    // Live IX: roughly linear over ~80→700px; letters end at -110%; last chunk ~0.882× letter px
+    const SCROLL_START = 80;
+    const SCROLL_END = 700;
+    const LETTER_END_PCT = -110;
+    const CHUNK_RATIO = 0.882;
+
+    let ticking = false;
+
+    const apply = () => {
+      ticking = false;
+      const y = window.scrollY || document.documentElement.scrollTop;
+      const raw = (y - SCROLL_START) / (SCROLL_END - SCROLL_START);
+      const p = Math.min(1, Math.max(0, raw));
+
+      const letterPct = LETTER_END_PCT * p;
+      restFirst.style.transform = `translate3d(${letterPct}%, 0, 0)`;
+      restLast.style.transform = `translate3d(${letterPct}%, 0, 0)`;
+
+      const restWidth = restFirst.offsetWidth;
+      const chunkX = (letterPct / 100) * restWidth * CHUNK_RATIO;
+      chunkLast.style.transform = `translate3d(${chunkX}px, 0, 0)`;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(apply);
+    };
+
+    // After entrance animation, hand control to scroll
+    const arm = () => {
+      logo.classList.add('logo--ready');
+      apply();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+    };
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      arm();
+    } else {
+      window.setTimeout(arm, 900);
+    }
+  }
+
+  initLogoScroll();
+  document.addEventListener('astro:page-load', initLogoScroll);
+</script>
