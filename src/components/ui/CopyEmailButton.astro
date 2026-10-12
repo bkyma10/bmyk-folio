@@ -1,0 +1,190 @@
+---
+import { site } from '../../data/site';
+
+interface Props {
+  variant?: 'nav' | 'footer';
+}
+
+const { variant = 'footer' } = Astro.props;
+const isNav = variant === 'nav';
+---
+
+<button
+  type="button"
+  class:list={['copy-email', isNav && 'copy-email--nav']}
+  data-copy-email={site.email}
+  aria-label={`Copy email address ${site.email}`}
+>
+  <span class="copy-email__inner">
+    <span class="copy-email__label" data-copy-label>{site.email}</span>
+    <span class="copy-email__icon" aria-hidden="true">
+      <!-- Live FA clipboard glyph -->
+      <svg width="1em" height="1em" viewBox="0 0 512 512" fill="currentColor">
+        <path
+          d="M384 96h-96V48c0-26.5-21.5-48-48-48h-64C149.5 0 128 21.5 128 48v48H32C14.3 96 0 110.3 0 128v320c0 17.7 14.3 32 32 32h352c17.7 0 32-14.3 32-32V128c0-17.7-14.3-32-32-32zM176 48c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16v48h-96V48zm192 384H48V144h80v40c0 13.3 10.7 24 24 24h144c13.3 0 24-10.7 24-24v-40h80v288z"
+        ></path>
+      </svg>
+    </span>
+  </span>
+</button>
+
+<style>
+  /* Live .footer-button */
+  .copy-email {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    min-width: 7vw;
+    height: auto;
+    margin: 0;
+    padding: 16px 32px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 999px;
+    background-color: #fff;
+    box-shadow: none;
+    color: #0d0d11;
+    font-family: var(--font-display);
+    font-size: 1em;
+    font-variation-settings: 'wdth' 75, 'wght' 450;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+      box-shadow 0.5s;
+  }
+
+  .copy-email:hover {
+    transform: scale(1.05);
+  }
+
+  /* Live .footer-button.nav */
+  .copy-email--nav {
+    padding: 8px 16px;
+  }
+
+  .copy-email__inner {
+    display: flex;
+    position: relative;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* Live .link-label */
+  .copy-email__label {
+    position: relative;
+    font-size: 1.5em;
+    text-transform: none;
+    white-space: nowrap;
+  }
+
+  .copy-email--nav .copy-email__label {
+    font-size: 1em;
+  }
+
+  /* Live .fa-icon */
+  .copy-email__icon {
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    font-size: 1.5em;
+    line-height: 1;
+    color: #0d0d11;
+  }
+
+  .copy-email--nav .copy-email__icon {
+    font-size: 1em;
+  }
+
+  .copy-email__icon svg {
+    width: 0.875em;
+    height: 0.875em;
+  }
+
+  @media screen and (max-width: 991px) {
+    .copy-email:not(.copy-email--nav) {
+      min-width: 10vw;
+      height: 10vw;
+      padding-left: 5vw;
+      padding-right: 5vw;
+    }
+
+    .copy-email--nav {
+      min-width: 7vw;
+      height: auto;
+      background-color: var(--color-black);
+      color: var(--color-white);
+    }
+
+    .copy-email:not(.copy-email--nav) .copy-email__label {
+      font-size: 20px;
+    }
+
+    .copy-email--nav .copy-email__label {
+      color: var(--color-white);
+      font-size: 14px;
+    }
+
+    .copy-email:not(.copy-email--nav) .copy-email__icon {
+      color: var(--color-black);
+    }
+
+    .copy-email--nav .copy-email__icon {
+      color: var(--color-white);
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .copy-email:not(.copy-email--nav) {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .copy-email:not(.copy-email--nav) {
+      flex: 1;
+      min-width: 15vw;
+      height: 15vw;
+      padding-left: 7.5vw;
+      padding-right: 7.5vw;
+    }
+
+    .copy-email:not(.copy-email--nav) .copy-email__label {
+      font-size: 15px;
+    }
+  }
+</style>
+
+<script>
+  function initCopyEmailButtons() {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+      if (button.dataset.copyBound === '1') return;
+      button.dataset.copyBound = '1';
+
+      button.addEventListener('click', async () => {
+        const email = button.dataset.copyEmail;
+        const label = button.querySelector('[data-copy-label]');
+        if (!email || !label) return;
+
+        const original = label.textContent ?? email;
+        try {
+          await navigator.clipboard.writeText(email);
+          label.textContent = 'Copied to clipboard!';
+        } catch {
+          window.location.href = `mailto:${email}`;
+          return;
+        }
+
+        window.setTimeout(() => {
+          label.textContent = original;
+        }, 1800);
+      });
+    });
+  }
+
+  initCopyEmailButtons();
+  document.addEventListener('astro:page-load', initCopyEmailButtons);
+</script>

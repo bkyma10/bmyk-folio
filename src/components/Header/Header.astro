@@ -31,12 +31,13 @@ import MobileNav from './MobileNav.astro';
     justify-content: space-between;
     gap: 1em;
     width: 100%;
-    /* Live: .container.nav — padding: 18px 6em */
-    padding: var(--space-nav-y) var(--space-page-x);
+    /* Live: .container.nav (6em) + .nav-grid (1.5em) = content inset matches grid-item text */
+    padding: var(--space-nav-y) calc(var(--space-page-x) + var(--space-grid-item));
   }
 
   @media screen and (max-width: 991px) {
     .site-header__inner {
+      /* Live: nav 16px 44px; .nav-grid sides reset to 0 */
       padding: 16px 44px;
     }
   }

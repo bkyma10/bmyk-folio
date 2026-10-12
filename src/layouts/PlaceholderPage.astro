@@ -24,7 +24,24 @@ const { title, description = 'This page will be expanded in a later phase of the
 
 <style>
   .placeholder {
-    padding: calc(var(--header-height) + 3rem) var(--space-page-x) 5rem;
+    /* Match live content inset: page-x + grid-item (same as header logo / homepage text) */
+    padding: calc(var(--header-height) + 3rem)
+      calc(var(--space-page-x) + var(--space-grid-item)) 5rem;
+  }
+
+  @media screen and (max-width: 991px) {
+    .placeholder {
+      /* Live .nav-grid sides reset to 0; align to header 44px / content grid-item */
+      padding-left: 44px;
+      padding-right: 44px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .placeholder {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
   }
 
   .placeholder__inner {

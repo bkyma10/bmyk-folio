@@ -1,4 +1,5 @@
 ---
+import CopyEmailButton from '../ui/CopyEmailButton.astro';
 import { navLinks, site } from '../../data/site';
 
 interface Props {
@@ -36,24 +37,7 @@ const isMobile = variant === 'mobile';
           </span>
         </a>
       ) : (
-        <button
-          type="button"
-          class="nav-links__email"
-          data-copy-email={site.email}
-          aria-label={`Copy email address ${site.email}`}
-        >
-          <span data-copy-label>{site.email}</span>
-          <span class="nav-links__copy-icon" aria-hidden="true">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2" />
-              <path
-                d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
-                stroke="currentColor"
-                stroke-width="2"
-              />
-            </svg>
-          </span>
-        </button>
+        <CopyEmailButton variant="nav" />
       )
     }
   </li>
@@ -97,32 +81,6 @@ const isMobile = variant === 'mobile';
     opacity: 0.65;
   }
 
-  .nav-links__email {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0;
-    padding: 0.5rem 0.75rem;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: opacity var(--duration-fast) ease;
-  }
-
-  .nav-links__email:hover {
-    opacity: 0.65;
-  }
-
-  .nav-links__copy-icon {
-    display: inline-flex;
-    opacity: 0.7;
-  }
-
   .nav-links__contact {
     display: inline-flex;
     align-items: center;
@@ -146,33 +104,3 @@ const isMobile = variant === 'mobile';
     font-weight: 600;
   }
 </style>
-
-<script>
-  function initCopyButtons() {
-    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-copy-email]');
-    buttons.forEach((button) => {
-      button.addEventListener('click', async () => {
-        const email = button.dataset.copyEmail;
-        const label = button.querySelector('[data-copy-label]');
-        if (!email || !label) return;
-
-        const original = label.textContent ?? email;
-        try {
-          await navigator.clipboard.writeText(email);
-          label.textContent = 'Copied to clipboard';
-          button.setAttribute('aria-live', 'polite');
-        } catch {
-          label.textContent = email;
-          window.location.href = `mailto:${email}`;
-        }
-
-        window.setTimeout(() => {
-          label.textContent = original;
-        }, 1800);
-      });
-    });
-  }
-
-  initCopyButtons();
-  document.addEventListener('astro:page-load', initCopyButtons);
-</script>

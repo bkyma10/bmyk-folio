@@ -7,14 +7,17 @@ import { hero } from '../../data/site';
 <section class="hero" aria-labelledby="hero-heading">
   <!-- Live: .container.hero — padding: 4em 6em 0 -->
   <div class="hero__top">
-    <div class="hero__location">
+    <div class="hero__item hero__item--location">
       <LocationBadge />
     </div>
-    <h1 id="hero-heading" class="hero__title">
-      {hero.greeting}<br />
-      {hero.role}
-    </h1>
-    <div class="hero__media">
+    <!-- Live: .grid-item wraps h1 — padding must stay on the wrapper, not the h1 (em vs font-size) -->
+    <div class="hero__item">
+      <h1 id="hero-heading" class="hero__title">
+        {hero.greeting}<br />
+        {hero.role}
+      </h1>
+    </div>
+    <div class="hero__item hero__item--media">
       <HeroPortrait />
     </div>
   </div>
@@ -28,26 +31,24 @@ import { hero } from '../../data/site';
     padding: 4em var(--space-page-x) 0;
   }
 
-  .hero__location,
-  .hero__title,
-  .hero__media {
+  /* Live .grid-item — 1.5em (body em), not relative to the headline size */
+  .hero__item {
     width: 100%;
     padding: var(--space-grid-item);
+    position: relative;
+    overflow: visible;
   }
 
-  .hero__location {
+  .hero__item--location {
     width: 85%;
   }
 
   .hero__title {
+    margin: 0;
     font-size: 3.5em;
     font-weight: 700;
     line-height: 1.1;
     text-transform: none;
-  }
-
-  .hero__media {
-    padding-top: 0.5em;
   }
 
   @media screen and (max-width: 991px) {
@@ -56,23 +57,29 @@ import { hero } from '../../data/site';
     }
 
     .hero__title {
-      font-size: 42px;
+      font-size: 40px;
     }
   }
 
   @media screen and (max-width: 767px) {
-    .hero__location {
+    .hero__item--location {
       width: 100%;
     }
 
     .hero__title {
-      font-size: 32px;
+      font-size: 40px;
     }
   }
 
   @media screen and (max-width: 479px) {
     .hero__top {
       padding-top: 80px;
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .hero__title {
+      font-size: 24px;
     }
   }
 </style>
