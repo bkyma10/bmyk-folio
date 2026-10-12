@@ -5,7 +5,7 @@ import MobileNav from './MobileNav.astro';
 ---
 
 <header class="site-header" data-header>
-  <div class="site-header__inner section-pad">
+  <div class="site-header__inner">
     <Logo />
     <nav class="site-header__nav" aria-label="Primary">
       <NavLinks variant="desktop" />
@@ -29,9 +29,22 @@ import MobileNav from './MobileNav.astro';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1em;
     width: 100%;
-    padding-block: var(--space-nav-y);
+    /* Live: .container.nav — padding: 18px 6em */
+    padding: var(--space-nav-y) var(--space-page-x);
+  }
+
+  @media screen and (max-width: 991px) {
+    .site-header__inner {
+      padding: 16px 44px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .site-header__inner {
+      padding: 16px 24px;
+    }
   }
 
   .site-header__nav {

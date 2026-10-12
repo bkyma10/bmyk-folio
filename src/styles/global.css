@@ -29,7 +29,8 @@
     color: var(--color-black);
     background-color: var(--color-white);
     font-family: var(--font-body);
-    font-size: clamp(15px, 1.05vw, 17px);
+    /* Live site: font-size: 1vw — all em spacing resolves from this */
+    font-size: 1vw;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -84,6 +85,29 @@
 
   .section-pad {
     padding-inline: var(--space-page-x);
+  }
+
+  /* Live container horizontal breakpoints */
+  @media screen and (max-width: 991px) {
+    :root {
+      --space-page-x: 4em;
+      --space-section-y: 72px;
+      --space-nav-y: 16px;
+      --space-grid-item: 12px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    :root {
+      --space-page-x: 4em;
+      --space-section-y: 48px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    :root {
+      --space-page-x: 12px;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

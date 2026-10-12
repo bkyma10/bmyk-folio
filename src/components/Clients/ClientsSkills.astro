@@ -4,8 +4,9 @@ import TextLink from '../ui/TextLink.astro';
 import { clients, skills } from '../../data/site';
 ---
 
+<!-- Live: .section.dark-bg > .container.skills — padding 11em 6em, padding-bottom: 0 -->
 <section class="clients-skills" aria-labelledby="clients-heading" id="Skills">
-  <div class="clients-skills__inner section-pad">
+  <div class="clients-skills__inner">
     <div class="clients-skills__grid">
       <div class="clients-skills__copy">
         <h2 id="clients-heading" class="clients-skills__heading">
@@ -108,7 +109,10 @@ import { clients, skills } from '../../data/site';
   .clients-skills {
     background: var(--color-black);
     color: var(--color-white);
-    padding-block: clamp(3rem, 8vw, 6rem) 0;
+  }
+
+  .clients-skills__inner {
+    padding: var(--space-section-y) var(--space-page-x) 0;
   }
 
   .clients-skills__grid {
@@ -120,13 +124,13 @@ import { clients, skills } from '../../data/site';
   .clients-skills__copy,
   .clients-skills__aside {
     width: 100%;
-    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+    padding: var(--space-grid-item);
   }
 
   .clients-skills__heading {
     position: relative;
     z-index: 2;
-    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    font-size: 2.5em;
     font-weight: 500;
     letter-spacing: 0.02em;
     line-height: 1.25;
@@ -219,8 +223,18 @@ import { clients, skills } from '../../data/site';
     min-width: 0;
     text-transform: none;
     letter-spacing: 0;
-    font-size: clamp(1.25rem, 2vw, 2rem);
+    font-size: 1.25em;
     border-bottom-color: color-mix(in srgb, var(--color-white) 25%, transparent);
+  }
+
+  @media screen and (max-width: 991px) {
+    .clients-skills__heading {
+      font-size: 32px;
+    }
+
+    .clients-skills__list :global(.text-link) {
+      font-size: 20px;
+    }
   }
 
   .clients-skills__list :global(.text-link:hover) {

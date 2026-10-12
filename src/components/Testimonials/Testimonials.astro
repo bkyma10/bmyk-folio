@@ -183,21 +183,19 @@ import { testimonials } from '../../data/site';
 </script>
 
 <style>
-  /* .section.grey-bg — live body font-size: 1vw drives em spacing */
   .testimonials {
     width: 100%;
     position: relative;
     background-color: var(--color-grey-8);
     color: var(--color-black);
-    font-size: 1vw;
   }
 
-  /* .container.testimonials — padding 11em 6em, padding-bottom: 0 */
+  /* .container.testimonials — 11em 6em, padding-bottom: 0 */
   .testimonials__container {
     z-index: 1;
     position: relative;
     max-width: none;
-    padding: 11em 6em 0;
+    padding: var(--space-section-y) var(--space-page-x) 0;
   }
 
   /* .grid */
@@ -385,7 +383,7 @@ import { testimonials } from '../../data/site';
   /* tablet — max-width: 991px */
   @media screen and (max-width: 991px) {
     .testimonials__container {
-      padding: 72px 4em 0;
+      padding: 72px var(--space-page-x) 0;
     }
 
     .testimonials__item {
@@ -419,7 +417,7 @@ import { testimonials } from '../../data/site';
   /* landscape / mobile — max-width: 767px */
   @media screen and (max-width: 767px) {
     .testimonials__container {
-      padding: 48px 4em 0;
+      padding: 48px var(--space-page-x) 0;
     }
 
     .testimonials__heading {
@@ -445,7 +443,7 @@ import { testimonials } from '../../data/site';
   /* phone — max-width: 479px */
   @media screen and (max-width: 479px) {
     .testimonials__container {
-      padding: 48px 12px 0;
+      padding: 48px var(--space-page-x) 0;
     }
 
     .testimonials__heading {

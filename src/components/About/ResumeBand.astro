@@ -3,8 +3,9 @@ import TextLink from '../ui/TextLink.astro';
 import { education, tools, experience, site } from '../../data/site';
 ---
 
+<!-- Live: .section.grey-bg > .container.without-top-padding — 6em 6em 11em -->
 <section class="resume" aria-label="Education, tools, and experience">
-  <div class="resume__inner section-pad">
+  <div class="resume__inner">
     <div class="resume__grid">
       <div class="resume__col">
         <div class="resume__block">
@@ -55,7 +56,10 @@ import { education, tools, experience, site } from '../../data/site';
 <style>
   .resume {
     background: var(--color-grey-8);
-    padding: 0 0 clamp(3rem, 8vw, 6rem);
+  }
+
+  .resume__inner {
+    padding: 6em var(--space-page-x) var(--space-section-y);
   }
 
   .resume__grid {
@@ -66,13 +70,32 @@ import { education, tools, experience, site } from '../../data/site';
 
   .resume__col {
     width: 100%;
-    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+    padding: var(--space-grid-item);
   }
 
   .resume__heading {
-    margin-bottom: clamp(1.75rem, 3.5vw, 3.5rem);
-    font-size: clamp(1.75rem, 2.5vw, 2.5rem);
+    margin-bottom: 3.5em;
+    font-size: 2.5em;
     font-weight: 500;
+  }
+
+  @media screen and (max-width: 991px) {
+    .resume__inner {
+      padding-top: 72px;
+      padding-bottom: 72px;
+    }
+
+    .resume__heading {
+      font-size: 32px;
+      margin-bottom: 32px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .resume__inner {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
   }
 
   .resume__list {
@@ -83,37 +106,37 @@ import { education, tools, experience, site } from '../../data/site';
 
   .resume__item {
     border-top: 1px solid var(--color-grey-20);
-    padding: 1.5rem 0;
+    padding: 1.5em 0;
   }
 
   .resume__item--row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 0.75rem 1.5rem;
+    gap: 0.75em 1.5em;
   }
 
   .resume__title {
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: 1.05em;
     font-weight: 600;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.25em;
   }
 
   .resume__meta,
   .resume__dates {
     color: var(--color-grey-60);
-    font-size: 0.95rem;
+    font-size: 0.95em;
   }
 
   .resume__block--tools {
-    margin-top: clamp(2rem, 4vw, 3.5rem);
+    margin-top: 3.5em;
   }
 
   .resume__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.5em;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -122,13 +145,13 @@ import { education, tools, experience, site } from '../../data/site';
   .resume__tag {
     border: 1px solid var(--color-grey-20);
     border-radius: 50em;
-    padding: 1rem 2rem;
+    padding: 1em 2em;
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: 1em;
   }
 
   .resume__cta {
-    margin-top: 2rem;
+    margin-top: 2em;
   }
 
   @media (min-width: 992px) {

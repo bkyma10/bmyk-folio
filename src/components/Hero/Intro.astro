@@ -4,7 +4,8 @@ import TextLink from '../ui/TextLink.astro';
 import { hero, aboutIntro } from '../../data/site';
 ---
 
-<section class="intro section-pad" aria-label="About introduction" data-intro>
+<!-- Live: .container-2.xs-top-padding — padding: 2em 6em 11em -->
+<section class="intro" aria-label="About introduction" data-intro>
   <div class="intro__grid">
     <div class="intro__gallery" aria-hidden="true">
       <!-- Live: data-w-id="ccd47627-9f8c-2109-2cb0-b87455ec5fc9" .images-wrapper -->
@@ -161,8 +162,7 @@ import { hero, aboutIntro } from '../../data/site';
 
 <style>
   .intro {
-    padding-top: clamp(1.5rem, 2vw, 2rem);
-    padding-bottom: clamp(3rem, 8vw, 6rem);
+    padding: 2em var(--space-page-x) var(--space-section-y);
   }
 
   .intro__grid {
@@ -177,14 +177,14 @@ import { hero, aboutIntro } from '../../data/site';
 
   .intro__copy {
     width: 100%;
-    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+    padding: var(--space-grid-item);
   }
 
   .intro__cover {
     position: relative;
     width: 100%;
-    height: clamp(16rem, 26em, 26rem);
-    margin-bottom: clamp(1.5rem, 3vw, 3rem);
+    height: 26em;
+    margin-bottom: 3em;
     overflow: hidden;
     background: var(--color-bg);
   }
@@ -198,20 +198,37 @@ import { hero, aboutIntro } from '../../data/site';
   }
 
   .intro__summary {
-    max-width: 40rem;
+    max-width: 40em;
     color: var(--color-grey-80);
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.3vw, 1.3rem);
+    font-size: 1.125em;
     font-weight: 300;
     line-height: 1.55;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.5em;
+  }
+
+  @media screen and (max-width: 991px) {
+    .intro {
+      padding-top: 2em;
+      padding-bottom: 72px;
+    }
+
+    .intro__cover {
+      height: 320px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .intro {
+      padding-bottom: 48px;
+    }
   }
 
   @media (min-width: 992px) {
     .intro__gallery {
       display: block;
       width: 45%;
-      padding: 1.5rem;
+      padding: var(--space-grid-item);
     }
 
     .intro__copy {
@@ -224,8 +241,8 @@ import { hero, aboutIntro } from '../../data/site';
       flex-direction: column;
       justify-content: flex-end;
       min-height: 100%;
-      gap: 1.5rem;
-      padding-right: 4rem;
+      gap: 1.5em;
+      padding-right: 4em;
     }
 
     .intro__frame {

@@ -5,7 +5,8 @@ import { hero } from '../../data/site';
 ---
 
 <section class="hero" aria-labelledby="hero-heading">
-  <div class="hero__top section-pad">
+  <!-- Live: .container.hero — padding: 4em 6em 0 -->
+  <div class="hero__top">
     <div class="hero__location">
       <LocationBadge />
     </div>
@@ -21,17 +22,17 @@ import { hero } from '../../data/site';
 
 <style>
   .hero__top {
-    padding-top: calc(var(--header-height) + clamp(1.5rem, 3vw, 3rem));
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    padding: 4em var(--space-page-x) 0;
   }
 
   .hero__location,
   .hero__title,
   .hero__media {
     width: 100%;
-    padding: clamp(0.75rem, 1.5vw, 1.5rem);
+    padding: var(--space-grid-item);
   }
 
   .hero__location {
@@ -39,19 +40,39 @@ import { hero } from '../../data/site';
   }
 
   .hero__title {
-    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-size: 3.5em;
     font-weight: 700;
     line-height: 1.1;
     text-transform: none;
   }
 
   .hero__media {
-    padding-top: 0.5rem;
+    padding-top: 0.5em;
   }
 
-  @media (max-width: 767px) {
+  @media screen and (max-width: 991px) {
+    .hero__top {
+      padding-top: 80px;
+    }
+
+    .hero__title {
+      font-size: 42px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
     .hero__location {
       width: 100%;
+    }
+
+    .hero__title {
+      font-size: 32px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .hero__top {
+      padding-top: 80px;
     }
   }
 </style>

@@ -16,8 +16,11 @@
   --font-display: 'Syne', ui-sans-serif, sans-serif;
   --font-body: 'Inter', ui-sans-serif, sans-serif;
 
-  --space-page-x: clamp(1.5rem, 6vw, 6rem);
-  --space-nav-y: 1.125rem;
+  /* Live Webflow: body font-size 1vw; most containers use 6em horizontal */
+  --space-page-x: 6em;
+  --space-section-y: 11em;
+  --space-nav-y: 18px;
+  --space-grid-item: 1.5em;
   --header-height: 4.5rem;
   --max-content: 100%;
 
