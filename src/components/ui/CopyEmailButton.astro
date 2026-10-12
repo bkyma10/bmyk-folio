@@ -16,7 +16,8 @@ const isNav = variant === 'nav';
   aria-label={`Copy email address ${site.email}`}
 >
   <span class="copy-email__inner">
-    <span class="copy-email__label" data-copy-label>{site.email}</span>
+    {/* Text filled from data-copy-email so Cloudflare email obfuscation cannot rewrite it */}
+    <span class="copy-email__label" data-copy-label></span>
     <span class="copy-email__icon" aria-hidden="true">
       <!-- Live FA clipboard glyph -->
       <svg width="1em" height="1em" viewBox="0 0 512 512" fill="currentColor">
@@ -161,15 +162,18 @@ const isNav = variant === 'nav';
 <script>
   function initCopyEmailButtons() {
     document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((button) => {
+      const email = button.dataset.copyEmail;
+      const label = button.querySelector('[data-copy-label]');
+      if (!email || !label) return;
+
+      // Populate after paint so edge email-obfuscation cannot rewrite the label
+      if (!label.textContent) label.textContent = email;
+
       if (button.dataset.copyBound === '1') return;
       button.dataset.copyBound = '1';
 
       button.addEventListener('click', async () => {
-        const email = button.dataset.copyEmail;
-        const label = button.querySelector('[data-copy-label]');
-        if (!email || !label) return;
-
-        const original = label.textContent ?? email;
+        const original = email;
         try {
           await navigator.clipboard.writeText(email);
           label.textContent = 'Copied to clipboard!';
