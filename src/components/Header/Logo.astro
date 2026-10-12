@@ -133,9 +133,9 @@ import { site } from '../../data/site';
     const chunkLast = logo.querySelector<HTMLElement>('[data-logo-chunk="last"]');
     if (!restFirst || !restLast || !chunkLast) return;
 
-    // Live IX: roughly linear over ~80→700px; letters end at -110%; last chunk ~0.882× letter px
-    const SCROLL_START = 80;
-    const SCROLL_END = 700;
+    // Live IX: letters reach -110% by ~500–600px scroll; last chunk ~0.882× letter px
+    const SCROLL_START = 90;
+    const SCROLL_END = 520;
     const LETTER_END_PCT = -110;
     const CHUNK_RATIO = 0.882;
 
