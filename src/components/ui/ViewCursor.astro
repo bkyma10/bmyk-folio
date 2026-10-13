@@ -1,0 +1,218 @@
+---
+/**
+ * Live Webflow custom cursor:
+ * .cursor > .cursor-dot-1 > .cursor-text ("View")
+ * + .cursor-dot-2 (white speck; unused for View state)
+ *
+ * IX2: page MOUSE_MOVE tracks dots in vw/vh from viewport center;
+ * hover .tile-img-wrapper / .tile-img-wrapper-2 → a-64/a-105
+ * scales black circle to 1 and fades in "View".
+ */
+---
+
+<div class="view-cursor" data-view-cursor-root aria-hidden="true">
+  <div class="view-cursor__track" data-view-cursor-track>
+    <div class="view-cursor__dot">
+      <span class="view-cursor__label">View</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initViewCursor() {
+    const root = document.querySelector('[data-view-cursor-root]');
+    const track = document.querySelector('[data-view-cursor-track]');
+    if (!(root instanceof HTMLElement) || !(track instanceof HTMLElement)) return;
+
+    // Live shows .cursor on desktop (CSS hides below 991px); no pointer MQ gate
+    const desktop = window.matchMedia('(min-width: 992px)');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    let enabled = false;
+    let hot = false;
+    let raf = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let hasPoint = false;
+
+    const syncEnabled = () => {
+      enabled = desktop.matches && !reduceMotion.matches;
+      root.classList.toggle('is-enabled', enabled);
+      document.documentElement.classList.toggle('view-cursor-ready', enabled);
+      if (!enabled) {
+        root.classList.remove('is-hot');
+        hot = false;
+        document.documentElement.classList.remove('has-view-cursor');
+      }
+    };
+
+    const applyTrack = () => {
+      track.style.transform = `translate3d(${currentX}vw, ${currentY}vh, 0)`;
+    };
+
+    const tick = () => {
+      raf = 0;
+      if (!enabled || !hasPoint) return;
+      // Approximate Webflow MOUSE_MOVE duration 500ms trailing
+      const ease = hot ? 0.22 : 0.16;
+      currentX += (targetX - currentX) * ease;
+      currentY += (targetY - currentY) * ease;
+      applyTrack();
+      if (Math.abs(targetX - currentX) > 0.02 || Math.abs(targetY - currentY) > 0.02) {
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    const kick = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    const onMove = (event: MouseEvent) => {
+      if (!enabled) return;
+      const w = window.innerWidth || 1;
+      const h = window.innerHeight || 1;
+      // Live IX2 maps pointer across -50vw…50vw / -50vh…50vh from center
+      targetX = (event.clientX / w) * 100 - 50;
+      targetY = (event.clientY / h) * 100 - 50;
+      if (!hasPoint) {
+        currentX = targetX;
+        currentY = targetY;
+        hasPoint = true;
+        applyTrack();
+      }
+      kick();
+    };
+
+    const setHot = (next: boolean) => {
+      if (!enabled) return;
+      hot = next;
+      root.classList.toggle('is-hot', next);
+      document.documentElement.classList.toggle('has-view-cursor', next);
+    };
+
+    const onOver = (event: Event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (target.closest('[data-view-cursor]')) setHot(true);
+    };
+
+    const onOut = (event: Event) => {
+      const target = event.target;
+      const related = (event as MouseEvent).relatedTarget;
+      if (!(target instanceof Element)) return;
+      const from = target.closest('[data-view-cursor]');
+      if (!from) return;
+      if (related instanceof Node && from.contains(related)) return;
+      setHot(false);
+    };
+
+    syncEnabled();
+    desktop.addEventListener('change', syncEnabled);
+    reduceMotion.addEventListener('change', syncEnabled);
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseover', onOver);
+    document.addEventListener('mouseout', onOut);
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseover', onOver);
+        document.removeEventListener('mouseout', onOut);
+        desktop.removeEventListener('change', syncEnabled);
+        reduceMotion.removeEventListener('change', syncEnabled);
+        if (raf) cancelAnimationFrame(raf);
+        document.documentElement.classList.remove('has-view-cursor', 'view-cursor-ready');
+      },
+      { once: true },
+    );
+  }
+
+  initViewCursor();
+  document.addEventListener('astro:page-load', initViewCursor);
+</script>
+
+<style is:global>
+  .view-cursor {
+    z-index: 999;
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  .view-cursor.is-enabled {
+    display: flex;
+  }
+
+  .view-cursor__track {
+    will-change: transform;
+  }
+
+  /* Live: .cursor-dot-1 — 72px black circle, scale(.2), opacity 0 */
+  .view-cursor__dot {
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: var(--color-black);
+    opacity: 0;
+    transform: scale(0.2);
+    transition:
+      transform var(--duration-arrow) var(--ease-out-quart),
+      opacity var(--duration-arrow) linear;
+  }
+
+  .view-cursor.is-hot .view-cursor__dot {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Live: .cursor-text — white Syne 12px / 500 / uppercase */
+  .view-cursor__label {
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: scale(0);
+    transition:
+      transform var(--duration-arrow) var(--ease-out-quart),
+      opacity var(--duration-arrow) var(--ease-out-quart);
+  }
+
+  .view-cursor.is-hot .view-cursor__label {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Live hides the system pointer over project/story tiles on desktop */
+  html.view-cursor-ready [data-view-cursor],
+  html.view-cursor-ready [data-view-cursor] * {
+    cursor: none !important;
+  }
+
+  @media screen and (max-width: 991px) {
+    .view-cursor {
+      display: none !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .view-cursor {
+      display: none !important;
+    }
+  }
+</style>

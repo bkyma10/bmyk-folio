@@ -18,7 +18,7 @@ import { latestWork } from '../../data/site';
           {
             latestWork.items.map((item) => (
               <li class="work__tile">
-                <a class="work__link" href={item.href}>
+                <a class="work__link" href={item.href} data-view-cursor>
                   <div class="work__media">
                     <Picture
                       webpSrcSet={item.webpSrcSet}

@@ -22,7 +22,7 @@ import { stories } from '../../data/site';
           {
             stories.items.map((story) => (
               <li class="stories__item">
-                <a class="stories__media" href={story.href}>
+                <a class="stories__media" href={story.href} data-view-cursor>
                   <div class="stories__ratio">
                     <Picture
                       webpSrcSet={story.webpSrcSet}
