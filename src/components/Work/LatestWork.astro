@@ -210,6 +210,14 @@ import { latestWork } from '../../data/site';
     height: 2em;
     color: var(--color-white);
     pointer-events: none;
+    /* Live IX2: Hover In/Out on Project Tile — rotateZ 0→45deg, 500ms outQuart */
+    transform: rotate(0deg);
+    transition: transform var(--duration-arrow) var(--ease-out-quart);
+  }
+
+  .work__link:hover .work__arrow,
+  .work__link:focus-visible .work__arrow {
+    transform: rotate(45deg);
   }
 
   .work__arrow svg {
@@ -226,6 +234,15 @@ import { latestWork } from '../../data/site';
 
   @media (prefers-reduced-motion: reduce) {
     .work__media :global(.work__img) {
+      transform: none;
+    }
+
+    .work__arrow {
+      transition: none;
+    }
+
+    .work__link:hover .work__arrow,
+    .work__link:focus-visible .work__arrow {
       transform: none;
     }
   }
