@@ -3,33 +3,50 @@ import Picture from '../ui/Picture.astro';
 import { stories } from '../../data/site';
 ---
 
-<!-- Live: .container-4.inner-hero — padding-top 6em, sides 4em, bottom 11em -->
+<!--
+  Live: .section > .container-4.inner-hero > .grid-4
+    > .grid-item-2 > .inner-title-wrapper > h2
+    > .grid-item-2 > .blog-grid > .tile-grid-item-2.blog
+-->
 <section class="stories" aria-labelledby="stories-heading">
   <div class="stories__inner">
-    <h2 id="stories-heading" class="stories__heading">My Stories</h2>
-    <ul class="stories__grid" role="list">
-      {
-        stories.items.map((story) => (
-          <li class="stories__item">
-            <a class="stories__media" href={story.href}>
-              <Picture
-                webpSrcSet={story.webpSrcSet}
-                fallbackSrcSet={story.fallbackSrcSet}
-                fallbackType={story.fallbackType}
-                src={story.fallbackSrc}
-                alt={story.alt}
-                sizes="(max-width: 767px) 100vw, 25vw"
-                width={story.width}
-                height={story.height}
-                class="stories__img"
-              />
-            </a>
-            <p class="stories__category">{story.category}</p>
-            <h3 class="stories__title">{story.title}</h3>
-          </li>
-        ))
-      }
-    </ul>
+    <div class="stories__grid-wrap">
+      <div class="stories__title-cell">
+        <div class="stories__title-wrap">
+          <h2 id="stories-heading" class="stories__heading">My Stories</h2>
+        </div>
+      </div>
+
+      <div class="stories__list-cell">
+        <ul class="stories__grid" role="list">
+          {
+            stories.items.map((story) => (
+              <li class="stories__item">
+                <a class="stories__media" href={story.href}>
+                  <div class="stories__ratio">
+                    <Picture
+                      webpSrcSet={story.webpSrcSet}
+                      fallbackSrcSet={story.fallbackSrcSet}
+                      fallbackType={story.fallbackType}
+                      src={story.fallbackSrc}
+                      alt={story.alt}
+                      sizes="(max-width: 767px) 100vw, (max-width: 991px) 727px, 939px"
+                      width={story.width}
+                      height={story.height}
+                      class="stories__img"
+                    />
+                  </div>
+                </a>
+                <div class="stories__spacer" aria-hidden="true"></div>
+                <p class="stories__category">{story.category}</p>
+                <div class="stories__spacer" aria-hidden="true"></div>
+                <h3 class="stories__title">{story.title}</h3>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -38,59 +55,123 @@ import { stories } from '../../data/site';
     background: var(--color-white);
   }
 
+  /* Live: .container-4.inner-hero — padding 11em 4em with padding-top: 6em */
   .stories__inner {
-    /* Live container-4 uses 4em horizontal (not 6em) */
     padding: 6em 4em var(--space-section-y);
   }
 
-  .stories__heading {
-    margin-bottom: 2.5em;
-    font-size: 2.5em;
-    font-weight: 500;
+  /* Live: .grid-4 — flex wrap */
+  .stories__grid-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    position: relative;
   }
 
+  /* Live: .grid-item-2 — padding 1.5em */
+  .stories__title-cell,
+  .stories__list-cell {
+    width: 100%;
+    padding: 1.5em;
+    position: relative;
+  }
+
+  /* Live: .inner-title-wrapper — width 60% */
+  .stories__title-wrap {
+    width: 60%;
+  }
+
+  /* Live homepage h2: Syne 3em / 600 / line-height 1.3 */
+  .stories__heading {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 3em;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: normal;
+  }
+
+  /* Live: .blog-grid — 4 cols, col 1.5em, row 3em */
   .stories__grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2em 1.5em;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 1.5em;
+    row-gap: 3em;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .stories__media {
-    display: block;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    background: var(--color-bg);
-    margin-bottom: 0.75em;
+  /* Live: .tile-grid-item-2.blog:nth-child(2n) { margin-top: 3em } */
+  .stories__item:nth-child(2n) {
+    margin-top: 3em;
   }
 
-  .stories__media :global(.stories__img) {
+  /* Live: .tile-img-wrapper-2.blog — margin-bottom 1em, then .spacer._12 */
+  .stories__media {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1em;
+    color: var(--color-white);
+  }
+
+  /* Live: .aspect-ratio-height.blog — padding-top: 124% */
+  .stories__ratio {
+    position: relative;
+    width: 100%;
+    padding-top: 124%;
+    overflow: hidden;
+    background: var(--color-bg, #f3f3f3);
+  }
+
+  .stories__ratio :global(picture),
+  .stories__ratio :global(.stories__img) {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
+  }
+
+  .stories__ratio :global(.stories__img) {
     object-fit: cover;
+    transform-origin: 50% 0;
+    /* Live: .aspect-ratio-img.stories */
     filter: saturate(0.8) contrast(0.93);
-    transition: transform var(--duration-slow) var(--ease-out);
+    transition: transform var(--duration-slow, 0.6s) var(--ease-out, ease);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .stories__item:hover :global(.stories__img) {
+    .stories__item:hover .stories__ratio :global(.stories__img) {
       transform: scale(1.03);
     }
   }
 
-  .stories__category {
-    margin-bottom: 0.75em;
-    color: var(--color-grey-60);
-    font-size: 0.8em;
-    font-weight: 500;
+  /* Live: .spacer._12 */
+  .stories__spacer {
+    height: 12px;
   }
 
+  /* Live: .blog-category + .text-block-3 — 1em, grey-60, tracking .02em, pad 0 8px */
+  .stories__category {
+    margin: 0;
+    padding: 0 8px;
+    color: var(--color-grey-60);
+    font-family: var(--font-display);
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    text-transform: none;
+  }
+
+  /* Live: .stories-heading — 1.375em / 500 */
   .stories__title {
+    margin: 0;
+    font-family: var(--font-display);
     font-size: 1.375em;
     font-weight: 500;
-    line-height: 1.25;
+    line-height: 1.3;
   }
 
   @media screen and (max-width: 991px) {
@@ -98,14 +179,45 @@ import { stories } from '../../data/site';
       padding: 120px 32px 72px;
     }
 
+    .stories__title-cell,
+    .stories__list-cell {
+      padding: 12px;
+    }
+
+    .stories__title-wrap {
+      width: 100%;
+    }
+
     .stories__heading {
       font-size: 32px;
+    }
+
+    .stories__grid {
+      column-gap: 20px;
+      row-gap: 40px;
+    }
+
+    .stories__category {
+      font-size: 14px;
+    }
+
+    .stories__title {
+      font-size: 16px;
+    }
+
+    .stories__media {
+      margin-bottom: 20px;
     }
   }
 
   @media screen and (max-width: 767px) {
     .stories__inner {
       padding: 6em 12px 48px;
+    }
+
+    .stories__grid {
+      grid-template-columns: 1fr 1fr;
+      margin-top: 16px;
     }
   }
 
@@ -114,17 +226,29 @@ import { stories } from '../../data/site';
       padding-left: 12px;
       padding-right: 12px;
     }
-  }
 
-  @media (min-width: 640px) {
-    .stories__grid {
-      grid-template-columns: 1fr 1fr;
+    .stories__heading {
+      font-size: 28px;
+      margin-bottom: 12px;
     }
-  }
 
-  @media (min-width: 1024px) {
     .stories__grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1fr;
+      row-gap: 32px;
+      margin-top: 0;
+    }
+
+    /* Stagger only makes sense with 2+ columns */
+    .stories__item:nth-child(2n) {
+      margin-top: 0;
+    }
+
+    .stories__category {
+      font-size: 14px;
+    }
+
+    .stories__media {
+      margin-bottom: 12px;
     }
   }
 </style>
