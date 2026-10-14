@@ -4,6 +4,7 @@ import { site } from '../data/site';
 import Header from '../components/Header/Header.astro';
 import Footer from '../components/Footer/Footer.astro';
 import ViewCursor from '../components/ui/ViewCursor.astro';
+import SectionBlur from '../components/ui/SectionBlur.astro';
 
 interface Props {
   title?: string;
@@ -43,5 +44,6 @@ const { title = site.title, description = site.description } = Astro.props;
     </main>
     <Footer />
     <ViewCursor />
+    <SectionBlur />
   </body>
 </html>
