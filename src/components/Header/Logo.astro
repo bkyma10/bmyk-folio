@@ -85,6 +85,13 @@ import { site } from '../../data/site';
     will-change: transform;
   }
 
+  /* Live ≤991: .nav-brand { color: black; font-size: 18px } — color inherits from header */
+  @media screen and (max-width: 991px) {
+    .logo {
+      font-size: 18px;
+    }
+  }
+
   @media screen and (max-width: 479px) {
     .logo__lead,
     .logo__rest {

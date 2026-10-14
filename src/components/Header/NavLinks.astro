@@ -1,106 +1,146 @@
 ---
 import CopyEmailButton from '../ui/CopyEmailButton.astro';
 import { navLinks, site } from '../../data/site';
-
-interface Props {
-  variant?: 'desktop' | 'mobile';
-}
-
-const { variant = 'desktop' } = Astro.props;
-const isMobile = variant === 'mobile';
 ---
 
-<ul class:list={['nav-links', isMobile && 'nav-links--mobile']} role="list">
+<!--
+  Live menu pattern (no hamburger):
+  - ≥768: All Work + email pill
+  - 480–767: email pill only (.nav-link-2 { display: none })
+  - ≤479: Contact link only (.nav-link-wrapper { display: none } / .mobile { display: block })
+-->
+<ul class="nav-links" role="list">
   {
     navLinks.map((link) => (
-      <li>
-        <a href={link.href} class="nav-links__item">
+      <li class="nav-links__item nav-links__item--work">
+        <a href={link.href} class="nav-links__work">
           {link.label}
         </a>
       </li>
     ))
   }
-  <li>
-    {
-      isMobile ? (
-        <a href={`mailto:${site.email}`} class="nav-links__contact">
-          Contact
-          <span class="nav-links__arrow" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-        </a>
-      ) : (
-        <CopyEmailButton variant="nav" />
-      )
-    }
+  <li class="nav-links__item nav-links__item--email">
+    <CopyEmailButton variant="nav" />
+  </li>
+  <li class="nav-links__item nav-links__item--contact">
+    <a href={`mailto:${site.email}`} class="nav-links__contact">
+      <span class="nav-links__contact-label">Contact</span>
+      <span class="nav-links__arrow" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+    </a>
   </li>
 </ul>
 
 <style>
   .nav-links {
-    display: none;
+    display: flex;
     align-items: center;
-    gap: 0.25rem;
+    justify-content: flex-end;
+    gap: 0;
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  @media (min-width: 768px) {
-    .nav-links:not(.nav-links--mobile) {
-      display: flex;
-    }
-  }
-
-  .nav-links--mobile {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-    width: 100%;
-  }
-
   .nav-links__item {
-    display: inline-flex;
-    padding: 0.5rem 0.75rem;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .nav-links__item--email {
+    overflow: visible;
+    padding-right: 4px;
+  }
+
+  /* Live .nav-link-wrapper.mobile — hidden until phone */
+  .nav-links__item--contact {
+    display: none;
+  }
+
+  /* Live .nav-link-2 */
+  .nav-links__work {
+    display: inline-block;
+    margin: 0 16px;
+    padding: 8px 4px;
+    color: inherit;
     font-family: var(--font-display);
-    font-size: 0.9375rem;
+    font-size: 1em;
     font-weight: 500;
     line-height: 1.1;
-    transition: opacity var(--duration-fast) ease;
+    transition: color 0.3s ease, opacity var(--duration-fast) ease;
   }
 
-  .nav-links__item:hover {
+  .nav-links__work:hover {
     opacity: 0.65;
   }
 
+  /* Live .link-2.small Contact */
   .nav-links__contact {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.75rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+    gap: 10px;
+    width: auto;
+    min-width: auto;
+    padding: 8px 0;
+    color: inherit;
     font-family: var(--font-display);
-    font-size: 1.125rem;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.1;
   }
 
   .nav-links__arrow {
     display: inline-flex;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
   }
 
-  .nav-links--mobile .nav-links__item {
-    padding: 0.85rem 0;
-    border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
-    font-size: 1.125rem;
-    font-weight: 600;
+  .nav-links__arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 991px) {
+    .nav-links {
+      gap: 20px;
+    }
+
+    .nav-links__work {
+      color: #141517;
+      margin: 16px 0;
+      padding: 4px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+  }
+
+  /* Live ≤767: .nav-link-2 { display: none } — email stays */
+  @media screen and (max-width: 767px) {
+    .nav-links__item--work {
+      display: none;
+    }
+  }
+
+  /* Live ≤479: hide work+email wrappers, show Contact */
+  @media screen and (max-width: 479px) {
+    .nav-links__item--work,
+    .nav-links__item--email {
+      display: none;
+    }
+
+    .nav-links__item--contact {
+      display: block;
+    }
   }
 </style>

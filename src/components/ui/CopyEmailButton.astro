@@ -158,8 +158,9 @@ const isNav = variant === 'nav';
     }
   }
 
+  /* Live .footer-button { font-size: .75rem } ≤767 — includes .nav */
   @media screen and (max-width: 767px) {
-    .copy-email:not(.copy-email--nav) {
+    .copy-email {
       font-size: 0.75rem;
     }
   }

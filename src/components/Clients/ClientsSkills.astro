@@ -133,7 +133,7 @@ import { clients, skills } from '../../data/site';
     font-size: 2.5em;
     font-weight: 500;
     letter-spacing: 0.02em;
-    line-height: 1.25;
+    line-height: 1.3;
   }
 
   /* .accident-word — colored underlines match live classes */
@@ -261,9 +261,17 @@ import { clients, skills } from '../../data/site';
     }
   }
 
-  @media screen and (max-width: 479px) {
+  @media screen and (max-width: 767px) {
+    /* Live .caption { font-size: 14px } */
     .clients-skills__caption {
       font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    /* Live .h2 { font-size: 24px } */
+    .clients-skills__heading {
+      font-size: 24px;
     }
   }
 
