@@ -68,7 +68,8 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
                 </div>
                 {brief.cta && (
                   <>
-                    <div class="case__spacer case__spacer--32 case__spacer--mobile-only" aria-hidden="true" />
+                    {/* Live: .spacer._32 between brief and Visit Website (full-width flex item) */}
+                    <div class="case__spacer case__spacer--32 case__spacer--break" aria-hidden="true" />
                     <a class="case__visit" href={brief.cta.href} target="_blank" rel="noopener noreferrer">
                       <span class="case__visit-label">{brief.cta.label}</span>
                       <span class="case__visit-arrow" aria-hidden="true">
@@ -283,8 +284,10 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
     height: 32px;
   }
 
-  .case__spacer--mobile-only {
-    display: none;
+  /* Forces Visit Website onto its own row (live spacer is full-width in the flex row) */
+  .case__spacer--break {
+    flex: 0 0 100%;
+    width: 100%;
   }
 
   /* Live .case-date-wrapper + .collection-list */
