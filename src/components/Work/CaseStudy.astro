@@ -541,24 +541,36 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
     line-height: 1.2;
   }
 
+  /* Live tablet — max-width: 991px */
   @media screen and (max-width: 991px) {
+    /* Live .container.portfolio { padding-top: 10em } — bottom stays 6em */
     .case__container--portfolio {
-      padding-top: 120px;
+      padding-top: 10em;
+      padding-bottom: 6em;
+    }
+
+    /* Live .container.without-top-padding keeps 6em top; .container bottom → 72px */
+    .case__container--pad {
+      padding-top: 6em;
       padding-bottom: 72px;
     }
 
-    .case__container--pad {
-      padding-top: 72px;
-      padding-bottom: 72px;
+    /* Live .spacer._32 { height: 20px } */
+    .case__spacer--32 {
+      height: 20px;
     }
 
     .case__title {
       font-size: 40px;
     }
 
-    .case__h2,
-    .case__h3 {
+    /* Live .h2 32px / .h3 24px — keep distinct */
+    .case__h2 {
       font-size: 32px;
+    }
+
+    .case__h3 {
+      font-size: 24px;
     }
 
     .case__desc,
@@ -576,31 +588,70 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
 
     .case__visit {
       width: 100%;
+      font-size: 16px;
     }
 
-    .case__tag {
-      padding: 12px 20px;
+    /* Live .pill-text { font-size: 14px } */
+    .case__tag-label {
+      font-size: 14px;
     }
 
+    /* Live .description-lg → 16px; .description-md → 14px (rich-text p stays 16px) */
     .case__body--lg {
       font-size: 16px;
     }
+
+    .case__body--md {
+      font-size: 14px;
+    }
+
+    /* Live h4 / .h4 { font-size: 20px } */
+    .case__next-title {
+      font-size: 20px;
+    }
   }
 
+  /* Live landscape / large phone — max-width: 767px */
   @media screen and (max-width: 767px) {
-    .case__container--portfolio,
+    /* Live .container.portfolio { padding-top: 12em }; bottom stays 6em */
+    .case__container--portfolio {
+      padding-top: 12em;
+      padding-bottom: 6em;
+    }
+
+    /* Live without-top-padding still 6em top until ≤479; .container bottom → 48px */
     .case__container--pad {
-      padding-top: 88px;
+      padding-top: 6em;
       padding-bottom: 48px;
     }
 
+    .case__spacer--32 {
+      height: 20px;
+    }
+
+    /* Live .h1 stays 40px through 767 */
     .case__title {
+      font-size: 40px;
+    }
+
+    /* Live .h2 stays 32px through 767 */
+    .case__h2 {
       font-size: 32px;
     }
 
-    .case__h2,
-    .case__h3 {
-      font-size: 24px;
+    /* Live .tag { padding: 8px 16px } */
+    .case__tag {
+      padding: 8px 16px;
+    }
+
+    .case__tag-label {
+      font-size: 14px;
+    }
+
+    /* Live .description-md back to 16px */
+    .case__body--md {
+      font-size: 16px;
+      line-height: 1.5;
     }
 
     .case__embeds {
@@ -608,20 +659,52 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
     }
   }
 
+  /* Live phone — max-width: 479px */
   @media screen and (max-width: 479px) {
+    /* Live .container.portfolio { padding: 70px 12px 48px } */
+    .case__container--portfolio {
+      padding: 70px 12px 48px;
+    }
+
+    /* Live .container.without-top-padding { padding-top: 48px } */
+    .case__container--pad {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+
+    /* Live .spacer._40 { display: none } */
+    .case__spacer--40 {
+      display: none;
+    }
+
     .case__title-wrap {
       margin-top: 0;
       margin-bottom: 16px;
       padding-bottom: 16px;
     }
 
+    /* Live .h1 / .h2 → 24px */
     .case__title {
-      font-size: 28px;
+      font-size: 24px;
+    }
+
+    .case__h2 {
+      font-size: 24px;
     }
 
     .case__tag {
-      padding: 10px 16px;
-      margin: 2px;
+      padding: 8px 16px;
+      margin: 4px;
+    }
+
+    .case__body--lg {
+      font-size: 16px;
+      font-weight: 400;
+    }
+
+    .case__body--md,
+    .case__body--rich {
+      font-size: 16px;
     }
 
     .case__item :global(.case__keyvisual) {
