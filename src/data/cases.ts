@@ -17,6 +17,11 @@ export type CaseBlock =
       headingLevel?: 2 | 3;
       /** Live .description-lg vs .description-md / rich-text */
       bodyStyle?: 'lg' | 'md' | 'rich';
+      /**
+       * Live .case-info-wrapper[.right] — pushes the 60% copy column
+       * to the left or right of the content area (not text-align).
+       */
+      align?: 'left' | 'right';
       paragraphs: string[];
       /** Optional HTML-ish rich paragraphs with bold leads */
       rich?: { title?: string; body: string }[];
@@ -99,6 +104,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Project Brief',
             headingLevel: 2,
             bodyStyle: 'lg',
+            align: 'left',
             paragraphs: [
               'Core DAO is a decentralized organization developing the Core blockchain a next‑generation network that blends Bitcoin’s security with modern scalability. I joined as a contract designer to support their rebrand, collaborating with the design lead and cross‑functional teams to create a cohesive brand direction that elevated Core DAO’s presence across platforms and within the wider crypto ecosystem.',
             ],
@@ -114,6 +120,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Problem Statement',
             headingLevel: 3,
             bodyStyle: 'md',
+            align: 'right',
             paragraphs: [
               'Core DAO had outgrown its startup aesthetic the brand no longer reflected its stature as a leader in blockchain. The visuals lacked consistency and the sense of trust and maturity the team aimed to project. Our goal as the design team was to revitalize the identity and website with a refined, unified style that honored the original brand while conveying the confidence and authority of an established Web3 leader.',
             ],
@@ -123,6 +130,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Design Discovery',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'right',
             paragraphs: [
               'Our discovery phase focused on redefining Core DAO’s visual voice. We dove into research studying trends, mapping competitors, and exploring visual directions through iterative moodboards.',
               'The result was a refined identity that blends Bitcoin’s stability with DeFi’s forward momentum bold yet restrained, technical yet human. Clean gradients, precise typography, and minimal compositions came together to express trust, innovation, and confidence.',
@@ -143,6 +151,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Optimized UX Wireframing',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'right',
             paragraphs: [
               'Core DAO’s website needed to serve many audiences individuals, developers, institutions, and community members each with different goals. The old navigation buried key content in dense text and unclear structure. We redesigned it around user needs, introducing clear audience‑based categories and intuitive dropdowns for quick access.',
               'Simplified wireframes, larger headers, and concise visuals turned complex Web3 content into a clean, engaging experience that guided every user with ease.',
@@ -165,6 +174,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Web Design',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'left',
             paragraphs: [
               'With the visual language and wireframes in place, the website design unfolded as a natural extension of our strategy. I created key sections featuring custom illustrations and refined 3D treatments of the Core logo. Metaphorical visuals simplified complex ideas and added emotional depth, blending technical precision with a human touch. Built in Spline, the interactive 3D logo responded smoothly to user movement, inviting engagement while preserving a clean, focused interface.',
             ],
@@ -184,6 +194,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Social Media',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'right',
             paragraphs: [
               'With the new brand style in place, I brought Core DAO’s refreshed look to life across social media. Each post blended gradients, abstract visuals, and subtle 3D effects to capture the brand’s modern, polished tone turning technical updates into sleek, engaging stories that stood out in the fast‑moving Web3 space.',
             ],
@@ -205,6 +216,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Motion Graphics',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'left',
             paragraphs: [
               'Drawing on my motion design experience, I brought Core DAO’s X posts to life with subtle, loop‑ready animations soft text reveals, shifting gradients, and smooth background motion that felt elegant and seamless. These micro‑interactions acted as visual hooks in busy feeds, adding movement and polish without distraction, reinforcing the brand’s modern, refined presence.',
             ],
@@ -232,6 +244,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Impact',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'right',
             paragraphs: [
               'Launched in July 2025, the Core DAO rebrand elevated its standing as the leading Bitcoin‑integrated Layer‑1 blockchain. The new identity helped drive rapid ecosystem growth fueling a 2,800% rise in developers, over 350 active contributors, and strong dApp engagement across millions of users and transactions. The refreshed visual language positioned Core DAO as a more trusted, mature, and authoritative presence within the Web3 space.',
             ],
@@ -241,6 +254,7 @@ export const caseStudies: Record<string, CaseStudy> = {
             heading: 'Key Learnings',
             headingLevel: 3,
             bodyStyle: 'rich',
+            align: 'right',
             paragraphs: [],
             rich: [
               {

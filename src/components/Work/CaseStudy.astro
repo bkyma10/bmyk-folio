@@ -103,10 +103,11 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
               const headingClass = block.headingLevel === 2 ? 'case__h2' : 'case__h3';
               // Live Web Design uses h3.h2
               const isH2Look = block.heading === 'Web Design';
+              const alignRight = block.align === 'right';
               return (
                 <div class="case__grid">
                   <div class="case__item">
-                    <div class="case__info">
+                    <div class:list={['case__info', { 'case__info--right': alignRight }]}>
                       <div class="case__desc case__desc--full">
                         <Heading class:list={[isH2Look ? 'case__h2' : headingClass]}>{block.heading}</Heading>
                         <div class="case__spacer case__spacer--32" aria-hidden="true" />
@@ -346,6 +347,13 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
     align-items: center;
     justify-content: flex-start;
     gap: 0;
+    width: 100%;
+  }
+
+  /* Live .case-info-wrapper.right — push 60% copy column to the right edge */
+  .case__info--right {
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .case__info--portfolio {
@@ -360,9 +368,11 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
     margin-bottom: 0;
   }
 
+  /* Live keeps margin-right: 3em on .case-description-wrapper even when
+     .case-info-wrapper.right flex-ends the column — that inset is what
+     places right-aligned copy at ~554px, not flush to the content edge. */
   .case__desc--full {
     width: 60%;
-    margin-right: 0;
   }
 
   /* Live .h2 */
@@ -556,9 +566,11 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
       margin-right: 0;
     }
 
-    .case__info {
+    .case__info,
+    .case__info--right {
       flex-direction: column;
       align-items: flex-start;
+      justify-content: flex-start;
     }
 
     .case__visit {
