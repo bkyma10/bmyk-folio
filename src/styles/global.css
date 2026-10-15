@@ -37,6 +37,13 @@
     text-underline-offset: 3px;
   }
 
+  /* Live .page-wrapper.dark-bg */
+  html.is-dark-page,
+  body.is-dark-page {
+    color: var(--color-white);
+    background-color: var(--color-black);
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-brand);
     outline-offset: 3px;

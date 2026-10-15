@@ -9,19 +9,20 @@ import SectionBlur from '../components/ui/SectionBlur.astro';
 interface Props {
   title?: string;
   description?: string;
+  dark?: boolean;
 }
 
-const { title = site.title, description = site.description } = Astro.props;
+const { title = site.title, description = site.description, dark = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class:list={{ 'is-dark-page': dark }}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#354038" />
+    <meta name="theme-color" content={dark ? '#141517' : '#354038'} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -36,7 +37,7 @@ const { title = site.title, description = site.description } = Astro.props;
     />
     <title>{title}</title>
   </head>
-  <body>
+  <body class:list={{ 'is-dark-page': dark }}>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header />
     <main id="main-content">

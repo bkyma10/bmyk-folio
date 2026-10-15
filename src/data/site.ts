@@ -164,6 +164,104 @@ export const latestWork = {
   ],
 } as const;
 
+/** Live /allworks archive — categories + full project grid */
+export const allWorks = {
+  title: 'All Work',
+  pageTitle: 'Brendan Ma : Lead UXUI Designer / Webflow Developer - All Works',
+  categories: [
+    { label: 'UX/UI Design', href: '/categories/ux-ui-design' },
+    { label: 'Webflow', href: '/categories/webflow' },
+    { label: 'Graphic Design', href: '/categories/graphic-design' },
+    { label: 'Motion Graphics', href: '/categories/motion-graphics' },
+  ],
+  items: [
+    {
+      title: 'Core Dao - Brand Redesign',
+      href: '/cases/coredao',
+      slug: 'coredao',
+      alt: 'Core Dao brand redesign key visual',
+      ...workMedia('/images/work/coredao', 'png', 1920, 1080),
+    },
+    {
+      title: 'Sentience AI Labs - Game UI Design',
+      href: '/cases/sail',
+      slug: 'sail',
+      alt: 'Sentience AI Labs game UI design key visual',
+      ...workMedia('/images/work/sail', 'png', 1920, 1080),
+    },
+    {
+      title: 'Sentience - Web / App UI Design',
+      href: '/cases/sentience',
+      slug: 'sentience',
+      alt: 'Sentience web and app UI design key visual',
+      ...workMedia('/images/work/sentience', 'jpg', 1920, 1280),
+    },
+    {
+      title: 'PlayasiaXP - Web Design',
+      href: '/cases/playasiaxp',
+      slug: 'playasiaxp',
+      alt: 'PlayasiaXP web design key visual',
+      ...workMedia('/images/work/playasiaxp', 'jpg', 1920, 1080),
+    },
+    {
+      title: 'Core Dao - Token2049 Web Design',
+      href: '/cases/coredao---token2049-onepager',
+      slug: 'coredao---token2049-onepager',
+      alt: 'Core Dao Token2049 web design key visual',
+      ...workMedia('/images/work/coredao-token2049', 'png', 1920, 1080),
+    },
+    {
+      title: 'Core Dao - Cartel Web Design',
+      href: '/cases/coredao---cartel-onepager',
+      slug: 'coredao---cartel-onepager',
+      alt: 'Core Dao Cartel web design key visual',
+      ...workMedia('/images/work/coredao-cartel', 'png', 1920, 1080),
+    },
+    {
+      title: 'Sentience AI Labs - Guardians UI Design',
+      href: '/cases/guardians',
+      slug: 'guardians',
+      alt: 'Sentience AI Labs Guardians UI design key visual',
+      ...workMedia('/images/work/guardians', 'png', 1920, 1080),
+    },
+    {
+      title: 'Ecomatrix - Webflow',
+      href: '/cases/ecomatrix',
+      slug: 'ecomatrix',
+      alt: 'Ecomatrix Webflow project cover',
+      ...workMedia('/images/work/ecomatrix', 'png', 1920, 1080),
+    },
+    {
+      title: 'Robustus - Webflow',
+      href: '/cases/robustus',
+      slug: 'robustus',
+      alt: 'Robustus Webflow project cover',
+      ...workMedia('/images/work/robustus', 'png', 1920, 1080),
+    },
+    {
+      title: 'The Capital Trends - Webflow',
+      href: '/cases/the-capital-trends---webflow',
+      slug: 'the-capital-trends---webflow',
+      alt: 'The Capital Trends Webflow project cover',
+      ...workMedia('/images/work/capital-trends', 'jpg', 1920, 1080),
+    },
+    {
+      title: 'SingularityNews - Webflow',
+      href: '/cases/singularitynews---webflow',
+      slug: 'singularitynews---webflow',
+      alt: 'SingularityNews Webflow project cover',
+      ...workMedia('/images/work/singularitynews', 'jpg', 1920, 1080),
+    },
+    {
+      title: 'Livi Bank',
+      href: '/cases/livi-bank',
+      slug: 'livi-bank',
+      alt: 'Livi Bank project cover',
+      ...workMedia('/images/work/livi-bank', 'jpg', 1920, 1280),
+    },
+  ],
+} as const;
+
 export const testimonials = {
   heading: 'Testimonials',
   items: [

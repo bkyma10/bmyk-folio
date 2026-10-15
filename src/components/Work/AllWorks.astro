@@ -1,0 +1,365 @@
+---
+import Picture from '../ui/Picture.astro';
+import { allWorks } from '../../data/site';
+---
+
+<!--
+  Live: .page-wrapper.dark-bg > .section > .container.inner-hero
+    > .grid > .grid-item (title) + .grid-item (categories + projects-grid)
+-->
+<section class="allworks" aria-labelledby="allworks-heading">
+  <div class="allworks__container">
+    <div class="allworks__grid">
+      <div class="allworks__item">
+        <div class="allworks__title-wrap">
+          <h1 id="allworks-heading" class="allworks__heading">{allWorks.title}</h1>
+        </div>
+      </div>
+
+      <div class="allworks__item">
+        <div class="allworks__categories" data-section-blur>
+          <ul class="allworks__cat-list" role="list">
+            {
+              allWorks.categories.map((cat) => (
+                <li class="allworks__cat-item">
+                  <a class="allworks__cat-link" href={cat.href}>
+                    <span class="allworks__cat-label">{cat.label}</span>
+                    <span class="allworks__cat-arrow" aria-hidden="true">
+                      <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="allworks__spacer" aria-hidden="true"></div>
+
+        <ul class="allworks__projects" role="list" data-section-blur>
+          {
+            allWorks.items.map((item) => (
+              <li class="allworks__tile">
+                <a class="allworks__media" href={item.href} data-view-cursor>
+                  <div class="allworks__ratio">
+                    <Picture
+                      webpSrcSet={item.webpSrcSet}
+                      fallbackSrcSet={item.fallbackSrcSet}
+                      fallbackType={item.fallbackType}
+                      src={item.fallbackSrc}
+                      alt={item.alt}
+                      sizes="(max-width: 767px) 100vw, (max-width: 991px) 728px, 940px"
+                      width={item.width}
+                      height={item.height}
+                      class="allworks__img"
+                    />
+                  </div>
+                </a>
+                <h2 class="allworks__project-title">{item.title}</h2>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .allworks {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  /* Live .container.inner-hero — padding-top 7em; sides/bottom from .container */
+  .allworks__container {
+    position: relative;
+    z-index: 1;
+    max-width: none;
+    height: 100%;
+    padding: 7em var(--space-page-x) 11em;
+  }
+
+  .allworks__grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .allworks__item {
+    width: 100%;
+    padding: var(--space-grid-item);
+  }
+
+  .allworks__title-wrap {
+    width: 60%;
+  }
+
+  /* Live h1 — 3.8em / 700 / 1.1 (heading-15 only resets text-transform) */
+  .allworks__heading {
+    margin: 0;
+    font-size: 3.8em;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: none;
+  }
+
+  /* Live .categories-wrapper.margin-bottom-xxxs */
+  .allworks__categories {
+    align-self: flex-start;
+    margin-top: 1em;
+    margin-bottom: 2em;
+  }
+
+  /* Live .flex-horizontal.categories */
+  .allworks__cat-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -1.5em;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Live .category-item + .category-link-cell (1.5em of body) */
+  .allworks__cat-item {
+    display: flex;
+    border-bottom: none;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+  }
+
+  /* Live .link.small.white */
+  .allworks__cat-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0;
+    min-width: auto;
+    padding: 0.5em 0;
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    text-transform: none;
+    transition: padding var(--duration-med) ease, background-color var(--duration-med) ease;
+  }
+
+  .allworks__cat-link:hover {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background-color: #141414;
+  }
+
+  /* Live .link-floating-text — 2em of .link.small (18px → 36px) */
+  .allworks__cat-label {
+    width: 100%;
+    color: #fff;
+    font-size: 2em;
+    font-weight: 600;
+    letter-spacing: inherit;
+    text-transform: none;
+  }
+
+  .allworks__cat-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: 1em;
+    flex-shrink: 0;
+    transform: rotate(0deg);
+    transition: transform var(--duration-arrow) var(--ease-out-quart);
+  }
+
+  .allworks__cat-link:hover .allworks__cat-arrow,
+  .allworks__cat-link:focus-visible .allworks__cat-arrow {
+    transform: rotate(45deg);
+  }
+
+  .allworks__cat-arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .allworks__spacer {
+    height: 56px;
+  }
+
+  /* Live .projects-grid */
+  .allworks__projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-columns: 1fr;
+    column-gap: 1.5em;
+    row-gap: 3em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .allworks__tile {
+    width: 100%;
+  }
+
+  /* Live .tile-img-wrapper.portfolio-grid.allwork */
+  .allworks__media {
+    display: block;
+    height: auto;
+    min-height: 0;
+    margin-bottom: 1.5em;
+    color: var(--color-white);
+  }
+
+  /* Live .aspect-ratio-height.project — padding-top 40% */
+  .allworks__ratio {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-top: 40%;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-white) 6%, transparent);
+  }
+
+  .allworks__ratio :global(.allworks__img),
+  .allworks__ratio :global(picture) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .allworks__ratio :global(.allworks__img) {
+    object-fit: cover;
+  }
+
+  /* Live .h4.portfolio-grid */
+  .allworks__project-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.3em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  @media screen and (max-width: 991px) {
+    .allworks__container {
+      padding-top: 120px;
+      padding-bottom: 72px;
+    }
+
+    .allworks__title-wrap {
+      width: 100%;
+    }
+
+    .allworks__heading {
+      font-size: 40px;
+    }
+
+    .allworks__cat-link {
+      font-size: 16px;
+    }
+
+    .allworks__cat-label {
+      font-size: 20px;
+    }
+
+    .allworks__projects {
+      column-gap: 20px;
+      row-gap: 40px;
+    }
+
+    .allworks__media {
+      margin-bottom: 20px;
+    }
+
+    .allworks__project-title {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .allworks__container {
+      padding-top: 88px;
+      padding-bottom: 48px;
+    }
+
+    .allworks__heading {
+      font-size: 39px;
+    }
+
+    .allworks__categories {
+      width: 100%;
+      margin-top: 3em;
+    }
+
+    .allworks__projects {
+      margin-top: 16px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .allworks__container {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+
+    .allworks__heading {
+      font-size: 24px;
+    }
+
+    .allworks__categories {
+      margin-top: 20px;
+      margin-bottom: 16px;
+      padding-left: 7.5vw;
+      padding-right: 7.5vw;
+    }
+
+    .allworks__cat-item {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .allworks__cat-link {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .allworks__cat-label {
+      font-size: 16px;
+    }
+
+    .allworks__projects {
+      grid-template-columns: 1fr;
+      row-gap: 32px;
+      margin-top: 0;
+    }
+
+    .allworks__media {
+      margin-bottom: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .allworks__cat-arrow {
+      transition: none;
+    }
+
+    .allworks__cat-link:hover .allworks__cat-arrow,
+    .allworks__cat-link:focus-visible .allworks__cat-arrow {
+      transform: none;
+    }
+  }
+</style>

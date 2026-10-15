@@ -1,21 +1,13 @@
 ---
 import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
+import { allWorks } from '../../data/site';
 
 const { slug } = Astro.params;
-const titles: Record<string, string> = {
-  coredao: 'Core Dao - Brand Redesign',
-  sail: 'Sentience AI Labs - Game UI Design',
-  sentience: 'Sentience - Web / App UI Design',
-  playasiaxp: 'PlayasiaXP - Web Design',
-};
+
+const titles = Object.fromEntries(allWorks.items.map((item) => [item.slug, item.title]));
 
 export function getStaticPaths() {
-  return [
-    { params: { slug: 'coredao' } },
-    { params: { slug: 'sail' } },
-    { params: { slug: 'sentience' } },
-    { params: { slug: 'playasiaxp' } },
-  ];
+  return allWorks.items.map((item) => ({ params: { slug: item.slug } }));
 }
 
 const title = (slug && titles[slug]) || 'Case Study';
@@ -23,5 +15,5 @@ const title = (slug && titles[slug]) || 'Case Study';
 
 <PlaceholderPage
   title={title}
-  description="Full case-study pages are planned for a later phase. The homepage currently features the latest selected work."
+  description="Full case-study pages are planned for a later phase. Browse more projects on All Work."
 />

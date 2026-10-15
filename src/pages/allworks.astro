@@ -1,8 +1,9 @@
 ---
-import PlaceholderPage from '../layouts/PlaceholderPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AllWorks from '../components/Work/AllWorks.astro';
+import { allWorks, site } from '../data/site';
 ---
 
-<PlaceholderPage
-  title="All Work"
-  description="A complete archive of case studies and selected projects is next. For now, explore the latest work featured on the homepage."
-/>
+<BaseLayout title={allWorks.pageTitle} description={site.description} dark>
+  <AllWorks />
+</BaseLayout>

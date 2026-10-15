@@ -1,6 +1,6 @@
-# Brendan Ma Portfolio (Phase 1)
+# Brendan Ma Portfolio
 
-Rebuild of [bmyk.design](https://www.bmyk.design/) — a UX/UI designer portfolio. This phase ships the **Header** and **Hero** only, as a modular Astro + Tailwind static site.
+Rebuild of [bmyk.design](https://www.bmyk.design/) — a UX/UI designer portfolio as a modular Astro + Tailwind static site.
 
 ## Stack
 
@@ -40,11 +40,9 @@ npm run preview -- --port 4321 --host 127.0.0.1
 
 Output lands in `dist/` and can be deployed to any static host (Netlify, Cloudflare Pages, GitHub Pages, etc.).
 
-## Homepage scope
+## Scope
 
-- Fixed header with brand wordmark, All Work link, email copy-to-clipboard
-- Mobile menu (accessible `<details>` disclosure)
-- Hero: location, name/role headline, summary, portfolio CTA, optimized portrait
-- Clients, skills, latest work, testimonials, education, tools, experience, stories
-- Footer with contact copy + social links
-- Lightweight placeholder routes for case studies, categories, and stories
+- Homepage: header, hero, clients/skills, latest work, testimonials, education, tools, experience, stories, footer
+- [All Work](/allworks) archive: dark layout, category links, 12-project grid matching live
+- Placeholder routes for case studies, categories, and stories
+- Fixed header with brand wordmark, All Work link (current underline on `/allworks`), email copy-to-clipboard
