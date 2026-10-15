@@ -164,22 +164,32 @@ export const latestWork = {
   ],
 } as const;
 
+export type WorkCategorySlug =
+  | 'ux-ui-design'
+  | 'webflow'
+  | 'graphic-design'
+  | 'motion-graphics';
+
+/** Live category pages — membership mirrors https://www.bmyk.design/categories/* */
+export const workCategories = [
+  { slug: 'ux-ui-design' as const, label: 'UX/UI Design', href: '/categories/ux-ui-design' },
+  { slug: 'webflow' as const, label: 'Webflow', href: '/categories/webflow' },
+  { slug: 'graphic-design' as const, label: 'Graphic Design', href: '/categories/graphic-design' },
+  { slug: 'motion-graphics' as const, label: 'Motion Graphics', href: '/categories/motion-graphics' },
+] as const;
+
 /** Live /allworks archive — categories + full project grid */
 export const allWorks = {
   title: 'All Work',
   pageTitle: 'Brendan Ma : Lead UXUI Designer / Webflow Developer - All Works',
-  categories: [
-    { label: 'UX/UI Design', href: '/categories/ux-ui-design' },
-    { label: 'Webflow', href: '/categories/webflow' },
-    { label: 'Graphic Design', href: '/categories/graphic-design' },
-    { label: 'Motion Graphics', href: '/categories/motion-graphics' },
-  ],
+  categories: workCategories.map(({ label, href }) => ({ label, href })),
   items: [
     {
       title: 'Core Dao - Brand Redesign',
       href: '/cases/coredao',
       slug: 'coredao',
       alt: 'Core Dao brand redesign key visual',
+      categorySlugs: ['ux-ui-design', 'graphic-design', 'motion-graphics'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/coredao', 'png', 1920, 1080),
     },
     {
@@ -187,6 +197,7 @@ export const allWorks = {
       href: '/cases/sail',
       slug: 'sail',
       alt: 'Sentience AI Labs game UI design key visual',
+      categorySlugs: ['ux-ui-design', 'graphic-design', 'motion-graphics'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/sail', 'png', 1920, 1080),
     },
     {
@@ -194,6 +205,7 @@ export const allWorks = {
       href: '/cases/sentience',
       slug: 'sentience',
       alt: 'Sentience web and app UI design key visual',
+      categorySlugs: ['ux-ui-design', 'graphic-design'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/sentience', 'jpg', 1920, 1280),
     },
     {
@@ -201,6 +213,7 @@ export const allWorks = {
       href: '/cases/playasiaxp',
       slug: 'playasiaxp',
       alt: 'PlayasiaXP web design key visual',
+      categorySlugs: ['ux-ui-design', 'webflow', 'motion-graphics'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/playasiaxp', 'jpg', 1920, 1080),
     },
     {
@@ -208,6 +221,7 @@ export const allWorks = {
       href: '/cases/coredao---token2049-onepager',
       slug: 'coredao---token2049-onepager',
       alt: 'Core Dao Token2049 web design key visual',
+      categorySlugs: ['ux-ui-design', 'webflow'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/coredao-token2049', 'png', 1920, 1080),
     },
     {
@@ -215,6 +229,7 @@ export const allWorks = {
       href: '/cases/coredao---cartel-onepager',
       slug: 'coredao---cartel-onepager',
       alt: 'Core Dao Cartel web design key visual',
+      categorySlugs: ['ux-ui-design', 'webflow'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/coredao-cartel', 'png', 1920, 1080),
     },
     {
@@ -222,6 +237,7 @@ export const allWorks = {
       href: '/cases/guardians',
       slug: 'guardians',
       alt: 'Sentience AI Labs Guardians UI design key visual',
+      categorySlugs: ['ux-ui-design', 'motion-graphics'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/guardians', 'png', 1920, 1080),
     },
     {
@@ -229,6 +245,7 @@ export const allWorks = {
       href: '/cases/ecomatrix',
       slug: 'ecomatrix',
       alt: 'Ecomatrix Webflow project cover',
+      categorySlugs: ['ux-ui-design', 'webflow'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/ecomatrix', 'png', 1920, 1080),
     },
     {
@@ -236,6 +253,7 @@ export const allWorks = {
       href: '/cases/robustus',
       slug: 'robustus',
       alt: 'Robustus Webflow project cover',
+      categorySlugs: ['ux-ui-design', 'webflow'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/robustus', 'png', 1920, 1080),
     },
     {
@@ -243,6 +261,7 @@ export const allWorks = {
       href: '/cases/the-capital-trends---webflow',
       slug: 'the-capital-trends---webflow',
       alt: 'The Capital Trends Webflow project cover',
+      categorySlugs: ['ux-ui-design', 'webflow'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/capital-trends', 'jpg', 1920, 1080),
     },
     {
@@ -250,6 +269,7 @@ export const allWorks = {
       href: '/cases/singularitynews---webflow',
       slug: 'singularitynews---webflow',
       alt: 'SingularityNews Webflow project cover',
+      categorySlugs: ['ux-ui-design', 'webflow'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/singularitynews', 'jpg', 1920, 1080),
     },
     {
@@ -257,10 +277,33 @@ export const allWorks = {
       href: '/cases/livi-bank',
       slug: 'livi-bank',
       alt: 'Livi Bank project cover',
+      categorySlugs: ['graphic-design'] as const satisfies readonly WorkCategorySlug[],
       ...workMedia('/images/work/livi-bank', 'jpg', 1920, 1280),
     },
   ],
 } as const;
+
+export type WorkItem = (typeof allWorks.items)[number];
+
+export function getWorkCategory(slug: string) {
+  const category = workCategories.find((c) => c.slug === slug);
+  if (!category) return null;
+
+  const items = allWorks.items.filter((item) =>
+    (item.categorySlugs as readonly string[]).includes(slug),
+  );
+  const siblingCategories = workCategories
+    .filter((c) => c.slug !== slug)
+    .map(({ label, href }) => ({ label, href }));
+
+  return {
+    ...category,
+    pageTitle: `${site.title}`,
+    items,
+    siblingCategories,
+    backLink: { label: 'All Works', href: '/allworks' } as const,
+  };
+}
 
 export const testimonials = {
   heading: 'Testimonials',

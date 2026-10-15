@@ -1,11 +1,43 @@
 ---
 import Picture from '../ui/Picture.astro';
-import { allWorks } from '../../data/site';
+import { allWorks, type WorkItem } from '../../data/site';
+
+interface CategoryLink {
+  label: string;
+  href: string;
+}
+
+interface BackLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title?: string;
+  items?: readonly WorkItem[];
+  categories?: readonly CategoryLink[];
+  /** Live category pages: .back-wrapper → /allworks */
+  backLink?: BackLink;
+  /** heading-15 (allworks) vs heading-18 (category) mobile sizes */
+  variant?: 'allworks' | 'category';
+}
+
+const {
+  title = allWorks.title,
+  items = allWorks.items,
+  categories = allWorks.categories,
+  backLink,
+  variant = 'allworks',
+} = Astro.props;
+
+const headingId = variant === 'category' ? 'category-heading' : 'allworks-heading';
 ---
 
 <!--
   Live: .page-wrapper.dark-bg > .section > .container.inner-hero
     > .grid > .grid-item (title) + .grid-item (categories + projects-grid)
+
+  Category pages also include .back-wrapper → All Works above the h1.
 
   Interactions (Webflow IX2):
   - e-92 / a-55: SCROLLING_IN_VIEW on .container → children .aspect-ratio-img
@@ -13,12 +45,31 @@ import { allWorks } from '../../data/site';
   - e-101 / a-60–61: MOUSE_OVER/OUT on .tile-grid-item → sibling opacity 0.6 / 1
     easeOut 500ms
 -->
-<section class="allworks" aria-labelledby="allworks-heading">
+<section class:list={['allworks', { 'allworks--category': variant === 'category' }]} aria-labelledby={headingId}>
   <div class="allworks__container" data-allworks-scroll>
     <div class="allworks__grid">
       <div class="allworks__item">
+        {
+          backLink && (
+            <div class="allworks__back">
+              <a class="allworks__back-link" href={backLink.href}>
+                <span class="allworks__back-arrow" aria-hidden="true">
+                  <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </span>
+                <span class="allworks__back-label">{backLink.label}</span>
+              </a>
+            </div>
+          )
+        }
         <div class="allworks__title-wrap">
-          <h1 id="allworks-heading" class="allworks__heading">{allWorks.title}</h1>
+          <h1 id={headingId} class="allworks__heading">{title}</h1>
         </div>
       </div>
 
@@ -26,7 +77,7 @@ import { allWorks } from '../../data/site';
         <div class="allworks__categories" data-section-blur>
           <ul class="allworks__cat-list" role="list">
             {
-              allWorks.categories.map((cat) => (
+              categories.map((cat) => (
                 <li class="allworks__cat-item">
                   <a class="allworks__cat-link" href={cat.href}>
                     <span class="allworks__cat-label">{cat.label}</span>
@@ -51,7 +102,7 @@ import { allWorks } from '../../data/site';
 
         <ul class="allworks__projects" role="list" data-section-blur>
           {
-            allWorks.items.map((item) => (
+            items.map((item) => (
               <li class="allworks__tile">
                 <a class="allworks__media" href={item.href} data-view-cursor>
                   <div class="allworks__ratio">
@@ -183,11 +234,63 @@ import { allWorks } from '../../data/site';
     padding: var(--space-grid-item);
   }
 
+  /* Live .back-wrapper */
+  .allworks__back {
+    display: flex;
+    margin-bottom: 1.5em;
+  }
+
+  /* Live .link.nav — arrow + “All Works” */
+  .allworks__back-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: auto;
+    padding: 0.5em 0;
+    color: var(--color-white);
+    font-family: var(--font-display);
+    font-size: 1em;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.1;
+    text-transform: none;
+    background: transparent;
+  }
+
+  .allworks__back-link:hover {
+    background: transparent;
+  }
+
+  /* Live .back-arrow — rotate -135deg */
+  .allworks__back-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 1em;
+    flex-shrink: 0;
+    transform: rotate(-135deg);
+  }
+
+  .allworks__back-arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Live .link.nav .link-floating-text — 2em of 1em link */
+  .allworks__back-label {
+    font-size: 2em;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
   .allworks__title-wrap {
     width: 60%;
   }
 
-  /* Live h1 — 3.8em / 700 / 1.1 (heading-15 only resets text-transform) */
+  /* Live h1 — 3.8em / 700 / 1.1 (heading-15 / heading-18) */
   .allworks__heading {
     margin: 0;
     font-size: 3.8em;
@@ -366,6 +469,10 @@ import { allWorks } from '../../data/site';
       padding-bottom: 72px;
     }
 
+    .allworks__back {
+      margin-bottom: 20px;
+    }
+
     .allworks__title-wrap {
       width: 100%;
     }
@@ -379,6 +486,10 @@ import { allWorks } from '../../data/site';
     }
 
     .allworks__cat-label {
+      font-size: 20px;
+    }
+
+    .allworks__back-label {
       font-size: 20px;
     }
 
@@ -402,8 +513,13 @@ import { allWorks } from '../../data/site';
       padding-bottom: 48px;
     }
 
+    /* Live heading-15 follows h1 → 39px; heading-18 stays 40px */
     .allworks__heading {
       font-size: 39px;
+    }
+
+    .allworks--category .allworks__heading {
+      font-size: 40px;
     }
 
     .allworks__categories {
@@ -422,7 +538,9 @@ import { allWorks } from '../../data/site';
       padding-right: 12px;
     }
 
-    .allworks__heading {
+    /* Live heading-15 / heading-18 → 24px (beats category 767 override) */
+    .allworks__heading,
+    .allworks--category .allworks__heading {
       font-size: 24px;
     }
 
@@ -445,6 +563,10 @@ import { allWorks } from '../../data/site';
     }
 
     .allworks__cat-label {
+      font-size: 16px;
+    }
+
+    .allworks__back-label {
       font-size: 16px;
     }
 

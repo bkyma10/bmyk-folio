@@ -1,27 +1,28 @@
 ---
-import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
-
-const { slug } = Astro.params;
-const titles: Record<string, string> = {
-  'ux-ui-design': 'UX/UI Design',
-  webflow: 'Webflow',
-  'graphic-design': 'Graphic Design',
-  'motion-graphics': 'Motion Graphics',
-};
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AllWorks from '../../components/Work/AllWorks.astro';
+import { getWorkCategory, site, workCategories } from '../../data/site';
 
 export function getStaticPaths() {
-  return [
-    { params: { slug: 'ux-ui-design' } },
-    { params: { slug: 'webflow' } },
-    { params: { slug: 'graphic-design' } },
-    { params: { slug: 'motion-graphics' } },
-  ];
+  return workCategories.map((category) => ({
+    params: { slug: category.slug },
+  }));
 }
 
-const title = (slug && titles[slug]) || 'Category';
+const { slug } = Astro.params;
+const category = slug ? getWorkCategory(slug) : null;
+
+if (!category) {
+  return Astro.redirect('/allworks');
+}
 ---
 
-<PlaceholderPage
-  title={title}
-  description="Category archives will list related projects in a later phase."
-/>
+<BaseLayout title={category.pageTitle} description={site.description} dark>
+  <AllWorks
+    title={category.label}
+    items={category.items}
+    categories={category.siblingCategories}
+    backLink={category.backLink}
+    variant="category"
+  />
+</BaseLayout>
