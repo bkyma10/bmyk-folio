@@ -1,27 +1,28 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
+import StoryPost from '../../components/Stories/StoryPost.astro';
+import { site } from '../../data/site';
+import { getStoryPost, storyPosts } from '../../data/stories';
 
 const { slug } = Astro.params;
-const titles: Record<string, string> = {
-  'the-quiet-teacher': 'Tennis - the quiet teacher',
-  'first-time-pawrenting': 'Iridescent - first-time pawrenting',
-  'a-framework-for-how-to-live': 'About time - a framework for how to live',
-  skogskyrkogarden: 'Skogskyrkogården - designed for the living',
-};
 
 export function getStaticPaths() {
-  return [
-    { params: { slug: 'the-quiet-teacher' } },
-    { params: { slug: 'first-time-pawrenting' } },
-    { params: { slug: 'a-framework-for-how-to-live' } },
-    { params: { slug: 'skogskyrkogarden' } },
-  ];
+  return Object.keys(storyPosts).map((storySlug) => ({ params: { slug: storySlug } }));
 }
 
-const title = (slug && titles[slug]) || 'Story';
+const post = getStoryPost(slug);
 ---
 
-<PlaceholderPage
-  title={title}
-  description="Full story posts are planned for a later phase. The homepage currently surfaces the latest writing."
-/>
+{
+  post ? (
+    <BaseLayout title={post.pageTitle} description={site.description}>
+      <StoryPost post={post} />
+    </BaseLayout>
+  ) : (
+    <PlaceholderPage
+      title="Story"
+      description="This story could not be found. Browse more writing from the homepage."
+    />
+  )
+}

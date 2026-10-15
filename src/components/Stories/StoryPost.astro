@@ -1,0 +1,424 @@
+---
+import Picture from '../ui/Picture.astro';
+import type { StoryPost as StoryPostData } from '../../data/stories';
+import { getMoreStories } from '../../data/stories';
+
+interface Props {
+  post: StoryPostData;
+}
+
+const { post } = Astro.props;
+const more = getMoreStories(post.slug);
+---
+
+<article class="story">
+  <section class="story__section">
+    <div class="story__container story__container--hero">
+      <div class="story__grid" data-section-blur>
+        <div class="story__item">
+          <div class="story__title-wrap">
+            <h1 class="story__title">{post.title}</h1>
+            <div class="story__info">
+              <span class="story__tag">{post.tag}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="story__item">
+          <div class="story__content">
+            <div class="story__copy">
+              <div class="story__rich">
+                {
+                  post.paragraphs.map((p) => (
+                    <p class="story__body">{p}</p>
+                  ))
+                }
+              </div>
+            </div>
+
+            <aside class="story__photos" aria-label="Story photos">
+              {
+                post.photos.map((photo) => (
+                  <div
+                    class:list={[
+                      'story__photo',
+                      photo.variant === 'wide' ? 'story__photo--wide' : 'story__photo--tall',
+                    ]}
+                  >
+                    <div
+                      class:list={[
+                        'story__ratio',
+                        photo.variant === 'wide' ? 'story__ratio--wide' : 'story__ratio--tall',
+                      ]}
+                    >
+                      <Picture
+                        webpSrcSet={photo.webpSrcSet}
+                        fallbackSrcSet={photo.fallbackSrcSet}
+                        fallbackType={photo.fallbackType}
+                        src={photo.fallbackSrc}
+                        alt={photo.alt}
+                        sizes="(max-width: 767px) 100vw, 516px"
+                        width={1080}
+                        height={photo.variant === 'wide' ? 608 : 1440}
+                        class="story__img"
+                      />
+                    </div>
+                  </div>
+                ))
+              }
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    more.length > 0 && (
+      <section class="story__section story__section--more" aria-labelledby="more-stories-heading">
+        <div class="story__container story__container--more">
+          <div class="story__grid" data-section-blur>
+            <div class="story__item">
+              <div class="story__more-title-wrap">
+                <h2 id="more-stories-heading" class="story__more-heading">
+                  More Stories
+                </h2>
+              </div>
+            </div>
+            <div class="story__item">
+              <ul class="story__more-grid" role="list">
+                {more.map((item) => (
+                  <li class="story__more-item">
+                    <a class="story__more-media" href={item.href} data-view-cursor>
+                      <div class="story__more-ratio">
+                        <Picture
+                          webpSrcSet={item.webpSrcSet}
+                          fallbackSrcSet={item.fallbackSrcSet}
+                          fallbackType={item.fallbackType}
+                          src={item.fallbackSrc}
+                          alt={item.alt}
+                          sizes="(max-width: 479px) 100vw, (max-width: 767px) 50vw, 394px"
+                          width={item.width}
+                          height={item.height}
+                          class="story__more-img"
+                        />
+                      </div>
+                    </a>
+                    <p class="story__more-category">{item.category}</p>
+                    <h3 class="story__more-title">{item.title}</h3>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+</article>
+
+<style>
+  .story {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .story__section {
+    background: var(--color-white);
+  }
+
+  /* Live .container.inner-hero — padding-top 7em; sides/bottom from .container 11em */
+  .story__container--hero {
+    padding: 7em var(--space-page-x) 11em;
+  }
+
+  /* Live .container.without-top-padding */
+  .story__container--more {
+    padding: 6em var(--space-page-x) 6em;
+  }
+
+  .story__grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .story__item {
+    width: 100%;
+    padding: var(--space-grid-item);
+  }
+
+  /* Live .blog-title-wrapper */
+  .story__title-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding-bottom: 2em;
+    border-bottom: 1px solid var(--color-grey-20);
+  }
+
+  /* Live .blog-title — 3.6em / 700 */
+  .story__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 3.6em;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  /* Live .blog-info-wrapper + .blog-tag */
+  .story__info {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0.3em;
+    margin-left: 3em;
+    color: var(--color-grey-60);
+    font-family: var(--font-display);
+    font-size: 1.1em;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .story__tag {
+    font-weight: 400;
+  }
+
+  /* Live .blog-content-grid — 1.25fr 1fr, gap 64px */
+  .story__content {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    grid-template-rows: auto;
+    align-items: start;
+    gap: 64px;
+    margin-top: 2em;
+  }
+
+  /* Live .max-width */
+  .story__copy {
+    max-width: 600px;
+    width: 100%;
+  }
+
+  /* Live .rich-text-block-portfolio — Inter 300; body reads ~16px */
+  .story__rich {
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  .story__body {
+    margin: 0 0 1.4em;
+  }
+
+  .story__body:last-child {
+    margin-bottom: 0;
+  }
+
+  .story__photos {
+    width: 100%;
+  }
+
+  .story__photo {
+    width: 100%;
+  }
+
+  /* Live .blog-photo._2 { margin-top: 5em } */
+  .story__photo--wide {
+    margin-top: 5em;
+  }
+
+  .story__ratio {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Live .aspect-ratio-height._3-4 */
+  .story__ratio--tall {
+    padding-top: 130%;
+  }
+
+  /* Live .aspect-ratio-height._16-9 */
+  .story__ratio--wide {
+    padding-top: 60%;
+  }
+
+  .story__ratio :global(picture),
+  .story__ratio :global(.story__img) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* More Stories */
+  .story__more-title-wrap {
+    width: 60%;
+  }
+
+  /* Live .heading-16 — 3em / 600 */
+  .story__more-heading {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 3em;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* Live .blog-grid.more — 3 cols */
+  .story__more-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3em 1.5em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .story__more-media {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1em;
+    color: inherit;
+  }
+
+  /* Live .aspect-ratio-height.blog — 124% */
+  .story__more-ratio {
+    position: relative;
+    width: 100%;
+    padding-top: 124%;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--color-black) 4%, transparent);
+  }
+
+  .story__more-ratio :global(picture),
+  .story__more-ratio :global(.story__more-img) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Live .blog-category */
+  .story__more-category {
+    margin: 0 0 0;
+    padding: 0 8px;
+    color: var(--color-grey-60);
+    font-family: var(--font-body);
+    font-size: 1em;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+  }
+
+  /* Live h5 on more tiles */
+  .story__more-title {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  @media screen and (max-width: 991px) {
+    .story__container--hero {
+      padding-top: 120px;
+      padding-bottom: 72px;
+    }
+
+    .story__container--more {
+      padding-top: 72px;
+      padding-bottom: 72px;
+    }
+
+    .story__title-wrap {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .story__info {
+      margin-top: 24px;
+      margin-bottom: 0;
+      margin-left: 0;
+      font-size: 12px;
+    }
+
+    .story__title {
+      font-size: 24px;
+    }
+
+    .story__content {
+      gap: 32px;
+    }
+
+    .story__more-heading {
+      font-size: 24px;
+    }
+
+    .story__more-grid {
+      gap: 40px 20px;
+    }
+
+    .story__more-category {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .story__container--hero {
+      padding-top: 88px;
+      padding-bottom: 48px;
+    }
+
+    .story__container--more {
+      padding-top: 6em;
+      padding-bottom: 48px;
+    }
+
+    .story__content {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    /* On mobile, photos stack under copy; reduce wide top margin */
+    .story__photo--wide {
+      margin-top: 1.5em;
+    }
+
+    .story__more-title-wrap {
+      width: 100%;
+    }
+
+    .story__more-heading {
+      font-size: 24px;
+    }
+
+    .story__more-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+      margin-top: 16px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .story__title {
+      font-size: 24px;
+    }
+
+    .story__more-grid {
+      grid-template-columns: 1fr;
+      row-gap: 32px;
+      margin-top: 0;
+    }
+
+    .story__more-heading {
+      font-size: 24px;
+    }
+  }
+</style>
