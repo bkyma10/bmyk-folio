@@ -85,94 +85,41 @@ import { education, tools, experience, site } from '../../data/site';
     display: none;
   }
 
-  /* Live .container.without-top-padding keeps padding-top: 6em until 479px */
-  @media screen and (max-width: 991px) {
-    .resume__inner {
-      padding-top: 6em;
-      padding-bottom: 72px;
-    }
-
-    .resume__heading {
-      font-size: 32px;
-      /* Live .spacer._56 after headings */
-      margin-bottom: 56px;
-    }
-
-    /* Live .pill-text { font-size: 14px } */
-    .resume__tag {
-      font-size: 14px;
-    }
-  }
-
-  @media screen and (max-width: 767px) {
-    .resume__inner {
-      padding-top: 6em;
-      padding-bottom: 48px;
-    }
-
-    /* Live .h2 margin 0 but .spacer._56 (+ landscape-hidden) still provide 56px */
-    .resume__heading {
-      margin-bottom: 56px;
-      font-size: 32px;
-    }
-
-    /* Live .tag { padding: 8px 16px }; .pill-text { font-size: 14px } */
-    .resume__tag {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
-
-    .resume__tags {
-      margin-bottom: 12px;
-    }
-  }
-
-  @media screen and (max-width: 479px) {
-    .resume__inner {
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-
-    /* Live .h2 { font-size: 24px } */
-    .resume__heading {
-      font-size: 24px;
-    }
-
-    /* Live .wrapper.max-width-400.tools { display: none } */
-    .resume__block--tools {
-      display: none;
-    }
-  }
-
   .resume__list {
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  /* Live .experience-wrapper — padding 24px 0 */
   .resume__item {
     border-top: 1px solid var(--color-grey-20);
-    padding: 1.5em 0;
+    padding: 24px 0;
   }
 
   .resume__item--row {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: flex-start;
     gap: 0.75em 1.5em;
   }
 
+  /* Live .exp-heading — Inter 1.125em / 400 */
   .resume__title {
-    font-family: var(--font-display);
-    font-size: 1.05em;
-    font-weight: 600;
-    margin-bottom: 0.25em;
+    font-family: var(--font-body);
+    font-size: 1.125em;
+    font-weight: 400;
+    margin-bottom: 4px;
   }
 
+  /* Live .exp-desc — grey-60, 1.125em */
   .resume__meta,
   .resume__dates {
     color: var(--color-grey-60);
-    font-size: 0.95em;
+    font-family: var(--font-body);
+    font-size: 1.125em;
+    font-weight: 400;
   }
 
   .resume__block--tools {
@@ -207,6 +154,73 @@ import { education, tools, experience, site } from '../../data/site';
 
     .resume__col:last-child {
       width: 55%;
+    }
+  }
+
+  /* Mobile overrides AFTER base so px sizes beat em */
+  @media screen and (max-width: 991px) {
+    .resume__inner {
+      padding-top: 6em;
+      padding-bottom: 72px;
+    }
+
+    .resume__heading {
+      font-size: 32px;
+      margin-bottom: 56px;
+    }
+
+    /* Live .exp-heading { 16px }; .exp-desc { 14px } */
+    .resume__title {
+      font-size: 16px;
+    }
+
+    .resume__meta,
+    .resume__dates {
+      font-size: 14px;
+    }
+
+    .resume__tag {
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .resume__inner {
+      padding-top: 6em;
+      padding-bottom: 48px;
+    }
+
+    .resume__heading {
+      margin-bottom: 56px;
+      font-size: 32px;
+    }
+
+    .resume__tag {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .resume__tags {
+      margin-bottom: 12px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .resume__inner {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+
+    .resume__heading {
+      font-size: 24px;
+    }
+
+    .resume__item--row {
+      flex-wrap: wrap;
+    }
+
+    .resume__block--tools {
+      display: none;
     }
   }
 </style>
