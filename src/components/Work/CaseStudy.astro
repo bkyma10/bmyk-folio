@@ -285,7 +285,8 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
     height: 32px;
   }
 
-  /* Forces Visit Website onto its own row (live spacer is full-width in the flex row) */
+  /* Forces Visit Website onto its own row (live spacer is full-width in the flex row).
+     flex-basis: 100% is only for the desktop row; in a column it collapses height to 0. */
   .case__spacer--break {
     flex: 0 0 100%;
     width: 100%;
@@ -584,6 +585,13 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
       flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
+    }
+
+    /* Column layout: drop row flex-basis so height applies; more air before Visit CTA */
+    .case__spacer--32.case__spacer--break {
+      flex: none;
+      width: 100%;
+      height: 40px;
     }
 
     .case__visit {
