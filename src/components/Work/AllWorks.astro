@@ -426,13 +426,14 @@ import { allWorks } from '../../data/site';
       font-size: 24px;
     }
 
+    /* Live ≤479: .categories-wrapper — full content width, no side inset */
     .allworks__categories {
+      width: 100%;
       margin-top: 20px;
       margin-bottom: 16px;
-      padding-left: 7.5vw;
-      padding-right: 7.5vw;
     }
 
+    /* Live .category-item.without-border + .category-link-cell { width: 100% } */
     .allworks__cat-item {
       width: 100%;
       box-sizing: border-box;
