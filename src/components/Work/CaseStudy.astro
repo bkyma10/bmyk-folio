@@ -100,22 +100,25 @@ const brief = heroSection?.blocks.find((b) => b.type === 'copy');
           {section.blocks.map((block) => {
             if (block.type === 'copy') {
               const Heading = block.headingLevel === 2 ? 'h2' : 'h3';
-              const headingClass = block.headingLevel === 2 ? 'case__h2' : 'case__h3';
-              // Live Web Design uses h3.h2
-              const isH2Look = block.heading === 'Web Design';
+              const headingClass =
+                block.headingLevel === 2 || block.h2Look ? 'case__h2' : 'case__h3';
               const alignRight = block.align === 'right';
               return (
                 <div class="case__grid">
                   <div class="case__item">
                     <div class:list={['case__info', { 'case__info--right': alignRight }]}>
                       <div class="case__desc case__desc--full">
-                        <Heading class:list={[isH2Look ? 'case__h2' : headingClass]}>{block.heading}</Heading>
+                        <Heading class={headingClass}>{block.heading}</Heading>
                         <div class="case__spacer case__spacer--32" aria-hidden="true" />
                         {block.paragraphs.map((p) => (
                           <p
                             class:list={[
                               'case__body',
-                              block.bodyStyle === 'md' ? 'case__body--md' : 'case__body--rich',
+                              block.bodyStyle === 'lg'
+                                ? 'case__body--lg'
+                                : block.bodyStyle === 'md'
+                                  ? 'case__body--md'
+                                  : 'case__body--rich',
                             ]}
                           >
                             {p}
