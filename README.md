@@ -45,5 +45,6 @@ Output lands in `dist/` and can be deployed to any static host (Netlify, Cloudfl
 - Homepage: header, hero, clients/skills, latest work, testimonials, education, tools, experience, stories, footer
 - [All Work](/allworks) archive: dark layout, category links, 12-project grid matching live
 - Category archives (`/categories/ux-ui-design`, `webflow`, `graphic-design`, `motion-graphics`) with filtered grids
-- Placeholder routes for case studies and stories
+- Case study: [Core Dao - Brand Redesign](/cases/coredao)
+- Placeholder routes for remaining case studies and stories
 - Fixed header with brand wordmark, All Work link (current underline on `/allworks`), email copy-to-clipboard

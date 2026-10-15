@@ -1,19 +1,31 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import PlaceholderPage from '../../layouts/PlaceholderPage.astro';
-import { allWorks } from '../../data/site';
+import CaseStudy from '../../components/Work/CaseStudy.astro';
+import { allWorks, site } from '../../data/site';
+import { getCaseStudy } from '../../data/cases';
 
 const { slug } = Astro.params;
-
-const titles = Object.fromEntries(allWorks.items.map((item) => [item.slug, item.title]));
 
 export function getStaticPaths() {
   return allWorks.items.map((item) => ({ params: { slug: item.slug } }));
 }
 
-const title = (slug && titles[slug]) || 'Case Study';
+const caseStudy = getCaseStudy(slug);
+const fallbackTitle =
+  (slug && Object.fromEntries(allWorks.items.map((item) => [item.slug, item.title]))[slug]) ||
+  'Case Study';
 ---
 
-<PlaceholderPage
-  title={title}
-  description="Full case-study pages are planned for a later phase. Browse more projects on All Work."
-/>
+{
+  caseStudy ? (
+    <BaseLayout title={caseStudy.pageTitle} description={site.description}>
+      <CaseStudy caseStudy={caseStudy} />
+    </BaseLayout>
+  ) : (
+    <PlaceholderPage
+      title={fallbackTitle}
+      description="Full case-study pages are planned for a later phase. Browse more projects on All Work."
+    />
+  )
+}

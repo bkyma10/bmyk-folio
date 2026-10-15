@@ -1,0 +1,630 @@
+---
+import Picture from '../ui/Picture.astro';
+import type { CaseStudy as CaseStudyData } from '../../data/cases';
+
+interface Props {
+  caseStudy: CaseStudyData;
+}
+
+const { caseStudy } = Astro.props;
+const [heroSection, ...restSections] = caseStudy.sections;
+const brief = heroSection?.blocks.find((b) => b.type === 'copy');
+---
+
+<article class="case">
+  <!-- Hero: title, tags, key visual, project brief -->
+  <section class="case__section">
+    <div class="case__container case__container--portfolio">
+      <div class="case__grid">
+        <div class="case__item">
+          <div class="case__title-wrap">
+            <h1 class="case__title">{caseStudy.title}</h1>
+          </div>
+          <div class="case__spacer case__spacer--40" aria-hidden="true"></div>
+          <div class="case__tags">
+            <ul class="case__tag-list" role="list">
+              {
+                caseStudy.tags.map((tag) => (
+                  <li>
+                    <a class="case__tag" href={tag.href}>
+                      <span class="case__tag-label">{tag.label}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="case__tag case__tag--static">
+              <span class="case__tag-label">{caseStudy.year}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="case__item">
+          <Picture
+            webpSrcSet={caseStudy.keyVisual.webpSrcSet}
+            fallbackSrcSet={caseStudy.keyVisual.fallbackSrcSet}
+            fallbackType={caseStudy.keyVisual.fallbackType}
+            src={caseStudy.keyVisual.fallbackSrc}
+            alt={caseStudy.keyVisual.alt}
+            sizes="(max-width: 991px) 100vw, 1224px"
+            width={caseStudy.keyVisual.width}
+            height={caseStudy.keyVisual.height}
+            loading="eager"
+            fetchpriority="high"
+            class="case__keyvisual"
+          />
+        </div>
+
+        {
+          brief && brief.type === 'copy' && (
+            <div class="case__item">
+              <div class="case__info case__info--portfolio">
+                <div class="case__desc">
+                  <h2 class="case__h2">{brief.heading}</h2>
+                  <div class="case__spacer case__spacer--32" aria-hidden="true" />
+                  {brief.paragraphs.map((p) => (
+                    <p class="case__body case__body--lg">{p}</p>
+                  ))}
+                </div>
+                {brief.cta && (
+                  <>
+                    <div class="case__spacer case__spacer--32 case__spacer--mobile-only" aria-hidden="true" />
+                    <a class="case__visit" href={brief.cta.href} target="_blank" rel="noopener noreferrer">
+                      <span class="case__visit-label">{brief.cta.label}</span>
+                      <span class="case__visit-arrow" aria-hidden="true">
+                        <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M2.06066 1H23.5607V22.5H20.5607V6.12132L3.12132 23.5607L1 21.4393L18.4393 4H2.06066V1Z"
+                            fill="currentColor"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </>
+                )}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    restSections.map((section) => (
+      <section class:list={['case__section', { 'case__section--dark': section.dark }]}>
+        <div class="case__container case__container--pad">
+          {section.blocks.map((block) => {
+            if (block.type === 'copy') {
+              const Heading = block.headingLevel === 2 ? 'h2' : 'h3';
+              const headingClass = block.headingLevel === 2 ? 'case__h2' : 'case__h3';
+              // Live Web Design uses h3.h2
+              const isH2Look = block.heading === 'Web Design';
+              return (
+                <div class="case__grid">
+                  <div class="case__item">
+                    <div class="case__info">
+                      <div class="case__desc case__desc--full">
+                        <Heading class:list={[isH2Look ? 'case__h2' : headingClass]}>{block.heading}</Heading>
+                        <div class="case__spacer case__spacer--32" aria-hidden="true" />
+                        {block.paragraphs.map((p) => (
+                          <p
+                            class:list={[
+                              'case__body',
+                              block.bodyStyle === 'md' ? 'case__body--md' : 'case__body--rich',
+                            ]}
+                          >
+                            {p}
+                          </p>
+                        ))}
+                        {block.rich?.map((item) => (
+                          <p class="case__body case__body--rich">
+                            {item.title && (
+                              <>
+                                <strong>{item.title}</strong>
+                                <br />
+                              </>
+                            )}
+                            {item.body}
+                          </p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            if (block.type === 'images') {
+              return (
+                <div class="case__grid">
+                  <div class="case__item">
+                    <div class="case__images">
+                      {block.images.map((img) => (
+                        <Picture
+                          webpSrcSet={img.webpSrcSet}
+                          fallbackSrcSet={img.fallbackSrcSet}
+                          fallbackType={img.fallbackType}
+                          src={img.fallbackSrc}
+                          alt={img.alt}
+                          sizes="(max-width: 991px) 100vw, 1224px"
+                          width={1920}
+                          height={1080}
+                          class="case__image"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            if (block.type === 'embeds') {
+              return (
+                <div class="case__grid">
+                  <div class="case__item">
+                    <div class="case__embeds">
+                      {block.embeds.map((embed) => (
+                        <div class="case__embed">
+                          <iframe
+                            src={embed.src}
+                            title={embed.title}
+                            loading="lazy"
+                            allow="encrypted-media; picture-in-picture"
+                            allowfullscreen
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            if (block.type === 'next') {
+              return (
+                <div class="case__grid">
+                  <div class="case__item">
+                    <h3 class="case__h3">{block.heading}</h3>
+                    <div class="case__spacer case__spacer--32" aria-hidden="true" />
+                    <a class="case__next" href={block.project.href} data-view-cursor>
+                      <div class="case__next-ratio">
+                        <Picture
+                          webpSrcSet={block.project.image.webpSrcSet}
+                          fallbackSrcSet={block.project.image.fallbackSrcSet}
+                          fallbackType={block.project.image.fallbackType}
+                          src={block.project.image.fallbackSrc}
+                          alt={block.project.image.alt}
+                          sizes="(max-width: 991px) 100vw, 1224px"
+                          width={block.project.image.width}
+                          height={block.project.image.height}
+                          class="case__next-img"
+                        />
+                      </div>
+                      <h4 class="case__next-title">{block.project.title}</h4>
+                    </a>
+                  </div>
+                </div>
+              );
+            }
+
+            return null;
+          })}
+        </div>
+      </section>
+    ))
+  }
+</article>
+
+<style>
+  .case {
+    color: var(--color-black);
+    background: var(--color-white);
+  }
+
+  .case__section {
+    position: relative;
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+
+  .case__section--dark {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  /* Live .container.portfolio — padding 4em 6em 6em */
+  .case__container--portfolio {
+    padding: 4em var(--space-page-x) 6em;
+  }
+
+  /* Live .container.without-top-padding — padding-top 6em */
+  .case__container--pad {
+    padding: 6em var(--space-page-x) 6em;
+  }
+
+  .case__grid {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .case__item {
+    width: 100%;
+    padding: var(--space-grid-item);
+  }
+
+  /* Live .case-title-wrapper */
+  .case__title-wrap {
+    width: 100%;
+    margin-top: 1em;
+    margin-bottom: 0;
+    padding-bottom: 2em;
+    border-bottom: 1px solid var(--color-grey-20);
+  }
+
+  /* Live .h1 — 3.5em / 700 */
+  .case__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 3.5em;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: none;
+  }
+
+  .case__spacer--40 {
+    height: 40px;
+  }
+
+  .case__spacer--32 {
+    height: 32px;
+  }
+
+  .case__spacer--mobile-only {
+    display: none;
+  }
+
+  /* Live .case-date-wrapper + .collection-list */
+  .case__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    white-space: break-spaces;
+  }
+
+  .case__tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Live .tag */
+  .case__tag {
+    display: inline-flex;
+    margin: 4px;
+    padding: 16px 32px;
+    border: 1px solid var(--color-grey-20);
+    border-radius: 50em;
+    color: var(--color-black);
+    background: transparent;
+    transition: background-color var(--duration-med) ease, color var(--duration-med) ease;
+  }
+
+  a.case__tag:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .case__tag-label {
+    font-family: var(--font-body);
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* Live .portfolio-key-visual */
+  .case__item :global(.case__keyvisual) {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 2px 7px #0003;
+  }
+
+  /* Live .case-info-wrapper.portfolio — row with brief + CTA */
+  .case__info {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .case__info--portfolio {
+    flex-wrap: wrap;
+  }
+
+  /* Live .case-description-wrapper — width 60% */
+  .case__desc {
+    width: 60%;
+    max-width: none;
+    margin-right: 3em;
+    margin-bottom: 0;
+  }
+
+  .case__desc--full {
+    width: 60%;
+    margin-right: 0;
+  }
+
+  /* Live .h2 */
+  .case__h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 2.5em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+    text-transform: none;
+  }
+
+  /* Live .h3 / h3 */
+  .case__h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 2.5em;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  /* Live .description-lg / .rich-text-block-portfolio */
+  .case__body {
+    margin: 0 0 1em;
+    font-family: var(--font-body);
+    line-height: 1.4;
+  }
+
+  .case__body:last-child {
+    margin-bottom: 0;
+  }
+
+  .case__body--lg,
+  .case__body--rich {
+    font-size: 1.3em;
+    font-weight: 300;
+  }
+
+  .case__body--md {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .case__body strong {
+    font-weight: 600;
+  }
+
+  /* Live .link-2.small.portfolio — width 40% */
+  .case__visit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 40%;
+    min-width: auto;
+    padding: 0.5em 0;
+    color: inherit;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.1;
+    transition: color var(--duration-med) ease, background-color var(--duration-med) ease,
+      padding var(--duration-med) ease;
+  }
+
+  .case__section:not(.case__section--dark) .case__visit:hover {
+    background: var(--color-black);
+    color: var(--color-white);
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .case__visit-arrow {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    margin-left: 16px;
+    flex-shrink: 0;
+    transform: rotate(0deg);
+    transition: transform var(--duration-arrow) var(--ease-out-quart);
+  }
+
+  .case__visit:hover .case__visit-arrow {
+    transform: rotate(45deg);
+  }
+
+  .case__visit-arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Live .image */
+  .case__images {
+    width: 100%;
+  }
+
+  .case__images :global(.case__image) {
+    width: 100%;
+    height: auto;
+    margin-bottom: 30px;
+    object-fit: cover;
+  }
+
+  .case__images :global(picture:last-child .case__image) {
+    margin-bottom: 0;
+  }
+
+  /* Motion embeds — two columns on desktop */
+  .case__embeds {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5em;
+    width: 100%;
+  }
+
+  .case__embed {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--color-white) 6%, transparent);
+    aspect-ratio: 16 / 10;
+  }
+
+  .case__embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Next project tile */
+  .case__next {
+    display: block;
+    color: inherit;
+  }
+
+  .case__next-ratio {
+    position: relative;
+    width: 100%;
+    padding-top: 40%;
+    overflow: hidden;
+    margin-bottom: 1.5em;
+    background: color-mix(in srgb, var(--color-white) 6%, transparent);
+  }
+
+  .case__next-ratio :global(picture),
+  .case__next-ratio :global(.case__next-img) {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case__next-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.3em;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+  }
+
+  @media screen and (max-width: 991px) {
+    .case__container--portfolio {
+      padding-top: 120px;
+      padding-bottom: 72px;
+    }
+
+    .case__container--pad {
+      padding-top: 72px;
+      padding-bottom: 72px;
+    }
+
+    .case__title {
+      font-size: 40px;
+    }
+
+    .case__h2,
+    .case__h3 {
+      font-size: 32px;
+    }
+
+    .case__desc,
+    .case__desc--full {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    .case__info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .case__visit {
+      width: 100%;
+    }
+
+    .case__tag {
+      padding: 12px 20px;
+    }
+
+    .case__body--lg,
+    .case__body--rich {
+      font-size: 16px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .case__container--portfolio,
+    .case__container--pad {
+      padding-top: 88px;
+      padding-bottom: 48px;
+    }
+
+    .case__title {
+      font-size: 32px;
+    }
+
+    .case__h2,
+    .case__h3 {
+      font-size: 24px;
+    }
+
+    .case__embeds {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .case__title-wrap {
+      margin-top: 0;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+    }
+
+    .case__title {
+      font-size: 28px;
+    }
+
+    .case__tag {
+      padding: 10px 16px;
+      margin: 2px;
+    }
+
+    .case__item :global(.case__keyvisual) {
+      border-radius: 12px;
+    }
+
+    .case__images :global(.case__image) {
+      margin-bottom: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .case__visit-arrow {
+      transition: none;
+    }
+
+    .case__visit:hover .case__visit-arrow {
+      transform: none;
+    }
+  }
+</style>
