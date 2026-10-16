@@ -34,7 +34,7 @@ function media(
 
 export const hero = {
   greeting: "Hello I'm Brendan",
-  role: 'Lead UXUI Designer & Webflow Developer',
+  role: 'AI UX/UI Designer & Vibe Coder',
   summary:
     'With over 10 years of experience spanning web3, startups & advertising agencies, I craft user-centered digital experiences that balance aesthetics with functionality, leveraging strong problem-solving skills and deep digital expertise to deliver impactful results.',
   cta: {
