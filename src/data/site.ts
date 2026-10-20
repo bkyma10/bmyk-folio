@@ -1,8 +1,8 @@
 export const site = {
   name: 'Brendan Ma',
-  title: 'Brendan Ma : Lead UXUI Designer / Webflow Developer',
+  title: "Hello I'm Brendan: AI UX/UI Designer & Vibe Coder",
   description:
-    "Hey I'm Brendan, a Lead UXUI Designer / Webflow Developer with over 10 years of experience spanning tech & web3 startups, advertising agencies, and design studios, I craft user-centered digital experiences that balance aesthetics with functionality, leveraging strong problem-solving skills and deep digital expertise to deliver impactful results.",
+    'With over 10 years of experience spanning AI, web3, startups, and advertising agencies, I craft user-centered digital experiences that balance aesthetics with functionality. As an early adopter of modern AI tools and a "vibe coder," I seamlessly blend creative direction, rapid prototyping, and hands-on execution leveraging deep technical expertise and strong problem-solving skills to bring ambitious, impactful products to life from concept to launch.',
   email: 'brendan@collabdgt.com',
   location: 'Hong Kong | Remote',
   url: 'https://www.bmyk.design',
@@ -36,7 +36,7 @@ export const hero = {
   greeting: "Hello I'm Brendan",
   role: 'AI UX/UI Designer & Vibe Coder',
   summary:
-    'With over 10 years of experience spanning web3, startups & advertising agencies, I craft user-centered digital experiences that balance aesthetics with functionality, leveraging strong problem-solving skills and deep digital expertise to deliver impactful results.',
+    'With over 10 years of experience spanning AI, web3, startups, and advertising agencies, I craft user-centered digital experiences that balance aesthetics with functionality. As an early adopter of modern AI tools and a "vibe coder," I seamlessly blend creative direction, rapid prototyping, and hands-on execution leveraging deep technical expertise and strong problem-solving skills to bring ambitious, impactful products to life from concept to launch.',
   cta: {
     label: 'Check out my portfolio',
     href: '/allworks',
@@ -344,7 +344,6 @@ export const testimonials = {
 export const education = {
   heading: 'Education',
   items: [
-    { title: 'Google UX Design', org: 'Google' },
     { title: 'BA Visual Arts Major', org: 'The University of British Columbia' },
   ],
 } as const;
