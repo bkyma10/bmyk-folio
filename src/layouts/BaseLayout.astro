@@ -29,6 +29,24 @@ const { title = site.title, description = site.description, dark = false } = Ast
     <meta property="og:url" content={site.url} />
     <meta property="og:image" content={`${site.url}/images/portrait-1600.jpg`} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: site.name,
+        jobTitle: 'AI UX/UI Designer & Vibe Coder',
+        description: site.description,
+        url: site.url,
+        email: site.email,
+        image: `${site.url}/images/portrait-1600.jpg`,
+        sameAs: [site.social.linkedin, site.social.instagram],
+        address: { '@type': 'PostalAddress', addressLocality: 'Hong Kong' },
+      })}
+    />
+    {/* The section blur is applied in CSS and removed by JS on scroll. Without
+        JS those sections would stay blurred and unreadable, so undo it here. */}
+    <noscript><style>[data-section-blur] { filter: none !important; }</style></noscript>
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
