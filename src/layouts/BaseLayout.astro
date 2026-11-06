@@ -27,7 +27,8 @@ const { title = site.title, description = site.description, dark = false } = Ast
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={site.url} />
-    <meta property="og:image" content="/images/portrait-1600.jpg" />
+    <meta property="og:image" content={`${site.url}/images/portrait-1600.jpg`} />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

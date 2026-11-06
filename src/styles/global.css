@@ -49,6 +49,15 @@
     outline-offset: 3px;
   }
 
+  /* #354038 is 10.81:1 on white, but 1.69:1 on the dark sections and 1.94:1 on
+     the black footer, where keyboard focus is then invisible. Non-text elements
+     need 3:1. --color-brand-secondary is 13.16:1 on #141517. */
+  html.is-dark-page :focus-visible,
+  body.is-dark-page :focus-visible,
+  .site-footer :focus-visible {
+    outline-color: var(--color-brand-secondary);
+  }
+
   a {
     color: inherit;
     text-decoration: none;
