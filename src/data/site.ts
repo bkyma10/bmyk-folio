@@ -6,8 +6,7 @@ export const site = {
   email: 'brendan@collabdgt.com',
   location: 'Hong Kong | Remote',
   url: 'https://www.bmyk.design',
-  resumeUrl:
-    'https://cdn.prod.website-files.com/66fe0de054207bcf50920737/698b0b4bdbac67fa0b659cb0_brendanma-resume2026.pdf',
+  resumeUrl: '/files/brendanma-resume2026.pdf',
   social: {
     instagram: 'https://www.instagram.com/bkumayk/',
     linkedin: 'https://www.linkedin.com/in/brendanma/',

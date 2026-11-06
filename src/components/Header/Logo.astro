@@ -7,7 +7,7 @@ import { site } from '../../data/site';
   .nav-brand > img.image-3 + .nav-logo-wrapper (B + Rendan) + .nav-logo-wrapper._2 (M + A)
   Scroll IX: .nav-logo-text._2/_4 translateX → -110%; .nav-logo-wrapper._2 shifts left so M sits by B.
 -->
-<a href="/" class="logo" aria-label={`${site.name} — home`} data-logo>
+<a href="/" class="logo" aria-label={`${site.name} home`} data-logo>
   <img src="/favicon.png" alt="" width="32" height="32" class="logo__mark" decoding="async" />
   <span class="logo__wordmark" aria-hidden="true">
     <span class="logo__chunk" data-logo-chunk="first">
@@ -83,6 +83,14 @@ import { site } from '../../data/site';
   .logo__rest {
     display: inline-block;
     will-change: transform;
+  }
+
+  /* The intro animation runs once. Once it has, drop the hint, or the browser
+     keeps promoting ten-odd letter chunks to their own compositor layers for
+     the life of the page. */
+  .logo--ready .logo__chunk,
+  .logo--ready .logo__rest {
+    will-change: auto;
   }
 
   /* Live ≤991: .nav-brand { color: black; font-size: 18px } — color inherits from header */

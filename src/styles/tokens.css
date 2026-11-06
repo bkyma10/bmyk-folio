@@ -3,14 +3,19 @@
   --color-white: #ffffff;
   --color-brand: #354038;
   --color-brand-secondary: #c0e1e3;
-  --color-brand-tertiary: #93887c;
+  /* Was #93887c, which measures 3.27:1 on --color-bg. Same hue, darkened only
+     until it clears 4.5:1. */
+  --color-brand-tertiary: #7a7065;
   --color-bg: #f8f8f8;
-  --color-grey-80: #4d4e50;
-  --color-grey-60: #828283;
-  --color-grey-40: #9fa0a3;
-  --color-grey-20: #cfd1d7;
-  --color-grey-15: #ecedf1;
-  --color-grey-8: #f8f9fa;
+  /* The ramp is named by lightness, which says nothing about whether a colour
+     can hold text. Measured against --color-bg: */
+  --color-grey-80: #4d4e50; /* 7.84:1, body text */
+  /* Was #828283 at 3.61:1, used 18 times on the homepage. */
+  --color-grey-60: #717172; /* 4.59:1, body text */
+  --color-grey-40: #9fa0a3; /* 2.46:1, fills and borders only */
+  --color-grey-20: #cfd1d7; /* 1.44:1, fills and borders only */
+  --color-grey-15: #ecedf1; /* 1.10:1, fills only */
+  --color-grey-8: #f8f9fa; /*  1.01:1, fills only */
   --color-accent-orange: #ff3d00;
 
   --font-display: 'Syne', ui-sans-serif, sans-serif;
